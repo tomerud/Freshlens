@@ -11,7 +11,7 @@ function App() {
   });
 
   useEffect(() => {
-    fetch('/api/data')
+    fetch('/data')
       .then((response) => response.json())
       .then((data) => { setdata({ name: data.Name, age: data.Age, date: data.Date, programming: data.programming,})})
       .catch((error) => console.error('Error fetching data:', error));
@@ -26,15 +26,10 @@ function App() {
         </a>
       </div>
       <h1>FreshLens</h1>
-      <div className="card">
-        <p>
-          Nice work!
-        </p>
         <p>{data.name}</p>
         <p>{data.age}</p>
         <p>{data.date}</p>
         <p>{data.programming}</p>
-      </div>
       <p className="read-the-docs">
         Team E
       </p>3                 

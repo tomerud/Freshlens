@@ -8,21 +8,16 @@ export default defineConfig({
         VitePWA({
             registerType: 'autoUpdate',
             manifest: {
-                name: 'My App',
-                short_name: 'App',
-                description: 'אפליקציה מותאמת לטלפון',
+                name: 'FreshLens',
+                short_name: 'FreshLens',
+                description: 'My smart refrigerator',
                 theme_color: '#ffffff',
                 icons: [
                     {
-                        src: '/icon-192x192.png',
+                        src: '/public/FreshLens.png',
                         sizes: '192x192',
                         type: 'image/png',
-                    },
-                    {
-                        src: '/icon-512x512.png',
-                        sizes: '512x512',
-                        type: 'image/png',
-                    },
+                    }
                 ],
             },
         }),
