@@ -7,13 +7,12 @@ function App() {
       name: "",
       age: 0,
       date: "",
-      programming: "",
   });
 
   useEffect(() => {
-    fetch('/data')
+    fetch('/api/data')
       .then((response) => response.json())
-      .then((data) => { setdata({ name: data.Name, age: data.Age, date: data.Date, programming: data.programming,})})
+      .then((data) => { setdata({ name: data.Name, age: data.Age, date: data.Date})})
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
@@ -29,7 +28,6 @@ function App() {
         <p>{data.name}</p>
         <p>{data.age}</p>
         <p>{data.date}</p>
-        <p>{data.programming}</p>
       <p className="read-the-docs">
         Team E
       </p>3                 
