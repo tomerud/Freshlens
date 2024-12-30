@@ -27,10 +27,7 @@ function App() {
       <h1>FreshLens</h1>
         <p>{data.name}</p>
         <p>{data.age}</p>
-        <p>{data.date}</p>
-      <p className="read-the-docs">
-        Team E
-      </p>3                 
+        <p>{data.date}</p>               
     </>
   )
 }
