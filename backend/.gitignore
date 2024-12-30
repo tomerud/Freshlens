@@ -1,0 +1,51 @@
+# Bytecode files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Virtual environment directories
+venv/
+env/
+ENV/
+.venv/
+
+# Flask-specific files
+instance/
+*.db
+*.sqlite3
+
+# Logs and runtime files
+*.log
+logs/
+*.pid
+*.seed
+*.bak
+*.swp
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Testing
+.coverage
+*.cover
+coverage/
+htmlcov/
+
+# Distribution/build
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
