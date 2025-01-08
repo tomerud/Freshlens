@@ -6,7 +6,7 @@ def create_tables():
         conn = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="your password here",
+            password="112145",
             database="freshlens"
         )
         cursor = conn.cursor()
@@ -35,8 +35,6 @@ def create_tables():
                     fridge_id INT AUTO_INCREMENT PRIMARY KEY,
                     user_id INT,
                     num_of_shelves INT,
-                    num_of_products INT,
-                    num_of_products_categories INT,
                     FOREIGN KEY (user_id) REFERENCES users(user_id)
                 )
             """,
@@ -44,9 +42,8 @@ def create_tables():
                 CREATE TABLE IF NOT EXISTS shelves (
                     shelve_id INT AUTO_INCREMENT PRIMARY KEY,
                     fridge_id INT,
+                    num_of_items INT,
                     num_of_products INT,
-                    num_of_products_categories INT,
-                    isRotten BOOLEAN,
                     FOREIGN KEY (fridge_id) REFERENCES fridges(fridge_id)
                 )
             """,
@@ -54,7 +51,7 @@ def create_tables():
                 CREATE TABLE IF NOT EXISTS products (
                     product_id INT AUTO_INCREMENT PRIMARY KEY,
                     product_name VARCHAR(255),
-                    product_category_id INT
+                    product_category INT
                 )
             """,
             "item": """
