@@ -14,6 +14,7 @@
     "@tanstack/react-query": "^5.62.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.1.1",
     "sass": "^1.83.0",
     "vite-plugin-pwa": "^0.21.1"
   },

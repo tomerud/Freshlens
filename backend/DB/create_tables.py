@@ -29,7 +29,7 @@ def create_tables():
                 CREATE TABLE IF NOT EXISTS fridges (
                     fridge_id INT AUTO_INCREMENT PRIMARY KEY,
                     user_id INT,
-                    num_of_shelves INT,
+                    fridge_name VARCHAR(255),
                     FOREIGN KEY (user_id) REFERENCES users(user_id)
                 )
             """,
@@ -37,16 +37,13 @@ def create_tables():
                 CREATE TABLE IF NOT EXISTS shelves (
                     shelve_id INT AUTO_INCREMENT PRIMARY KEY,
                     fridge_id INT,
-                    num_of_items INT,
-                    num_of_products INT,
                     FOREIGN KEY (fridge_id) REFERENCES fridges(fridge_id)
                 )
             """,
             "products": """
                 CREATE TABLE IF NOT EXISTS products (
                     product_id INT AUTO_INCREMENT PRIMARY KEY,
-                    product_name VARCHAR(255),
-                    product_category INT
+                    product_name VARCHAR(255)         
                 )
             """,
             "item": """
@@ -80,5 +77,5 @@ def create_tables():
             conn.close()
 
 # Execute table creation
-if __name__ == "__main__":
+if _name_ == "_main_":
     create_tables()
