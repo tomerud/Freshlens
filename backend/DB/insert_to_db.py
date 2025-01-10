@@ -1,6 +1,8 @@
-from db_utils import get_db_connection
+from datetime import date
+from time import strftime
+from .db_utils import get_db_connection
 
-def insert_new_user(first_name, last_name, date_subscribed, subscription_type):
+def insert_new_user(first_name, last_name, email, subscription_type):
     try:
         # Get database connection
         conn = get_db_connection()
@@ -17,7 +19,7 @@ def insert_new_user(first_name, last_name, date_subscribed, subscription_type):
         cursor.execute("""
             INSERT INTO users (user_first_name, user_last_name, date_subscribed, subscription_id)
             VALUES (%s, %s, %s, %s)
-        """, (first_name, last_name, date_subscribed, subscription_id))
+        """, (first_name, last_name, date.today().strftime('%Y-%m-%d'), subscription_id))
         conn.commit()
 
         print(f"User '{first_name} {last_name}' added successfully.")
@@ -60,5 +62,5 @@ def insert_new_fridge(user_id, fridge_name):
 
 
 # Example Usage
-if _name_ == "_main_":
+if __name__ == "_main_":
     insert_new_fridge(1, "work mini fridge")
