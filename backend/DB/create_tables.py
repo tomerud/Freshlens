@@ -1,17 +1,12 @@
-import mysql.connector
+from db_utils import get_db_connection
 
 def create_tables():
     try:
-        # Connect to MySQL
-        conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="112145",
-            database="freshlens"
-        )
+        # Get database connection
+        conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Create tables in the correct order
+        # Define table creation queries
         tables = {
             "subscription": """
                 CREATE TABLE IF NOT EXISTS subscription (
@@ -70,6 +65,7 @@ def create_tables():
             """
         }
 
+        # Execute each table creation query
         for table_name, table_sql in tables.items():
             cursor.execute(table_sql)
             print(f"Table '{table_name}' created successfully.")
@@ -83,5 +79,6 @@ def create_tables():
             cursor.close()
             conn.close()
 
-# Call the function
-create_tables()
+# Execute table creation
+if __name__ == "__main__":
+    create_tables()

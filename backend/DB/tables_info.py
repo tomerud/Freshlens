@@ -1,14 +1,9 @@
-import mysql.connector
+from db_utils import get_db_connection
 
 def describe_tables(database_name):
     try:
-        # Connect to MySQL
-        conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="112145",
-            database="freshlens"
-        )
+        # Get database connection
+        conn = get_db_connection()
         cursor = conn.cursor()
 
         # Query to fetch table and column details
@@ -47,11 +42,45 @@ def describe_tables(database_name):
             print(f"{table:<20}{column:<20}{col_type:<20}{is_nullable:<10}{col_key:<10}{extra:<20}{ref_table or '':<20}{ref_column or '':<20}")
     
     except mysql.connector.Error as err:
-        print(f"Error: {err}")
+        print(f"Database error: {err}")
     finally:
         if conn.is_connected():
             cursor.close()
             conn.close()
 
-# Call the function with your database name
-describe_tables("freshlens")
+
+def get_users():
+    try:
+        # Get database connection
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Query to fetch user details
+        query = """
+        SELECT user_id, user_first_name FROM users
+        """
+
+        cursor.execute(query)
+
+        # Fetch and return results
+        results = cursor.fetchall()
+        return results
+
+    except mysql.connector.Error as err:
+        print(f"Database error: {err}")
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
+
+
+# Example Usage
+if __name__ == "__main__":
+    # Describe tables
+    describe_tables("freshlens")
+
+    # Get users
+    users = get_users()
+    print("\nUsers:")
+    for user_id, user_first_name in users:
+        print(f"User ID: {user_id}, First Name: {user_first_name}")
