@@ -4,7 +4,7 @@ export const UserConnectPage = () => {
 
   return (
     <div>
-      <h2>User Connect</h2>
+      <h2>Please Connect</h2>
       <Link to="login">
         <button>Log In</button>
       </Link>

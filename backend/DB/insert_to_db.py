@@ -1,23 +1,24 @@
-from db_utils import get_db_connection
+from datetime import date
+import mysql.connector
+from .db_utils import get_db_connection
 
-def insert_new_user(first_name, last_name, date_subscribed, subscription_type):
+def insert_new_user(first_name, last_name, email, subscription_type):
     try:
-        # Get database connection
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Step 1: Get subscription_id from subscription table
+        # Get subscription_id from subscription table
         cursor.execute("SELECT subscription_id FROM subscription WHERE subscription_name = %s", (subscription_type,))
         subscription_result = cursor.fetchone()
         if not subscription_result:
             raise ValueError(f"Subscription type '{subscription_type}' does not exist.")
         subscription_id = subscription_result[0]
 
-        # Step 2: Insert new user into users table
+        # Insert new user into users table
         cursor.execute("""
             INSERT INTO users (user_first_name, user_last_name, date_subscribed, subscription_id)
             VALUES (%s, %s, %s, %s)
-        """, (first_name, last_name, date_subscribed, subscription_id))
+        """, (first_name, last_name, date.today().strftime('%Y-%m-%d'), subscription_id))
         conn.commit()
 
         print(f"User '{first_name} {last_name}' added successfully.")
@@ -57,8 +58,5 @@ def insert_new_fridge(user_id, fridge_name):
             conn.close()
 
 
-
-
-# Example Usage
-if _name_ == "_main_":
+if __name__ == "__main__":
     insert_new_fridge(1, "work mini fridge")

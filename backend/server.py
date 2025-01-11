@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 import datetime
 
+from DB.insert_to_db import insert_new_user
+
 app = Flask(__name__)
 
 
@@ -23,14 +25,7 @@ def sign_user():
     if "@" not in data['email']:
         return jsonify({"error": "Invalid email format"}), 400
 
-    user = {
-        "fisrtName": data["firstName"].strip(),
-        "lastName": data["lastName"].strip(),
-        "email": data["email"].strip(),
-        "subscription": data["subscription"].strip()
-    }
-    print("user is :")
-    print(user)
+    insert_new_user(data["firstName"], data["lastName"], data["email"], data["subscription"])
 
     return jsonify({"message": "User signed up successfully!", "data": data}), 200
     
