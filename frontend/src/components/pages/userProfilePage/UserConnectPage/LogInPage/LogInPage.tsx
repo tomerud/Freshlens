@@ -32,7 +32,7 @@ export const LogInPage = () => {
 
   return (
     <div>
-      <h1>Sign In</h1>
+      <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name:</label>

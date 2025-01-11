@@ -1,21 +1,20 @@
 from datetime import date
-from time import strftime
+import mysql.connector
 from .db_utils import get_db_connection
 
 def insert_new_user(first_name, last_name, email, subscription_type):
     try:
-        # Get database connection
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Step 1: Get subscription_id from subscription table
+        # Get subscription_id from subscription table
         cursor.execute("SELECT subscription_id FROM subscription WHERE subscription_name = %s", (subscription_type,))
         subscription_result = cursor.fetchone()
         if not subscription_result:
             raise ValueError(f"Subscription type '{subscription_type}' does not exist.")
         subscription_id = subscription_result[0]
 
-        # Step 2: Insert new user into users table
+        # Insert new user into users table
         cursor.execute("""
             INSERT INTO users (user_first_name, user_last_name, date_subscribed, subscription_id)
             VALUES (%s, %s, %s, %s)
@@ -57,8 +56,6 @@ def insert_new_fridge(user_id, fridge_name):
         if conn.is_connected():
             cursor.close()
             conn.close()
-
-
 
 
 # Example Usage

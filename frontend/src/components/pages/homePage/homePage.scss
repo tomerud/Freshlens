@@ -1,0 +1,39 @@
+.homepage {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .header h1 {
+    font-size: 28px;
+    margin: 0;
+  }
+  
+  .header p {
+    font-size: 16px;
+    color: gray;
+  }
+  
+  .notifications {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .notification-btn, .see-all-btn {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .alert-message {
+    background-color: #e0ffe0;
+    padding: 10px;
+    border-radius: 5px;
+  }  

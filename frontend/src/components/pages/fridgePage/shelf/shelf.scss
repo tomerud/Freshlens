@@ -1,0 +1,37 @@
+.shelf {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+
+  h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .product-list {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 0; /* Remove gaps between rows */
+  }
+
+  .product-card {
+    width: 100%;
+    padding: 15px;
+    border-bottom: 1px solid #ddd; /* Line between products */
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:last-child {
+      border-bottom: none; /* Remove border for the last product */
+    }
+
+    &:hover {
+      background-color: #f5f5f5; /* Highlight on hover */
+    }
+  }
+}
