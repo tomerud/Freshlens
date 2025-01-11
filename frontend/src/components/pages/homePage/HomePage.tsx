@@ -49,11 +49,11 @@ export const HomePage = () => {
         </a>
       </header>
 
-      <div className="notifications">
-        <button className="notification-btn">2 New Notifications</button>
-        <button className="see-all-btn">See all</button>
-        <div className="alert-message">
-          <p>Heads up! The cucumbers in your fridge expire in three days.</p>
+      <div className='notifications'>
+        <button className='notification-btn'>2 New Notifications</button>
+        <button className='see-all-btn'>See all</button>
+        <div className='alert-message'>
+          The cucumbers in your fridge expire soon.
         </div>
       </div>
 
