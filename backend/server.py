@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, json, jsonify, request
 import datetime
 
 from DB.insert_to_db import insert_new_user

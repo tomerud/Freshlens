@@ -58,5 +58,6 @@ def insert_new_fridge(user_id, fridge_name):
             conn.close()
 
 
-if __name__ == "__main__":
+# Example Usage
+if __name__ == "_main_":
     insert_new_fridge(1, "work mini fridge")
