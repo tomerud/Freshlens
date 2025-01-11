@@ -20,20 +20,34 @@
   
   .notifications {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    align-items: center; /* Vertically align items */
+    gap: 10px; /* Add spacing between buttons and alert */
   }
   
-  .notification-btn, .see-all-btn {
-    background-color: #f0f0f0;
+  .notification-btn,
+  .see-all-btn,
+  .alert-message {
+    display: flex;
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    padding: 10px 15px; /* Consistent padding for all elements */
+    height: 50px; /* Ensure same height for all items */
+    font-size: 16px; /* Make font size consistent */
+    font-weight: bold;
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for visual appeal */
+  }
+  
+  .notification-btn,
+  .see-all-btn {
+    background-color: #f0f0f0; /* Light gray background for buttons */
     border: none;
-    padding: 10px;
     cursor: pointer;
   }
   
   .alert-message {
-    background-color: #e0ffe0;
-    padding: 10px;
-    border-radius: 5px;
-  }  
+    background-color: #e0ffe0; /* Light green background for alert */
+    flex-grow: 1; /* Allow the alert to stretch and take up remaining space */
+    text-align: center; /* Center text in the alert */
+    font-size: small;
+  }
