@@ -95,5 +95,5 @@ def create_tables():
             conn.close()
 
 # Execute table creation
-if _name_ == "_main_":
+if __name__ == "__main__":
     create_tables()
