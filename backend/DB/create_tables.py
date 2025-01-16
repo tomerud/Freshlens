@@ -1,5 +1,4 @@
 from db_utils import get_db_connection
-import mysql.connector  # Ensure this is imported
 
 def create_tables():
     try:
@@ -71,6 +70,23 @@ def create_tables():
         
         conn.commit()
 
+        subscriptions = [
+            ("free", 0),
+            ("basic", 100),
+            ("premium", 400)
+        ]
+
+        # Insert each subscription into the table
+        for subscription_name, monthly_cost in subscriptions:
+            cursor.execute("""
+                INSERT INTO subscription (subscription_name, monthly_cost)
+                VALUES (%s, %s)
+            """, (subscription_name, monthly_cost))
+
+        conn.commit()
+        print(f"Inserted subscription: {subscription_name}, {monthly_cost}")
+
+
     except mysql.connector.Error as err:
         print(f"Error: {err}")
     finally:
@@ -79,5 +95,5 @@ def create_tables():
             conn.close()
 
 # Execute table creation
-if __name__ == "__main__":
+if _name_ == "_main_":
     create_tables()

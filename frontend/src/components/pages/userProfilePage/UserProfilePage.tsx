@@ -7,10 +7,8 @@ import { useUser } from '../../../contexts/userContext';
 export const UserProfilePage = () => {
   const { user } = useUser();
 
-
   return (
     <div>
-      <h1>User Profile</h1>
       <Routes>
         <Route path="/" element={<UserConnectPage />} />
         <Route path="login" element={<LogInPage />} />
