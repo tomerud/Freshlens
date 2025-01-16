@@ -72,8 +72,8 @@ def create_tables():
 
         subscriptions = [
             ("free", 0),
-            ("basic", 100),
-            ("premium", 400)
+            ("plus", 9.99),
+            ("premium", 29.99)
         ]
 
         # Insert each subscription into the table
