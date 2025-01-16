@@ -1,19 +1,18 @@
 from flask import Flask, json, jsonify, request
 import datetime
 
-from DB.insert_to_db import insert_new_user
+# Updated import path:
+from DB.user.insert_user_to_db import insert_new_user
 
 app = Flask(__name__)
 
-
 @app.route('/data')
 def get_time():
-
     return jsonify({
-        'Name':"geek", 
-        "Age":"22",
-        "Date":datetime.datetime.now(), 
-         })
+        'Name': "geek",
+        'Age': "22",
+        'Date': datetime.datetime.now()
+    })
 
 @app.route('/sign_user', methods=['POST'])
 def sign_user():
@@ -28,6 +27,6 @@ def sign_user():
     insert_new_user(data["firstName"], data["lastName"], data["email"], data["subscription"])
 
     return jsonify({"message": "User signed up successfully!", "data": data}), 200
-    
+
 if __name__ == '__main__':
     app.run(debug=True)

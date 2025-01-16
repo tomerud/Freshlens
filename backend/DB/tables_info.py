@@ -75,7 +75,7 @@ def get_users():
 
 
 # Example Usage
-if __name__ == "_main_":
+if _name_ == "_main_":
     # Describe tables
     describe_tables("freshlens")
 
