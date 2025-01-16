@@ -1,4 +1,5 @@
 from db_utils import get_db_connection
+import mysql.connector  # Ensure this is imported
 
 def create_tables():
     try:
@@ -20,6 +21,7 @@ def create_tables():
                     user_id INT AUTO_INCREMENT PRIMARY KEY,
                     user_first_name VARCHAR(255),
                     user_last_name VARCHAR(255),
+                    user_email VARCHAR(255),
                     date_subscribed DATE,
                     subscription_id INT,
                     FOREIGN KEY (subscription_id) REFERENCES subscription(subscription_id)
@@ -77,5 +79,5 @@ def create_tables():
             conn.close()
 
 # Execute table creation
-if _name_ == "_main_":
+if __name__ == "__main__":
     create_tables()
