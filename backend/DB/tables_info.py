@@ -1,4 +1,6 @@
 from db_utils import get_db_connection
+import mysql.connector
+
 
 def describe_tables(database_name):
     try:
