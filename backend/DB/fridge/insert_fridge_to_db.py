@@ -2,7 +2,7 @@
 
 from datetime import date
 from time import strftime
-# We are now one directory deeper, so use '..' in the import:
+import mysql
 from ..db_utils import get_db_connection
 
 def insert_new_fridge(user_id, fridge_name):
@@ -24,3 +24,5 @@ def insert_new_fridge(user_id, fridge_name):
         if conn.is_connected():
             cursor.close()
             conn.close()
+
+

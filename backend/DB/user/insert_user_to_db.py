@@ -2,7 +2,7 @@
 
 from datetime import date
 from time import strftime
-# We are now one directory deeper, so use '..' in the import:
+import mysql.connector
 from ..db_utils import get_db_connection
 
 def insert_new_user(first_name, last_name, email, subscription_type):
@@ -35,4 +35,5 @@ def insert_new_user(first_name, last_name, email, subscription_type):
         if conn.is_connected():
             cursor.close()
             conn.close()
+
 
