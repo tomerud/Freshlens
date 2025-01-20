@@ -38,7 +38,8 @@ def create_tables():
             """,
             "shelves": """
                 CREATE TABLE IF NOT EXISTS shelves (
-                    shelve_id INT AUTO_INCREMENT PRIMARY KEY,
+                    shelf_id INT AUTO_INCREMENT PRIMARY KEY,
+                    shelf_name VARCHAR(255),
                     fridge_id INT,
                     FOREIGN KEY (fridge_id) REFERENCES fridges(fridge_id)
                 )
@@ -54,13 +55,12 @@ def create_tables():
                     item_id INT AUTO_INCREMENT PRIMARY KEY,
                     product_id INT,
                     fridge_id INT,
-                    shelve_id INT,
+                    shelf_id INT,
                     date_entered DATE,
                     anticipated_expiry_date DATE,
                     is_rotten BOOLEAN,
                     FOREIGN KEY (product_id) REFERENCES products(product_id),
-                    FOREIGN KEY (fridge_id) REFERENCES fridges(fridge_id),
-                    FOREIGN KEY (shelve_id) REFERENCES shelves(shelve_id)
+                    FOREIGN KEY (shelf_id) REFERENCES shelves(shelf_id)
                 )
             """
         }
@@ -72,21 +72,21 @@ def create_tables():
         
         conn.commit()
 
-        subscriptions = [
-            ("free", 0),
-            ("plus", 9.99),
-            ("premium", 29.99)
-        ]
+        # subscriptions = [
+        #     ("free", 0),
+        #     ("plus", 9.99),
+        #     ("premium", 29.99)
+        # ]
 
-        # Insert each subscription into the table
-        for subscription_name, monthly_cost in subscriptions:
-            cursor.execute("""
-                INSERT INTO subscription (subscription_name, monthly_cost)
-                VALUES (%s, %s)
-            """, (subscription_name, monthly_cost))
+        # # Insert each subscription into the table
+        # for subscription_name, monthly_cost in subscriptions:
+        #     cursor.execute("""
+        #         INSERT INTO subscription (subscription_name, monthly_cost)
+        #         VALUES (%s, %s)
+        #     """, (subscription_name, monthly_cost))
 
-        conn.commit()
-        print(f"Inserted subscription: {subscription_name}, {monthly_cost}")
+        # conn.commit()
+        # print(f"Inserted subscription: {subscription_name}, {monthly_cost}")
 
 
     except mysql.connector.Error as err:

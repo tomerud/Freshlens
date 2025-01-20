@@ -5,7 +5,7 @@ from time import strftime
 import mysql
 from ..db_utils import get_db_connection
 
-def insert_new_fridge(user_id, fridge_name):
+def insert_new_fridge_to_db(user_id, fridge_name):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -25,4 +25,11 @@ def insert_new_fridge(user_id, fridge_name):
             cursor.close()
             conn.close()
 
+# # Example usage
+# if __name__ == "__main__":
+#     # Example data
+#     example_user_id = 2
+#     example_fridge_name = "fridge v"
 
+#     # Insert example fridge
+#     insert_new_fridge_to_db(example_user_id, example_fridge_name)
