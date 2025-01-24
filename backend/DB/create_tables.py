@@ -36,18 +36,18 @@ def create_tables():
                     FOREIGN KEY (user_id) REFERENCES users(user_id)
                 )
             """,
-            "shelves": """
-                CREATE TABLE IF NOT EXISTS shelves (
-                    shelf_id INT AUTO_INCREMENT PRIMARY KEY,
-                    shelf_name VARCHAR(255),
-                    fridge_id INT,
-                    FOREIGN KEY (fridge_id) REFERENCES fridges(fridge_id)
+            "categories": """
+                CREATE TABLE IF NOT EXISTS categories (
+                    category_id INT AUTO_INCREMENT PRIMARY KEY,
+                    category_name VARCHAR(255)                  
                 )
             """,
             "products": """
                 CREATE TABLE IF NOT EXISTS products (
                     product_id INT AUTO_INCREMENT PRIMARY KEY,
-                    product_name VARCHAR(255)         
+                    product_name VARCHAR(255),
+                    category_id INT,
+                    FOREIGN KEY (category_id) REFERENCES categories(category_id)
                 )
             """,
             "item": """
@@ -55,12 +55,10 @@ def create_tables():
                     item_id INT AUTO_INCREMENT PRIMARY KEY,
                     product_id INT,
                     fridge_id INT,
-                    shelf_id INT,
                     date_entered DATE,
                     anticipated_expiry_date DATE,
                     is_rotten BOOLEAN,
-                    FOREIGN KEY (product_id) REFERENCES products(product_id),
-                    FOREIGN KEY (shelf_id) REFERENCES shelves(shelf_id)
+                    FOREIGN KEY (product_id) REFERENCES products(product_id)
                 )
             """
         }
