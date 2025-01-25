@@ -1,6 +1,8 @@
-refine requirements
+1. refine requirements
 
-virtual enviroment command:
+2. use Fake-stream for sending IP camera feed
+
+3. virtual enviroment command:
 python -m venv venv_name
 venv_name\Scripts\activate
 deactivate
