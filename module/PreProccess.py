@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 
 #TODO:
-# 1. should add a rotation of date boxes here
+# 1. should add a rotation of date boxes here or at ClosedProductsOCR
 
 def resize_with_letterbox(image: Image, target_size: int = 768) -> Tuple[Image.Image, float, int, int]:
 #   Resizes an image to the target size with letterboxing to maintain aspect ratio.

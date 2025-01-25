@@ -24,7 +24,6 @@ from datetime import datetime
 #    - Make sure all the xyxy and xywh format are rights and passed as needed
 
 # 5. **LastFrame**:
-#    - Add call to function of expiration date: fruits, vegtabels etc - by class id
 #    - Send LastFrame photo with bounding boxes (color by exp date) to mongoDB : Understand from Tomer Format
 #    - Resize / upscale / improve resolution of pictures
 

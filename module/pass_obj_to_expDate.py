@@ -4,8 +4,10 @@ from ClosedProductsOCR import ProductsExpDates
 # TODO:
 # 1. **class in detection**
 #    - Take from Elya.
+
 # 2. **logic of func**
 #    - decide the correct logic
+
 # 3. **exp_date for fruits and veg**
 #    - need to implement
 

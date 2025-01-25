@@ -10,14 +10,20 @@ from pass_obj_to_expDate import find_exp_date
 
 # 1. **Threading**
 #    - think about where / if Thread.
+
 # 2. **Video Stream Error Handling**:
 #    - Add error handling for situations where the RTSP stream or video file cannot be opened (`cv2.VideoCapture`).
+
 # 3. **bounding boxes**
 #    - Draw bounding boxes color on the last frame according to the expiration dates.
 #    - Might need to add the bb from the process video function to detections obj - notice need to update all files if thats the case!
 #    - Pass it on to Mongo DB, and the rest of the epxiraiton data to the Reational DB
+
 # 4. **Demo**
 #    - change demo configuration
+
+# 5. **DB**
+#    - Add connection to DB
 
 
 # handle camera notifications (future work - replace with camera notification protocol)
