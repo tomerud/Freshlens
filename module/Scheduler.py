@@ -2,7 +2,9 @@ from Detect_and_track import Process_video
 import requests
 from threading import Thread
 from typing import Tuple,List
+import signal
 from ultralytics import YOLO
+from pass_obj_to_expDate import find_exp_date
 
 #TODO:
 
@@ -12,15 +14,17 @@ from ultralytics import YOLO
 #    - Add error handling for situations where the RTSP stream or video file cannot be opened (`cv2.VideoCapture`).
 # 3. **bounding boxes**
 #    - Draw bounding boxes color on the last frame according to the expiration dates.
+#    - Might need to add the bb from the process video function to detections obj - notice need to update all files if thats the case!
 #    - Pass it on to Mongo DB, and the rest of the epxiraiton data to the Reational DB
 # 4. **Demo**
 #    - change demo configuration
+
 
 # handle camera notifications (future work - replace with camera notification protocol)
 # we assume that when light is turned off, the camera stop streaming,
 # in our code(Process_video) there is assumption the streaming stop immeditly (so there is no "black" frame), in future work it will be dealt with
 
-import signal
+
 demo=[True]
 def event_listen(camera_ip: str, port: int, model: YOLO, demo : List[bool], stream: str = "stream") -> None:
     # the function is responsible to "wait" for camera to start streaming (when lights go on)
@@ -48,7 +52,11 @@ def event_listen(camera_ip: str, port: int, model: YOLO, demo : List[bool], stre
             rtsp_path = f"rtsp://{camera_ip}:{port}/{stream}"
 
             try:
-                res=Process_video(rtsp_path, model)
+                detections=Process_video(rtsp_path, model)
+                expDate=find_exp_date(detections)
+                fimg=DrawBB(detections)
+                sendToDB(camera_ip,expDate)
+                sendToMongo(camera_ip,fimg)
             except Exception as e:
                 print(f"Error processing video: {e}")
 

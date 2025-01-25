@@ -6,6 +6,8 @@ import time
 from ClosedProductsOCR import ProductsExpDates
 from PIL import Image
 import numpy as np
+import threading
+from datetime import datetime
 # TODO:
 
 # 1. **Video Stream Error Handling**:
@@ -29,11 +31,11 @@ import numpy as np
 
 
 if __name__ == "__main__":
-    def Process_video(rtsp_path, model: YOLO) -> List[Tuple[Image.Image, int, int]]:
+    def Process_video(rtsp_path:str, model: YOLO,Record:bool=False) -> List[Tuple[int, str,Image.Image]]: #Record is for presentation and debugging purpose only
         #   Recive Video by RTSP, detect and track objects in the video
         #   Returns: Image , Id of the object (product), name of class (what product class) 
 
-        Detected_products = []  # List to store (Image, Track_id(object id), class_id) tuples
+        Detected_products = []  # List to store (Image, Track_id(object id), class_name) tuples
         # Open video capture
         cap = cv2.VideoCapture(rtsp_path)
         if not cap.isOpened():
@@ -46,6 +48,17 @@ if __name__ == "__main__":
         # Initialize DeepSORT tracker
         tracker = DeepSort(max_age=80, nn_budget=200, max_iou_distance=0.4)
         last_frame=None
+
+        if Record:
+            # Get frame dimensions
+            frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+            frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            fps = int(cap.get(cv2.CAP_PROP_FPS))
+            thread_id = threading.get_ident()  # Get the thread ID
+            current_date = datetime.now().strftime("%Y%m%d_%H%M%S")  # Format: YYYYMMDD_HHMMSS
+            output_path = f"output/tracked_vid_{thread_id}_{current_date}.mp4"  # Combine thread ID and date for unique identification
+            fourcc = cv2.VideoWriter_fourcc(*'mp4v')  
+            out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
         #try read stream
         while cap.isOpened():
             ret, frame = cap.read()
@@ -100,6 +113,9 @@ if __name__ == "__main__":
                         "class_name": class_name,
                         "bbox": (x1, y1, x2, y2)
                     })
+            if Record:
+                out.write(frame)
+                
             # Show the frame 
             cv2.imshow("YOLO Object Tracking & Counting", frame)
             
@@ -112,15 +128,17 @@ if __name__ == "__main__":
             print(f"ID: {obj['id']}, Class: {obj['class_name']}")
         if Last_frame is not None:
             last_frame_pil = Image.fromarray(cv2.cvtColor(Last_frame, cv2.COLOR_BGR2RGB))
-            Detected_products.append((last_frame_pil, -1, -1))  # add the Last frame, for drawing later the bounding boxes.
+            Detected_products.append((-1, -1,last_frame_pil))  # add the Last frame, for drawing later the bounding boxes.
         if last_frame_objects:
             for obj in last_frame_objects:
                 x1, y1, x2, y2 = obj['bbox']
                 cropped_product = Last_frame[y1:y2, x1:x2]  # Crop the product's bounding box from the frame
                 cropped_product_pil = Image.fromarray(cv2.cvtColor(cropped_product, cv2.COLOR_BGR2RGB))
-                Detected_products.append((cropped_product_pil, obj['id'], obj['class_name']))
+                Detected_products.append((obj['id'], obj['class_name'],cropped_product_pil))
             Last_frame=None
         # Release resources
+        if Record:
+            out.release()  # Release the VideoWriter
         cap.release()
         cv2.destroyAllWindows()
         return Detected_products
@@ -133,6 +151,6 @@ detection_model = YOLO(MODEL_PATH)
 PATH="assets/freshlens2.mp4"
 res= Process_video(PATH,detection_model)
 for i,j,k in res:
-    i.show()
+    k.show()
     if cv2.waitKey(0) & 0xFF == ord('q'):  # Wait for key press, quit if 'q' is pressed
         break

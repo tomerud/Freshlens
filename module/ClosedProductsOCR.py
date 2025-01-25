@@ -1,4 +1,4 @@
-from typing import List, Tuple, Dict
+from typing import List, Tuple,Any
 import easyocr
 from ultralytics.engine.results import Boxes # for type hinting
 import matplotlib.pyplot as plt
@@ -13,9 +13,11 @@ from PreProccess import resize_with_letterbox, adjust_boxes , Best_Canidate_Date
 #TODO:
 # 1. **Rotation**:
 #    - Add rotation to pictures as detexct (unless under 10? in ordedr to improve results): both sides rotate
+#    - OR try to fine tune OCR
 
 # 2. **Validate Date**:
 #    - Add Validation to date results
+#    - Add validated date to the return object
 
 # 3. **test**
 #   - remove the test
@@ -67,12 +69,12 @@ def extract_text_from_boxes(image: Image, boxes: List[Tuple[float, float, float,
     return ocr_results
 
 
-def ProductsExpDates(model: YOLO, original_img: Image, product: Dict[int, str]) -> Tuple[str, int, str]:
+def ProductsExpDates(model: YOLO, product: Tuple[int, str,Any]) -> Tuple[int, str,str]:
 #   handle the logic of getting Products Exp dates
-#   Returns: Expiry date, Id of the object (product), name of class (what product class) 
+#   Returns: Id of the object (product), name of class (what product class) , Expiry date
 
     #preprocess the image
-    resized_img, scale, pad_left, pad_top = resize_with_letterbox(original_img, target_size=768)
+    resized_img, scale, pad_left, pad_top = resize_with_letterbox(product[2], target_size=768)
 
     # Predict using YOLO
     results = model.predict(resized_img)
@@ -89,7 +91,7 @@ def ProductsExpDates(model: YOLO, original_img: Image, product: Dict[int, str]) 
     adjusted_boxes = adjust_boxes(date_boxes, scale, pad_left, pad_top)
 
     # Pass the original image and adjusted boxes to Tesseract OCR
-    ocr_results = extract_text_from_boxes(original_img, adjusted_boxes)
+    ocr_results = extract_text_from_boxes(product[2], adjusted_boxes)
 
     # add filtering based on OCR results, what is the best canidate for expiry date
     #
@@ -99,7 +101,8 @@ def ProductsExpDates(model: YOLO, original_img: Image, product: Dict[int, str]) 
     #
     #
     #
-
+    # return the exp date - (int,str,int)
+    print("need to add return statment")
 
     plt.imshow(original_img)
     plt.axis('off')
