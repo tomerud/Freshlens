@@ -1,4 +1,4 @@
-# DB/user/insert_user_to_db.py
+# check...
 
 from mysql.connector import Error  # Ensure you're importing the right Error type
 from ..db_utils import get_db_connection
