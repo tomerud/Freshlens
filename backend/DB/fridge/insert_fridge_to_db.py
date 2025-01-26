@@ -25,11 +25,11 @@ def insert_new_fridge_to_db(user_id, fridge_name):
             cursor.close()
             conn.close()
 
-# # Example usage
-# if __name__ == "__main__":
-#     # Example data
-#     example_user_id = 2
-#     example_fridge_name = "fridge v"
+# Example usage
+if __name__ == "__main__":
+    # Example data
+    example_user_id = 2
+    example_fridge_name = "fridge fsadf"
 
-#     # Insert example fridge
-#     insert_new_fridge_to_db(example_user_id, example_fridge_name)
+    # Insert example fridge
+    insert_new_fridge_to_db(example_user_id, example_fridge_name)

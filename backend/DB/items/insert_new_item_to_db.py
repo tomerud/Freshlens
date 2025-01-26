@@ -1,54 +1,52 @@
-# DB/item/insert_item_to_db.py
-
-from datetime import date, timedelta
+from datetime import date
 from time import strftime
 import mysql
 from ..db_utils import get_db_connection
 
-def insert_new_item_to_db(product_id, fridge_id, shelf_id, date_entered, anticipated_expiry_date, is_rotten):
-    """
-    Insert a new item into the item table.
-    
-    Parameters:
-        product_id (int): The ID of the product.
-        fridge_id (int): The ID of the fridge.
-        shelf_id (int): The ID of the shelf.
-        date_entered (str or date): The date when the item was entered into the system.
-        anticipated_expiry_date (str or date): The date when the item is expected to expire.
-        is_rotten (int): Typically 0 (false) or 1 (true).
-    """
+def insert_item_to_db(item_id, is_inserted_by_user, product_id, camera_ip, date_entered, anticipated_expiry_date, is_rotten):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
 
+        # Insert the item into the database
         cursor.execute("""
-            INSERT INTO item (product_id, fridge_id, shelf_id, date_entered, anticipated_expiry_date, is_rotten)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        """, (product_id, fridge_id, shelf_id, date_entered, anticipated_expiry_date, is_rotten))
+            INSERT INTO item (item_id, is_inserted_by_user, product_id, camera_ip, date_entered, anticipated_expiry_date, is_rotten)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (item_id, is_inserted_by_user, product_id, camera_ip, date_entered, anticipated_expiry_date, is_rotten))
         conn.commit()
 
-        print(f"Item inserted successfully: product_id '{product_id}', fridge_id '{fridge_id}', shelf_id '{shelf_id}'.")
+        print(f"Item successfully inserted: item_id={item_id}, camera_ip={camera_ip}, product_id={product_id}")
+    
     except mysql.connector.Error as err:
-        print(f"Database error: {err}")
+        print(f"Database error: {err.msg}")
+        print(f"SQLState: {err.sqlstate}")
+        print(f"Error Code: {err.errno}")
+    
     finally:
-        if conn.is_connected():
+        if 'conn' in locals() and conn.is_connected():
             cursor.close()
             conn.close()
 
-# # Example usage
-# if __name__ == "__main__":
-#     # Example data:
-#     product_id = 5    # Example product id; adjust as needed
-#     fridge_id = 1      # Example fridge id; adjust as needed
-#     shelf_id = 2      # Example shelf id; adjust as needed
+# Example usage
+if __name__ == "__main__":
+    from datetime import date
     
-#     # Use today's date as the entry date
-#     date_entered = date.today().isoformat()
-    
-#     # For example, set anticipated expiry date 7 days from now
-#     anticipated_expiry_date = (date.today() + timedelta(days=7)).isoformat()
-    
-#     is_rotten = 0      # 0 for not rotten, 1 for rotten
-    
-#     # Insert the new item
-#     insert_new_item_to_db(product_id, fridge_id, shelf_id, date_entered, anticipated_expiry_date, is_rotten)
+    example_data = {
+        "item_id": 3,
+        "is_inserted_by_user": False,
+        "product_id": 3,
+        "camera_ip": "192.168.1.100",
+        "date_entered": date.today(),
+        "anticipated_expiry_date": date(2025, 1, 31),
+        "is_rotten": False
+    }
+
+    insert_item_to_db(
+        item_id=example_data["item_id"],
+        is_inserted_by_user=example_data["is_inserted_by_user"],
+        product_id=example_data["product_id"],
+        camera_ip=example_data["camera_ip"],
+        date_entered=example_data["date_entered"],
+        anticipated_expiry_date=example_data["anticipated_expiry_date"],
+        is_rotten=example_data["is_rotten"]
+    )

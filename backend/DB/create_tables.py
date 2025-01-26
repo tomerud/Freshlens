@@ -42,25 +42,35 @@ def create_tables():
                     category_name VARCHAR(255)                  
                 )
             """,
-            "products": """
-                CREATE TABLE IF NOT EXISTS products (
+            "product": """
+                CREATE TABLE IF NOT EXISTS product (
                     product_id INT AUTO_INCREMENT PRIMARY KEY,
                     product_name VARCHAR(255),
                     category_id INT,
                     FOREIGN KEY (category_id) REFERENCES categories(category_id)
                 )
             """,
-            "item": """
-                CREATE TABLE IF NOT EXISTS item (
-                    item_id INT AUTO_INCREMENT PRIMARY KEY,
-                    product_id INT,
+                "camera": """
+                CREATE TABLE IF NOT EXISTS camera (
+                    camera_ip VARCHAR(255) PRIMARY KEY,
                     fridge_id INT,
-                    date_entered DATE,
-                    anticipated_expiry_date DATE,
-                    is_rotten BOOLEAN,
-                    FOREIGN KEY (product_id) REFERENCES products(product_id)
+                    FOREIGN KEY (fridge_id) REFERENCES fridges(fridge_id)
                 )
-            """
+            """,
+                "item": """
+                    CREATE TABLE IF NOT EXISTS item (
+                        item_id INT NOT NULL,
+                        is_inserted_by_user BOOLEAN NOT NULL,
+                        product_id INT,
+                        camera_ip VARCHAR(255),
+                        date_entered DATE,
+                        anticipated_expiry_date DATE,
+                        is_rotten BOOLEAN,
+                        PRIMARY KEY (item_id, is_inserted_by_user),
+                        FOREIGN KEY (product_id) REFERENCES product(product_id),
+                        FOREIGN KEY (camera_ip) REFERENCES camera(camera_ip)
+                    )
+                """
         }
 
         # Execute each table creation query
@@ -70,21 +80,21 @@ def create_tables():
         
         conn.commit()
 
-        # subscriptions = [
-        #     ("free", 0),
-        #     ("plus", 9.99),
-        #     ("premium", 29.99)
-        # ]
+        subscriptions = [
+            ("free", 0),
+            ("plus", 9.99),
+            ("premium", 29.99)
+        ]
 
-        # # Insert each subscription into the table
-        # for subscription_name, monthly_cost in subscriptions:
-        #     cursor.execute("""
-        #         INSERT INTO subscription (subscription_name, monthly_cost)
-        #         VALUES (%s, %s)
-        #     """, (subscription_name, monthly_cost))
+        # Insert each subscription into the table
+        for subscription_name, monthly_cost in subscriptions:
+            cursor.execute("""
+                INSERT INTO subscription (subscription_name, monthly_cost)
+                VALUES (%s, %s)
+            """, (subscription_name, monthly_cost))
 
-        # conn.commit()
-        # print(f"Inserted subscription: {subscription_name}, {monthly_cost}")
+        conn.commit()
+        print(f"Inserted subscription: {subscription_name}, {monthly_cost}")
 
 
     except mysql.connector.Error as err:
