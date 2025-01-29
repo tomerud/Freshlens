@@ -69,12 +69,12 @@ def extract_text_from_boxes(image: Image, boxes: List[Tuple[float, float, float,
     return ocr_results
 
 
-def ProductsExpDates(model: YOLO, product: Tuple[int, str,Any]) -> Tuple[int, str,str]:
+def ProductsExpDates(model: YOLO, product: Tuple[int,int,Tuple[int, int, int, int],Image.Image]) -> Tuple[int,int,Tuple[int, int, int, int],str]:
 #   handle the logic of getting Products Exp dates
-#   Returns: Id of the object (product), name of class (what product class) , Expiry date
+#   Returns: Id of the object (product), Id class (what product class) ,bounding boxes in original pic, Expiry date
 
     #preprocess the image
-    resized_img, scale, pad_left, pad_top = resize_with_letterbox(product[2], target_size=768)
+    resized_img, scale, pad_left, pad_top = resize_with_letterbox(product[3], target_size=768)
 
     # Predict using YOLO
     results = model.predict(resized_img)
@@ -90,8 +90,8 @@ def ProductsExpDates(model: YOLO, product: Tuple[int, str,Any]) -> Tuple[int, st
       date_boxes = Best_Canidate_Date(date_boxes,due_boxes) # reutrn 1 or more boxes
     adjusted_boxes = adjust_boxes(date_boxes, scale, pad_left, pad_top)
 
-    # Pass the original image and adjusted boxes to Tesseract OCR
-    ocr_results = extract_text_from_boxes(product[2], adjusted_boxes)
+    # Pass the product image and adjusted boxes to Tesseract OCR
+    ocr_results = extract_text_from_boxes(product[3], adjusted_boxes)
 
     # add filtering based on OCR results, what is the best canidate for expiry date
     #

@@ -5,6 +5,7 @@ from typing import Tuple,List
 import signal
 from ultralytics import YOLO
 from pass_obj_to_expDate import find_exp_date
+from DrawBB import DrawBB
 
 #TODO:
 
@@ -31,22 +32,25 @@ from pass_obj_to_expDate import find_exp_date
 # in our code(Process_video) there is assumption the streaming stop immeditly (so there is no "black" frame), in future work it will be dealt with
 
 
-demo=[True]
-def event_listen(camera_ip: str, port: int, model: YOLO, demo : List[bool], stream: str = "stream") -> None:
+
+def event_listen(camera_ip: str, port: int, model_path: str, demo : bool, stream: str = "stream") -> None:
     # the function is responsible to "wait" for camera to start streaming (when lights go on)
     # Returns: Nothing, but will pass on data to DB
 
-    stop_event = False
+    stop_event = threading.Event()
 
     def handle_signal(signal, frame):
-        nonlocal stop_event
-        stop_event = True
-        print("Stopping event listener...")
+        stop_event.set()  # Set the stop event to signal termination
+        print(f"Stopping event listener for camera {camera_ip}:{port}...")
 
-    # Set up signal handler for controling exit
+    # Set up signal handler for gracefully stopping
     signal.signal(signal.SIGINT, handle_signal)
+
+    # Load a separate YOLO model instance for this thread
+    model = YOLO(model_path)
+
     # best will be to use interupts or something similar here, for simplicity, time constarint and since we dont have actual IP camera
-    while not stop_event:
+    while not stop_event.is_set():
         try:
             # Ideaily will also have used CV/interupts etc, in order to control the "waiting" for the event, while not waisting CPU time
             event = get_event_from_camera(camera_ip, port, demo)
@@ -60,7 +64,7 @@ def event_listen(camera_ip: str, port: int, model: YOLO, demo : List[bool], stre
             try:
                 detections=Process_video(rtsp_path, model)
                 expDate=find_exp_date(detections)
-                fimg=DrawBB(detections)
+                fimg=DrawBB(expDate)
                 sendToDB(camera_ip,expDate)
                 sendToMongo(camera_ip,fimg)
             except Exception as e:
@@ -73,20 +77,21 @@ def event_listen(camera_ip: str, port: int, model: YOLO, demo : List[bool], stre
 def get_event_from_camera(camera_ip: str, port: int,demo:List[bool]) -> str: #with Fake-RTSP-Stream, we want to mimic one stream only, in deployment will need to change according to cameras protocol
 # Example function for event notifications - we will need to replace with actual implementation
 # do to constraints of time and hardware, we have left this "example" instead    
-    if demo[0]:
-        demo[0]=False
+    if demo:
         return "light_detected"
     return "no_light_detected"
 
 
 # Path to trained YOLO model
 MODEL_PATH = "Models/ProductDetection.pt"  
-# Load YOLO model
-detection_model = YOLO(MODEL_PATH)
+
 
 # Start listener for each camera
 camera_info = [("10.0.0.1",8554,"concatenated-sample")] # future work - need to centrlize all the camera work and listing
 for ip, port,stream in camera_info:
-    Thread(target=event_listen, args=(ip, port,stream,demo,detection_model), daemon=True).start() # we are in demo, so True
+    thread = Thread(target=event_listen,
+                    args=(ip, port,stream,MODEL_PATH,True), # we are in demo, so True
+                    daemon=True)
+    thread.start()
 
 

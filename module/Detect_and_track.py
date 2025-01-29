@@ -27,12 +27,15 @@ from datetime import datetime
 #    - Send LastFrame photo with bounding boxes (color by exp date) to mongoDB : Understand from Tomer Format
 #    - Resize / upscale / improve resolution of pictures
 
+# 6. **Return**:
+#    - change return to class id
+
 
 
 if __name__ == "__main__":
-    def Process_video(rtsp_path:str, model: YOLO,Record:bool=False) -> List[Tuple[int, str,Image.Image]]: #Record is for presentation and debugging purpose only
+    def Process_video(rtsp_path:str, model: YOLO,Record:bool=False) -> List[Tuple[int,int,Tuple[int, int, int, int],Image.Image]]: #Record is for presentation and debugging purpose only
         #   Recive Video by RTSP, detect and track objects in the video
-        #   Returns: Image , Id of the object (product), name of class (what product class) 
+        #   Returns:Id of the object (product), id of class, bounding boxes of the product and Image of product 
 
         Detected_products = []  # List to store (Image, Track_id(object id), class_name) tuples
         # Open video capture
@@ -96,20 +99,20 @@ if __name__ == "__main__":
                 bbox = track.to_tlbr()
                 x1, y1, x2, y2 = map(int, bbox)
 
-                # Retrieve class name
-                class_name = class_list[track.get_det_class()] if track.get_det_class() is not None else "Unknown"
+                # Retrieve the class index (class ID) instead of the name
+                class_id = track.get_det_class() if track.get_det_class() is not None else -1  # Use -1 for unknown class
 
                 # Debug output for DeepSORT tracks - remove after test
-                print(f"DeepSORT Track - ID: {track.track_id}, BBox: [{x1}, {y1}, {x2}, {y2}], Class: {class_name}")
+                print(f"DeepSORT Track - ID: {track.track_id}, BBox: [{x1}, {y1}, {x2}, {y2}], Class: {class_id}")
 
                 # Draw DeepSORT bounding box
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)  # Green Box
-                cv2.putText(frame, f"ID: {track.track_id} {class_name}", (x1, y1 - 10),
+                cv2.putText(frame, f"ID: {track.track_id} {class_id}", (x1, y1 - 10),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
                 # Add to last frame objects
                 last_frame_objects.append({
                         "id": track.track_id,
-                        "class_name": class_name,
+                        "class_id": class_id,
                         "bbox": (x1, y1, x2, y2)
                     })
             if Record:
@@ -124,23 +127,25 @@ if __name__ == "__main__":
             
         print("\nLast Frame Objects:") # remove after debug
         for obj in last_frame_objects:
-            print(f"ID: {obj['id']}, Class: {obj['class_name']}")
+            print(f"ID: {obj['id']}, Class: {obj['class_id']}")
         if Last_frame is not None:
             last_frame_pil = Image.fromarray(cv2.cvtColor(Last_frame, cv2.COLOR_BGR2RGB))
-            Detected_products.append((-1, -1,last_frame_pil))  # add the Last frame, for drawing later the bounding boxes.
+            Detected_products.append((-1,-1,-1 ,last_frame_pil))  # add the Last frame, for drawing later the bounding boxes.
         if last_frame_objects:
+            bbox_lst=[]
             for obj in last_frame_objects:
                 x1, y1, x2, y2 = obj['bbox']
                 cropped_product = Last_frame[y1:y2, x1:x2]  # Crop the product's bounding box from the frame
                 cropped_product_pil = Image.fromarray(cv2.cvtColor(cropped_product, cv2.COLOR_BGR2RGB))
-                Detected_products.append((obj['id'], obj['class_name'],cropped_product_pil))
+                Detected_products.append((obj['id'], obj['id'],obj['bbox'],cropped_product_pil))
+                
             Last_frame=None
         # Release resources
         if Record:
             out.release()  # Release the VideoWriter
         cap.release()
         cv2.destroyAllWindows()
-        return Detected_products
+        return Detected_products,bbox_lst
 
 
 # Path to trained YOLO model
