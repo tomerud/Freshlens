@@ -26,7 +26,7 @@ export const AllFridgesPage = () => {
   
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
-    console.log("fridgeddds",fridges)
+    
     fridges?.map((fridge) => (console.log(fridge.fridge_id, fridge.fridge_name)))
 
     return (
