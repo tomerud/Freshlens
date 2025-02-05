@@ -19,18 +19,13 @@ def describe_tables(database_name):
             c.EXTRA,
             k.REFERENCED_TABLE_NAME,
             k.REFERENCED_COLUMN_NAME
-        FROM
-            information_schema.COLUMNS c
-        LEFT JOIN
-            information_schema.KEY_COLUMN_USAGE k
-        ON
-            c.TABLE_SCHEMA = k.TABLE_SCHEMA AND
+        FROM information_schema.COLUMNS c
+        LEFT JOIN information_schema.KEY_COLUMN_USAGE k
+        ON c.TABLE_SCHEMA = k.TABLE_SCHEMA AND
             c.TABLE_NAME = k.TABLE_NAME AND
             c.COLUMN_NAME = k.COLUMN_NAME
-        WHERE
-            c.TABLE_SCHEMA = '{database_name}'
-        ORDER BY
-            c.TABLE_NAME, c.ORDINAL_POSITION;
+        WHERE c.TABLE_SCHEMA = '{database_name}'
+        ORDER BY c.TABLE_NAME, c.ORDINAL_POSITION;
         """
 
         cursor.execute(query)

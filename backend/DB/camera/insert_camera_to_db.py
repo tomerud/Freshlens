@@ -1,8 +1,7 @@
-# DB/user/insert_user_to_db.py
+# DB/user/insert_camera_to_db.py
 
-from datetime import date
-from time import strftime
 import mysql
+
 from ..db_utils import get_db_connection
 
 def insert_camera_to_db(camera_ip, fridge_id):
@@ -32,7 +31,7 @@ def insert_camera_to_db(camera_ip, fridge_id):
 
 # Example usage
 if __name__ == "__main__":
-    example_camera_ip = "191.168.1.100"
+    example_camera_ip = "192.168.1.100"
     example_fridge_id = 1
 
     insert_camera_to_db(camera_ip=example_camera_ip, fridge_id=example_fridge_id)

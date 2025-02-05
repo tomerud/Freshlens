@@ -7,13 +7,9 @@ def get_fridges_from_db(user_id):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        query = "SELECT fridge_name FROM fridges WHERE user_id = %s"
+        query = "SELECT fridge_id, fridge_name FROM fridges WHERE user_id = %s"
         cursor.execute(query, (user_id,))
-        rows = cursor.fetchall()  # Fetch all results
-        
-        # Convert the results into a list of dictionaries. Adjust the key name if needed.
-        fridges = [{"fridge_name": row[0]} for row in rows]
-        return fridges
+        return cursor.fetchall()  # Fetch all results
 
     except Error as err:
         print(f"Database error: {err}")
