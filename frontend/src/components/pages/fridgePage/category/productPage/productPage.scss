@@ -1,4 +1,4 @@
-.fridge-page {
+.product-page {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,7 +8,7 @@
   padding: 20px;
 }
 
-.fridge-header {
+.product-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,42 +17,48 @@
   padding: 10px 0;
 }
 
-.fridge-header h1 {
+.product-header h1 {
   font-size: 24px;
   font-weight: bold;
+  text-align: center;
+  flex-grow: 1;
 }
 
-.search-button {
+.back-button {
   background: none;
   border: none;
   font-size: 20px;
   cursor: pointer;
 }
 
-.fridge-subtext {
-  color: gray;
-  font-size: 14px;
-  margin-bottom: 10px;
-  width: 100%;
-  text-align: left;
-}
-
-.category-list {
+.product-details {
   width: 100%;
   max-width: 600px;
+  margin-top: 20px;
 }
 
-.category-item {
-  display: block;
-  width: 100%;
-  padding: 20px;
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
   font-size: 18px;
-  text-align: center;
-  text-decoration: none;
-  color: black;
   border-bottom: 1px solid lightgray;
 }
 
-.category-item:last-child {
+.detail-row:last-child {
   border-bottom: none;
+}
+
+.product-image-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.product-image {
+  width: 250px;
+  max-width: 90%;
+  object-fit: contain;
 }

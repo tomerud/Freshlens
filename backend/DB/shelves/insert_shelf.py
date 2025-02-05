@@ -1,6 +1,4 @@
 
-from datetime import date
-from time import strftime
 import mysql
 from ..db_utils import get_db_connection
 

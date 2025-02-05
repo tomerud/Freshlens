@@ -1,8 +1,6 @@
 from flask import Blueprint, request, jsonify
 from DB.shelves.insert_shelf import insert_new_shelf_to_db
 
-
-
 shelves_bp = Blueprint('shelves_bp', __name__)
 
 @shelves_bp.route('/addd_shelf', methods=['POST'])
