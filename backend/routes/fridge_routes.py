@@ -23,7 +23,7 @@ def get_all_fridges():
         return jsonify({"error": "user_id query parameter is required."}), 400
 
     fridges = get_fridges_from_db(user_id)
-    print(fridges)
+    
     fridges_list = [{"fridge_id": row[0], "fridge_name": row[1]} for row in fridges]
 
     return jsonify(fridges_list), 200
