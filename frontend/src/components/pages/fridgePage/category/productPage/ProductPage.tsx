@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import "./productPage.scss";
 import { useQuery } from "@tanstack/react-query";
+import { FridgeHeader } from "../../fridgeHeader";
 
 interface Item {
   product_name: string;
@@ -34,12 +35,8 @@ export const ProductPage = () => {
   }
 
   return (
-    <div className="product-page">
-      
-      <header className="product-header">
-        <button className="back-button" onClick={() => navigate(-1)}>←</button>
-        <h1>{items[0].product_name}</h1>
-      </header>
+    <>
+      <FridgeHeader title={items[0].product_name} subtitle="everything you want to know"/>
       <ul>
         {items.map((item, index) => (
           <li key={index} style={{ color: item.is_rotten ? "red" : "black" }}>
@@ -47,6 +44,6 @@ export const ProductPage = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 };

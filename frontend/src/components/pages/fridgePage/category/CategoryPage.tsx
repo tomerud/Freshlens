@@ -1,8 +1,8 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 // import { ProductPage } from "./productPage/ProductPage";
 import "./categoryPage.scss";
 import { useQuery } from "@tanstack/react-query";
+import { FridgeHeader } from "../fridgeHeader";
 
 interface Product {
   product_id: number;
@@ -31,12 +31,8 @@ export const CategoryPage = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="category-page">
-      <header className="category-header">
-        <button className="back-button" onClick={() => navigate(-1)}>←</button>
-        <h1>MY {categoryName?.toUpperCase()}</h1>
-      </header>
-
+    <div>
+      <FridgeHeader title={'MY ' + categoryName?.toUpperCase()} subtitle="choose your category"/>
       {Products ? (
         <div className="product-list">
           {Products.map((product) => (

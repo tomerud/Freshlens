@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
 import './fridgePage.scss';
+import { FridgeHeader } from './fridgeHeader';
 
 interface Category {
   category_id: number;
@@ -30,13 +31,8 @@ export const FridgePage = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="fridge-page">
-      <header className="fridge-header">
-      <button className="back-button" onClick={() => navigate(-1)}>←</button>
-        <h1>My Fridge</h1>
-        <button className="search-button">🔍</button>
-      </header>
-      <p className="fridge-subtext">All my fridge products</p>
+    <div>
+      <FridgeHeader title={'My fridge'} subtitle="All my fridge products"/>
       <div className="category-list">
         {categories?.map((category) => (
           <Link key={category.category_id} to={`${category.category_name}`} className="category-item">

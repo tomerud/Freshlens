@@ -1,0 +1,1 @@
+export { FridgeHeader } from './FridgeHeader';

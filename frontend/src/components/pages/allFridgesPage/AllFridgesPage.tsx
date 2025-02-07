@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
 import './allFridgesPage.scss';
+import { FridgeHeader } from '../fridgePage/fridgeHeader';
 
 interface Fridge {
     fridge_id : string;
@@ -18,7 +19,7 @@ interface Fridge {
   };
 
 export const AllFridgesPage = () => {
-    const userId = 2;
+    const userId = '0NNRFLhbXJRFk3ER2_iTr8VulFm4';
     const { data: fridges = [], isLoading, error } = useQuery<Fridge[], Error>({
       queryKey: ['categories', userId],
       queryFn: () => fetchData(userId),
@@ -29,18 +30,14 @@ export const AllFridgesPage = () => {
     
     return (
         <div className="fridge-page">
-        <header className="fridge-header">
-            <h1>YOUR FRIDGES</h1>
-            <button className="search-button">🔍</button>
-        </header>
-        <p className="fridge-subtext">what fridge you want to check?</p>
-        <div className="category-list">
-            {fridges?.map((fridge) => (
-            <Link key={fridge.fridge_id} to={`${fridge.fridge_id}`} className="category-item">
-                {fridge.fridge_name}
-            </Link>
-            ))}
-        </div>
+          <FridgeHeader title={'YOUR FRIDGES'} subtitle="what fridge you want to check?" showBackButton={false} />
+          <div className="category-list">
+              {fridges?.map((fridge) => (
+              <Link key={fridge.fridge_id} to={`${fridge.fridge_id}`} className="category-item">
+                  {fridge.fridge_name}
+              </Link>
+              ))}
+          </div>
         </div>
     );
 };
