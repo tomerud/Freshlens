@@ -3,7 +3,6 @@ from ultralytics import YOLO
 from typing import List, Tuple
 from deep_sort_realtime.deepsort_tracker import DeepSort
 import time
-from ClosedProductsOCR import ProductsExpDates
 from PIL import Image
 import numpy as np
 import threading
@@ -29,6 +28,8 @@ from datetime import datetime
 
 # 6. **Return**:
 #    - change return to class id
+#    - do we really need to return the bounding boxes? or just the cropped image?
+
 
 
 
@@ -37,7 +38,7 @@ if __name__ == "__main__":
         #   Recive Video by RTSP, detect and track objects in the video
         #   Returns:Id of the object (product), id of class, bounding boxes of the product and Image of product 
 
-        Detected_products = []  # List to store (Image, Track_id(object id), class_name) tuples
+        Detected_products = []  # List to store Track_id(object id), class_id,bounding_box,img]
         # Open video capture
         cap = cv2.VideoCapture(rtsp_path)
         if not cap.isOpened():
@@ -132,12 +133,11 @@ if __name__ == "__main__":
             last_frame_pil = Image.fromarray(cv2.cvtColor(Last_frame, cv2.COLOR_BGR2RGB))
             Detected_products.append((-1,-1,-1 ,last_frame_pil))  # add the Last frame, for drawing later the bounding boxes.
         if last_frame_objects:
-            bbox_lst=[]
             for obj in last_frame_objects:
                 x1, y1, x2, y2 = obj['bbox']
                 cropped_product = Last_frame[y1:y2, x1:x2]  # Crop the product's bounding box from the frame
                 cropped_product_pil = Image.fromarray(cv2.cvtColor(cropped_product, cv2.COLOR_BGR2RGB))
-                Detected_products.append((obj['id'], obj['id'],obj['bbox'],cropped_product_pil))
+                Detected_products.append((obj['id'], obj['class_id'],obj['bbox'],cropped_product_pil))
                 
             Last_frame=None
         # Release resources
@@ -145,7 +145,7 @@ if __name__ == "__main__":
             out.release()  # Release the VideoWriter
         cap.release()
         cv2.destroyAllWindows()
-        return Detected_products,bbox_lst
+        return Detected_products
 
 
 # Path to trained YOLO model
@@ -154,7 +154,21 @@ MODEL_PATH = "Models/ProductDetection.pt"
 detection_model = YOLO(MODEL_PATH)
 PATH="assets/freshlens2.mp4"
 res= Process_video(PATH,detection_model)
-for i,j,k in res:
-    k.show()
+
+from DrawBB import DrawOnImage 
+res[1] = (res[1][0], res[1][1], res[1][2], "2025-02-08")
+res[2] = (res[2][0], res[2][1], res[2][2], "2025-02-13")
+res[3] = (res[3][0], res[3][1], res[3][2], "2025-02-05")
+
+save_path = "assets/shelf.jpg"
+draw=DrawOnImage(res)
+draw = cv2.cvtColor(np.array(draw), cv2.COLOR_RGB2BGR)
+cv2.imwrite(save_path, draw)
+print(f"Image saved at: {save_path}")
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+""" for i,j,k,l in res:
+    l.show()
     if cv2.waitKey(0) & 0xFF == ord('q'):  # Wait for key press, quit if 'q' is pressed
-        break
+        break """

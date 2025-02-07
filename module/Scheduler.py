@@ -1,11 +1,12 @@
 from Detect_and_track import Process_video
 import requests
-from threading import Thread
+import threading 
 from typing import Tuple,List
 import signal
 from ultralytics import YOLO
 from pass_obj_to_expDate import find_exp_date
-from DrawBB import DrawBB
+from DrawBB import DrawOnImage
+import socketio
 
 #TODO:
 
@@ -27,13 +28,33 @@ from DrawBB import DrawBB
 #    - Add connection to DB
 
 
+
+# Setup socketIO client
+socket = socketio.Client()
+
+@socket.event
+def connect():
+    print(f"Connected to SocketIO server.")
+
+@socket.event
+def disconnect():
+    print(f"Disconnected from SocketIO server.")
+
+# Connect to SocketIO before threads start
+def connect_to_socket():
+    try:
+        socket.connect("http://127.0.0.1:5000") 
+        print("SocketIO connected.")
+    except Exception as e:
+        print(f"Error connecting to SocketIO server: {e}")
+
 # handle camera notifications (future work - replace with camera notification protocol)
 # we assume that when light is turned off, the camera stop streaming,
 # in our code(Process_video) there is assumption the streaming stop immeditly (so there is no "black" frame), in future work it will be dealt with
 
 
 
-def event_listen(camera_ip: str, port: int, model_path: str, demo : bool, stream: str = "stream") -> None:
+def event_listen(socket,camera_ip: str, port: int, model_path: str, demo : bool, stream: str = "stream") -> None:
     # the function is responsible to "wait" for camera to start streaming (when lights go on)
     # Returns: Nothing, but will pass on data to DB
 
@@ -64,9 +85,9 @@ def event_listen(camera_ip: str, port: int, model_path: str, demo : bool, stream
             try:
                 detections=Process_video(rtsp_path, model)
                 expDate=find_exp_date(detections)
-                fimg=DrawBB(expDate)
-                sendToDB(camera_ip,expDate)
-                sendToMongo(camera_ip,fimg)
+                fimg=DrawOnImage(expDate)
+                sendToDB(socket,camera_ip,port,expDate)
+                sendToMongo(socket,camera_ip,port,fimg)
             except Exception as e:
                 print(f"Error processing video: {e}")
 
@@ -85,13 +106,15 @@ def get_event_from_camera(camera_ip: str, port: int,demo:List[bool]) -> str: #wi
 # Path to trained YOLO model
 MODEL_PATH = "Models/ProductDetection.pt"  
 
-
+#connect to server
+connect_to_socket()
 # Start listener for each camera
 camera_info = [("10.0.0.1",8554,"concatenated-sample")] # future work - need to centrlize all the camera work and listing
 for ip, port,stream in camera_info:
-    thread = Thread(target=event_listen,
-                    args=(ip, port,stream,MODEL_PATH,True), # we are in demo, so True
+    thread = threading.Thread(target=event_listen,
+                    args=(socket, ip, port,stream,MODEL_PATH,True), # we are in demo, so True
                     daemon=True)
     thread.start()
+socket.disconnect()
 
 

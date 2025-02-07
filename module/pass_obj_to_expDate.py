@@ -10,6 +10,7 @@ from ClosedProductsOCR import ProductsExpDates
 
 # 3. **Changing / reuturn**
 #    - might be better to detections[i][3]
+#    - Change the type hinting - first element is the photo the rest are str
 
 # 3. **exp_date for fruits and veg**
 #    - need to implement

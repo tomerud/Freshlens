@@ -15,7 +15,7 @@ from PreProccess import resize_with_letterbox, adjust_boxes , Best_Canidate_Date
 #    - Add rotation to pictures as detexct (unless under 10? in ordedr to improve results): both sides rotate
 #    - OR try to fine tune OCR
 
-# 2. **Validate Date**:
+# 2. **Validate Date** - Elya:
 #    - Add Validation to date results
 #    - Add validated date to the return object
 
@@ -104,6 +104,7 @@ def ProductsExpDates(model: YOLO, product: Tuple[int,int,Tuple[int, int, int, in
     # return the exp date - (int,str,int)
     print("need to add return statment")
 
+    #remove this part after test
     plt.imshow(original_img)
     plt.axis('off')
     for box in adjusted_boxes:

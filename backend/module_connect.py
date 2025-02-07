@@ -11,12 +11,21 @@ def handle_connect():
 
 @socketio.on("send_to_db")
 def handle_send_to_db(data):
-    print("Received data for DB:", data)
+    """ you get camera Ip, port and a list
+    [(product_id,class_id,exp date)]
+    format of exp date -> with Elya!
+
+    """
     # Handle the data 
+    print("Received data for DB:", data)
+    
     
 @socketio.on("send_to_mongo")
 def handle_send_to_mongo(data):
-    # decide how you want the data to be encoded / sent
+    """ you get camera Ip, port and an image
+    decide how you want the data to be encoded / sent - image_base64, image_Binary, nparray etc
+    """
+    # 
     # Handle the data
     return
 
