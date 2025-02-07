@@ -19,9 +19,8 @@ def create_tables():
         """,
         "users": """
             CREATE TABLE IF NOT EXISTS users (
-                user_id INT AUTO_INCREMENT PRIMARY KEY,
-                user_first_name VARCHAR(255),
-                user_last_name VARCHAR(255),
+                user_id VARCHAR(28) NOT NULL UNIQUE PRIMARY KEY,
+                user_name VARCHAR(255),
                 user_email VARCHAR(255),
                 date_subscribed DATE,
                 subscription_id INT,
@@ -31,7 +30,7 @@ def create_tables():
         "fridges": """
             CREATE TABLE IF NOT EXISTS fridges (
                 fridge_id INT AUTO_INCREMENT PRIMARY KEY,
-                user_id INT,
+                user_id VARCHAR(28) NOT NULL,
                 fridge_name VARCHAR(255),
                 FOREIGN KEY (user_id) REFERENCES users(user_id)
             )
@@ -95,7 +94,7 @@ def drop_all_tables():
 
 
 def insert_demo_data_to_fridge_table():
-    example_user_id = 2
+    example_user_id = "0NNRFLhbXJRFk3ER2_iTr8VulFm4"
     example_fridge_name = "fridge fsadf"
     insert_new_fridge_to_db(example_user_id, example_fridge_name)
 
@@ -250,15 +249,15 @@ def insert_demo_data_to_subscriptions_table():
 
 def insert_demo_data_to_users_table():
     users = [
-            {"first_name": "Liam", "last_name": "Anderson", "email": "liam.anderson@example.com", "subscription_type": "free"},
-            {"first_name": "Emma", "last_name": "Garcia", "email": "emma.garcia@example.com", "subscription_type": "plus"},
-            {"first_name": "Noah", "last_name": "Smith", "email": "noah.smith@example.com", "subscription_type": "free"},
-            {"first_name": "Olivia", "last_name": "Johnson", "email": "olivia.johnson@example.com", "subscription_type": "premium"},
-            {"first_name": "Ethan", "last_name": "Martinez", "email": "ethan.martinez@example.com", "subscription_type": "free"}
+            {"user_id" : "0NNRFLhbXJRFk3ER2_iTr8VulFm4", "user_name": "Liam Anderson", "email": "liam.anderson@example.com", "subscription_type": "free"},
+            {"user_id" : "-vcfzeUDAuMjEmFTI2HYuQhBMVUH", "user_name": "Emma Garcia", "email": "emma.garcia@example.com", "subscription_type": "plus"},
+            {"user_id" : "jpbySIdd5uktuLN1GleVlZ4EmOLv", "user_name": "Noah Smith", "email": "noah.smith@example.com", "subscription_type": "free"},
+            {"user_id" : "ETqCemxYH7HP135eIMoLnIO9H1tm", "user_name": "Olivia Johnson", "email": "olivia.johnson@example.com", "subscription_type": "premium"},
+            {"user_id" : "iWOBibVuFhg3svYbFqxNIM34Drrf", "user_name": "Ethan Martinez", "email": "ethan.martinez@example.com", "subscription_type": "free"}
             ]
 
     for user in users:
-        insert_new_user(user["first_name"], user["last_name"], user["email"], user["subscription_type"]) 
+        insert_new_user(user["user_id"], user["user_name"], user["email"], user["subscription_type"]) 
 
 def insert_demo_data_to_all_tables():
     insert_demo_data_to_categories_table()

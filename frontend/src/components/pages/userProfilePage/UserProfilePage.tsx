@@ -1,20 +1,20 @@
-import { Routes, Route } from 'react-router-dom';
-import { LogInPage } from './UserConnectPage';
-import { SignUpPage } from './UserConnectPage/SingUpPage';
-import { UserConnectPage } from './UserConnectPage/UserConnectPage';
-import { useUser } from '../../../contexts/userContext';
+import { UserInfo } from './UserInfo';
+import { logout } from '../../../firebase';
+import { UpdateSubscription } from './UpdateSubscription.tsx';
+import { AddFridge } from './AddFridge/AddFridge.tsx';
+
+import './UserProfilePage.scss';
 
 export const UserProfilePage = () => {
-  const { user } = useUser();
 
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<UserConnectPage />} />
-        <Route path="login" element={<LogInPage />} />
-        <Route path="signup" element={<SignUpPage />} />
-      </Routes>
-      {user && <h2>{user.fisrtName}</h2>}
-    </div>
+    <>
+      <UserInfo />
+      <div className="content-container">
+        <UpdateSubscription />
+        <AddFridge />
+      </div>
+      <button className="logout-button" onClick={logout}>Logout</button>
+    </>
   );
 };

@@ -1,0 +1,46 @@
+.subscription-card {
+  background: white;
+  padding-bottom: 15px;
+  border-radius: 12px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn.free { background: #4caf50; }
+.btn.plus { background: #ff9800; }
+.btn.premium { background: #f44336; }
+
+.btn:hover { opacity: 0.8; }
+
+.success-text {
+  color: green;
+  background-color: #eaffea;
+  padding: 8px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.error-text {
+  color: red;
+  background-color: #ffe6e6;
+  padding: 8px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+}

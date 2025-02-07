@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import './homePage.scss';
 import { GraphSection } from './graphSection';
+
+import './homePage.scss';
 
 interface ApiData {
   Name: string;
@@ -38,10 +39,10 @@ export const HomePage = () => {
   return (
     <>
       <header className='header'>
-      <div className="p-4 border-b shadow-md bg-white">
-        <h1 className="text-2xl font-bold">FRESHLENS</h1>
-        <p className="text-gray-500">{formattedDate}</p>
-      </div>
+        <div className="p-4 border-b shadow-md bg-white">
+          <h1 className="text-2xl font-bold freshlens-title">FRESHLENS</h1>
+          <p className="text-gray-500">{formattedDate}</p>
+        </div>
       </header>
 
       <div className='notifications'>
@@ -53,10 +54,6 @@ export const HomePage = () => {
       </div>
 
       <GraphSection />
-
-      {/* <p>{data?.Name}</p>
-      <p>{data?.Age}</p>
-      <p>{data?.Date}</p> */}
     </>
   );
 };
