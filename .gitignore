@@ -9,3 +9,5 @@ node_modules/
 
 # Ignore all files in temp folder
 temp/
+
+__pycache__/

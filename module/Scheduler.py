@@ -1,5 +1,5 @@
 from Detect_and_track import Process_video
-import requests
+from Backend_connect import sendToDB, sendToMongo
 import threading 
 from typing import Tuple,List
 import signal
@@ -16,16 +16,13 @@ import socketio
 # 2. **Video Stream Error Handling**:
 #    - Add error handling for situations where the RTSP stream or video file cannot be opened (`cv2.VideoCapture`).
 
-# 3. **bounding boxes**
-#    - Draw bounding boxes color on the last frame according to the expiration dates.
-#    - Might need to add the bb from the process video function to detections obj - notice need to update all files if thats the case!
-#    - Pass it on to Mongo DB, and the rest of the epxiraiton data to the Reational DB
-
-# 4. **Demo**
+# 3. **Demo**
 #    - change demo configuration
 
-# 5. **DB**
-#    - Add connection to DB
+# 4. **connection to db and threading**
+#    - should we switch wait to disconnect?
+#    - should the for loop be switched with while? so father dosent kill sons
+
 
 
 
@@ -115,6 +112,6 @@ for ip, port,stream in camera_info:
                     args=(socket, ip, port,stream,MODEL_PATH,True), # we are in demo, so True
                     daemon=True)
     thread.start()
-socket.disconnect()
+socket.wait() # should we do disconnect?
 
 
