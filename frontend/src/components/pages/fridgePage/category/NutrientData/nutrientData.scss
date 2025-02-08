@@ -1,0 +1,35 @@
+.nutrient-container {
+  padding: 20px;
+  margin: auto;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nutrient-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.serving-size {
+  font-size: 8px;
+  margin-bottom: 15px;
+}
+
+.nutrient-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nutrient-table th, .nutrient-table td {
+  padding: 6px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.nutrient-table th {
+  background-color: #c1e4fb;
+  font-weight: bold;
+}

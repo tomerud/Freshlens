@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from DB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
-from DB.products.products_queries import get_all_categories_from_db, get_fridge_product_items_from_db, get_fridge_products_by_category_from_db
+from DB.products.products_queries import get_all_categories_from_db, get_fridge_product_items_from_db, get_fridge_products_by_category_from_db, get_product_name_from_db, get_product_nutrient_data, get_product_price_from_db
 from DB.fridge.get_fridges import get_fridges_from_db
 
 
@@ -24,9 +24,7 @@ def get_all_fridges():
 
     fridges = get_fridges_from_db(user_id)
     
-    fridges_list = [{"fridge_id": row[0], "fridge_name": row[1]} for row in fridges]
-
-    return jsonify(fridges_list), 200
+    return jsonify(fridges), 200
 
 
 @fridge_bp.route('/get_all_categories', methods=['GET'])
@@ -45,9 +43,8 @@ def get_all_categories():
         return jsonify({"error": "Invalid fridge_id. Must be an integer."}), 400
 
     categories = get_all_categories_from_db(fridge_id)
-    category_list = [{"category_id": row[0], "category_name": row[1]} for row in categories]
 
-    return jsonify(category_list), 200
+    return jsonify(categories), 200
 
 
 @fridge_bp.route('/get_all_products', methods=['GET'])
@@ -67,9 +64,8 @@ def get_all_products():
         return jsonify({"error": "Invalid fridge_id. Must be an integer."}), 400
     
     products = get_fridge_products_by_category_from_db(fridge_id, category_name)
-    products_list = [{"product_id": row[0], "product_name": row[1]} for row in products]
 
-    return jsonify(products_list), 200
+    return jsonify(products), 200
 
 
 @fridge_bp.route('/get_all_product_items', methods=['GET'])
@@ -85,10 +81,78 @@ def get_all_product_items():
 
     try:
         fridge_id = int(fridge_id)
+        product_id = int(product_id)
     except ValueError:
-        return jsonify({"error": "Invalid fridge_id. Must be an integer."}), 400
+        return jsonify({"error": "Invalid fridge_id or product_id. Must be an integer."}), 400
     
     items = get_fridge_product_items_from_db(fridge_id, product_id)
-    items_list = [{"product_name": row[0], "is_rotten": row[1]} for row in items]
+    
+    return jsonify(items), 200
 
-    return jsonify(items_list), 200
+
+
+@fridge_bp.route('/get_product_nutrient', methods=['GET'])
+def get_product_nutrient():
+    """
+    Fetches product nutrient data from the database and returns it as JSON.
+    """
+    product_id = request.args.get("product_id")
+
+    if not product_id:
+        return jsonify({"error": "Missing product_id parameter"}), 400
+
+    try:
+        product_id = int(product_id)
+    except ValueError:
+        return jsonify({"error": "Invalid product_id. Must be an integer."}), 400
+
+    nutrient_data = get_product_nutrient_data(product_id)
+
+    if not nutrient_data:
+        return jsonify({"error": "Product not found"}), 404
+
+    return jsonify(nutrient_data[0]), 200
+
+
+
+@fridge_bp.route('/get_product_price', methods=['GET'])
+def get_product_price():
+    """
+    Fetches product nutrient data from the database and returns it as JSON.
+    """
+    product_id = request.args.get("product_id")
+
+    if not product_id:
+        return jsonify({"error": "Missing product_id parameter"}), 400
+
+    try:
+        product_id = int(product_id)
+    except ValueError:
+        return jsonify({"error": "Invalid product_id. Must be an integer."}), 400
+
+    product_price = get_product_price_from_db(product_id)
+
+    if not product_price:
+        return jsonify({"product_name": None, "avg_price": None}), 200
+
+    return jsonify(product_price[0]), 200
+
+
+@fridge_bp.route('/get_product_name', methods=['GET'])
+def get_product_name():
+    """
+    Fetches product nutrient data from the database and returns it as JSON.
+    """
+    product_id = request.args.get("product_id")
+
+    if not product_id:
+        return jsonify({"error": "Missing product_id parameter"}), 400
+
+    try:
+        product_id = int(product_id)
+    except ValueError:
+        return jsonify({"error": "Invalid product_id. Must be an integer."}), 400
+
+    product_name = get_product_name_from_db(product_id)
+
+    return jsonify(product_name[0]), 200

@@ -2,6 +2,10 @@ import mysql.connector
 from dotenv import load_dotenv
 import os
 
+from deep_translator import GoogleTranslator
+import unicodedata
+import re
+
 load_dotenv()
 
 def get_db_connection():
@@ -40,7 +44,7 @@ def execute_query(query, params=None, fetch_all=True, fetch_one=False, commit=Tr
 
     try:
         conn = get_db_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
 
         if params is None:
             params = ()
@@ -65,3 +69,15 @@ def execute_query(query, params=None, fetch_all=True, fetch_one=False, commit=Tr
             conn.close()
 
     return result
+
+
+def translate_to_hebrew(word):
+    """Translate English word to Hebrew using Google Translator and clean it."""
+    translated = GoogleTranslator(source='auto', target='iw').translate(word)
+    
+    # Normalize and remove diacritics (Nikud)
+    cleaned_word = ''.join(c for c in unicodedata.normalize('NFKD', translated) if not unicodedata.combining(c))
+    
+    cleaned_word = re.sub(r'[^\u0590-\u05FF\s]', '', cleaned_word)  # Keeps only Hebrew letters and spaces
+
+    return cleaned_word.strip()
