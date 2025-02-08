@@ -3,7 +3,7 @@ import random
 from DB.camera.insert_camera_to_db import insert_camera_to_db
 from DB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
 from DB.items.insert_new_item_to_db import get_all_products_from_db, insert_item_to_db
-from DB.products.insert_new_products_to_db import insert_new_category_to_db, insert_new_product_to_db
+from DB.products.insert_new_products_to_db import insert_new_category_to_db, insert_new_product_to_db, load_canadial_prices_from_kaggle
 from DB.user.insert_user_to_db import insert_new_user
 
 from DB.db_utils import execute_query
@@ -41,11 +41,20 @@ def create_tables():
                 category_name VARCHAR(255)                  
             )
         """,
-        "product": """
-            CREATE TABLE IF NOT EXISTS product (
+        "product_global_info": """
+            CREATE TABLE IF NOT EXISTS product_global_info (
                 product_id INT AUTO_INCREMENT PRIMARY KEY,
-                product_name VARCHAR(255),
-                category_id INT,
+                product_name VARCHAR(255) NOT NULL,
+                category_id INT NOT NULL,
+                serving_size VARCHAR(255) NULL,
+                energy_kcal FLOAT NULL,
+                protein_g FLOAT NULL,
+                fat_g FLOAT NULL,
+                saturated_fat_g FLOAT NULL,
+                carbs_g FLOAT NULL,
+                sugars_g FLOAT NULL,
+                fiber_g FLOAT NULL,
+                sodium_mg FLOAT NULL,
                 FOREIGN KEY (category_id) REFERENCES categories(category_id)
             )
         """,
@@ -58,21 +67,34 @@ def create_tables():
         """,
             "item": """
                 CREATE TABLE IF NOT EXISTS item (
-                    item_id INT NOT NULL,
+                    item_id INT NOT NULL UNIQUE PRIMARY KEY,
                     is_inserted_by_user BOOLEAN NOT NULL,
                     product_id INT,
                     camera_ip VARCHAR(255),
                     date_entered DATE,
                     anticipated_expiry_date DATE,
                     is_rotten BOOLEAN,
-                    PRIMARY KEY (item_id, is_inserted_by_user),
-                    FOREIGN KEY (product_id) REFERENCES product(product_id),
+                    FOREIGN KEY (product_id) REFERENCES product_global_info(product_id),
                     FOREIGN KEY (camera_ip) REFERENCES camera(camera_ip)
                 )
+            """,
+            # "products_prices": """
+            #     CREATE TABLE IF NOT EXISTS products_prices (
+            #         product_code VARCHAR(50) UNIQUE NOT NULL PRIMARY KEY,
+            #         product_name VARCHAR(255) NOT NULL,
+            #         price DECIMAL(10,2) NOT NULL,
+            #         manufacturer_description TEXT
+            #     );
+            # """,
+            "canadian_products_prices": """
+                CREATE TABLE IF NOT EXISTS canadian_products_prices (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    name VARCHAR(255) NOT NULL,
+                    price DECIMAL(10,2) NOT NULL            
+                );
             """
     }
 
-    # Execute each table creation query
     for table_name, table_sql in tables.items():
         execute_query(table_sql)
         print(f"Table '{table_name}' created successfully.")
@@ -84,8 +106,9 @@ def drop_all_tables():
             "fridges": """DROP TABLE fridges""",
             "users": """DROP TABLE users""",
             "subscription": """DROP TABLE subscription""",
-            "product": """DROP TABLE product""",
-            "categories": """DROP TABLE categories"""
+            "product_global_info": """DROP TABLE product_global_info""",
+            "categories": """DROP TABLE categories""",
+            "canadian_products_prices": """DROP TABLE canadian_products_prices"""
         }
 
     for table_name, table_sql in tables.items():
@@ -95,8 +118,12 @@ def drop_all_tables():
 
 def insert_demo_data_to_fridge_table():
     example_user_id = "0NNRFLhbXJRFk3ER2_iTr8VulFm4"
-    example_fridge_name = "fridge fsadf"
-    insert_new_fridge_to_db(example_user_id, example_fridge_name)
+    example_fridge_name_1 = "my home fridge"
+    insert_new_fridge_to_db(example_user_id, example_fridge_name_1)
+
+    example_user_id = "0NNRFLhbXJRFk3ER2_iTr8VulFm4"
+    example_fridge_name_2 = "my office fridge"
+    insert_new_fridge_to_db(example_user_id, example_fridge_name_2)
 
 def insert_demo_data_to_camera_table():
     example_camera_ip = "192.168.1.100"
@@ -106,7 +133,10 @@ def insert_demo_data_to_camera_table():
 def insert_demo_data_to_item_table():
     products = get_all_products_from_db()
     selected_products = random.sample(products, 20)  # Pick 20 random products
-    for i, (product_id, product_name, category_name) in enumerate(selected_products, start=1):
+    for i, product in enumerate(selected_products, start=1):  
+        product_id = product["product_id"]  
+        category_name = product["category_name"]
+
         # Generate realistic expiry dates based on category
         expiry_days = {
             "Dairy": 7,
@@ -120,7 +150,7 @@ def insert_demo_data_to_item_table():
 
         # Randomized values
         is_inserted_by_user = random.choice([True, False])
-        camera_ip = f"192.168.1.100"
+        camera_ip = "192.168.1.100"
         date_entered = date.today() - timedelta(days=random.randint(0, 5))
         anticipated_expiry_date = date_entered + timedelta(days=days_to_expiry)
         is_rotten = random.choice([False, False, False, True])  # 75% chance not rotten
@@ -146,19 +176,19 @@ def insert_demo_data_to_product_table():
         {"product_name": "Milk", "category_name": "Dairy"},
         {"product_name": "Cheese", "category_name": "Dairy"},
         {"product_name": "Carrot", "category_name": "Vegetables"},
-        {"product_name": "Apple", "category_name": "Fruits"},
-        {"product_name": "Chicken", "category_name": "Meat"},
+        {"product_name": "Golden Delicious Apples", "category_name": "Fruits"},
+        {"product_name": "Chicken Breast Boneless Skinless", "category_name": "Meat"},
         {"product_name": "Cola", "category_name": "Beverages"},
         {"product_name": "Chips", "category_name": "Snacks"},
         # Dairy
         {"product_name": "Greek Yogurt", "category_name": "Dairy"},
-        {"product_name": "Sour Cream", "category_name": "Dairy"},
-        {"product_name": "Cottage Cheese", "category_name": "Dairy"},
+        {"product_name": "Farmers 14% Sour Cream", "category_name": "Dairy"},
+        {"product_name": "Baxter 2% Cottage Cheese", "category_name": "Dairy"},
         {"product_name": "Mozzarella Cheese", "category_name": "Dairy"},
         {"product_name": "Feta Cheese", "category_name": "Dairy"},
         {"product_name": "Parmesan Cheese", "category_name": "Dairy"},
         {"product_name": "Heavy Cream", "category_name": "Dairy"},
-        {"product_name": "Whipped Cream", "category_name": "Dairy"},
+        {"product_name": "Coffee Creamer", "category_name": "Dairy"},
         {"product_name": "Goat Cheese", "category_name": "Dairy"},
         {"product_name": "Ricotta Cheese", "category_name": "Dairy"},
         
@@ -227,7 +257,7 @@ def insert_demo_data_to_product_table():
         result = execute_query("SELECT category_id FROM categories WHERE category_name = %s", (product["category_name"],), fetch_one=True)
 
         if result:
-            category_id = result[0]
+            category_id = result['category_id']
             insert_new_product_to_db(product["product_name"], category_id)
         else:
             print(f"Error: Category '{product['category_name']}' not found in database.")
@@ -269,6 +299,7 @@ def insert_demo_data_to_all_tables():
     insert_demo_data_to_item_table()
 
 if __name__ == "__main__":
-    drop_all_tables()
-    create_tables()
-    insert_demo_data_to_all_tables()
+    # drop_all_tables()
+    # create_tables()
+    # insert_demo_data_to_all_tables()
+    load_canadial_prices_from_kaggle()
