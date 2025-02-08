@@ -3,6 +3,9 @@ from routes.item_routes import item_bp
 from routes.fridge_routes import fridge_bp
 from routes.data_routes import app_bp
 from routes.shelves_routes import shelves_bp
+from routes.camera_routes import camera_bp
+
+
 
 
 
@@ -13,5 +16,5 @@ blueprints = [
     fridge_bp,
     app_bp,
     shelves_bp,
-
+    camera_bp
 ]

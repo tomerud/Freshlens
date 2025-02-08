@@ -1,0 +1,1 @@
+export { AddFridge } from './AddFridge';

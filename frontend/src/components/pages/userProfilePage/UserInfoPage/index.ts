@@ -1,1 +1,0 @@
-export { UserInfoPage } from './UserInfoPage';

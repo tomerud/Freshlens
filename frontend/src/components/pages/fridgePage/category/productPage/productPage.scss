@@ -1,0 +1,31 @@
+.product-details {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  font-size: 18px;
+  border-bottom: 1px solid lightgray;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.product-image-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.product-image {
+  width: 250px;
+  max-width: 90%;
+  object-fit: contain;
+}

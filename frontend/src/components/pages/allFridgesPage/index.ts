@@ -1,0 +1,1 @@
+export { AllFridgesPage } from './AllFridgesPage';
