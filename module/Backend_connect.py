@@ -1,14 +1,15 @@
-from datetime import datetime
 import base64
 import cv2
 import numpy as np
 from PIL import Image
 from typing import List, Tuple
-from socketio import Client
 import threading
+import time
 
-socket = Client()
 lock = threading.Lock()
+max_retries = 10  # Max attempts before giving up
+retry_delay = 4   # Time (in seconds) to wait between retries
+
 def sendToDB(socket,camera_ip: str, port: int, expDate: List[Tuple[int, int, Tuple[int, int, int, int], str]]) -> None:
 
     data = {
@@ -16,13 +17,19 @@ def sendToDB(socket,camera_ip: str, port: int, expDate: List[Tuple[int, int, Tup
         "port": port,
         "products_data": expDate     
     }
-    try:
-        # Acquire the lock before emitting data
-        with lock:
-            socket.emit("send_to_db", data)
-        print(f"Data sent to backend for DB: {data}")
-    except Exception as e:
-        print(f"Error sending data to backend for DB: {e}")
+    for attempt in range(max_retries):
+        if socket.connected: # we already have a thread that trys to recconect, so we only need to wait for it to succeed
+            try:
+                with lock: # protect from concurrency on the shared resource - socket
+                    socket.emit("send_to_db", data)
+                print(f"Data sent to backend for DB: {data}")
+                return  # Success, exit function
+            except Exception as e:
+                print(f"Error sending data to backend for DB: {e}")
+        print(f"Socket disconnected. Waiting to retry {attempt+1}/{max_retries}...")
+        time.sleep(retry_delay)
+    print("Failed to send data after multiple attempts. Dropping the message.")
+
 
 #depends on tomer:
 #from bson import Binary
@@ -40,29 +47,16 @@ def sendToMongo(socket,camera_ip: str,port:int, image: Image.Image):
         "camera_ip": camera_ip,
         "image": image_base64
     }
-    try:
-        # Acquire the lock before emitting data
-        with lock:
-            socket.emit("send_to_mongo", data)
-        print(f"Data sent to backend for MongoDB: {data}")
-    except Exception as e:
-        print(f"Error sending data to backend for MongoDB: {e}")
+    for attempt in range(max_retries):
+        if socket.connected: # we already have a thread that trys to recconect, so we only need to wait for it to succeed
+            try:
+                with lock: # protect from concurrency on the shared resource - socket
+                    socket.emit("send_to_mongo", data)
+                print(f"Data sent to backend for MongoDB: {data}")
+                return  # Success, exit function
+            except Exception as e:
+                print(f"Error sending data to backend for MongoDB: {e}")
+        print(f"Socket disconnected. Waiting to retry {attempt+1}/{max_retries}...")
+        time.sleep(retry_delay)
+    print("Failed to send data after multiple attempts. Dropping the message.")
 
-if __name__ == "__main__":  # Testing
-    try:
-        socket.connect("http://127.0.0.1:5000") 
-        print("SocketIO connection established.")
-    except Exception as e:
-        print(f"Error connecting to SocketIO server: {e}")
-        exit(1)
-
-    camera_ip = "10.0.0.1"
-    port=8554
-    expDate = [1, 2, (100, 200, 300, 400), "2025-02-01"]
-    image = cv2.imread("example.jpg")
-
-    sendToDB(camera_ip, expDate)
-    sendToMongo(camera_ip, image)
-
-    socket.disconnect()
-    print("SocketIO connection closed.")

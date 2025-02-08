@@ -7,6 +7,7 @@ from ultralytics import YOLO
 from pass_obj_to_expDate import find_exp_date
 from DrawBB import DrawOnImage
 import socketio
+import time
 
 #TODO:
 
@@ -20,47 +21,32 @@ import socketio
 #    - change demo configuration
 
 # 4. **connection to db and threading**
-#    - should we switch wait to disconnect?
-#    - should the for loop be switched with while? so father dosent kill sons
-
-
-
+#    - should the for loop be switched with while?
+# 5. - Update the Ip list from DB?
 
 # Setup socketIO client
-socket = socketio.Client()
+socket = socketio.Client(reconnection=True, reconnection_attempts=10, reconnection_delay=2)
 
 @socket.event
 def connect():
-    print(f"Connected to SocketIO server.")
+    print("Connected to SocketIO server.")
 
 @socket.event
 def disconnect():
-    print(f"Disconnected from SocketIO server.")
-
-# Connect to SocketIO before threads start
-def connect_to_socket():
-    try:
-        socket.connect("http://127.0.0.1:5000") 
-        print("SocketIO connected.")
-    except Exception as e:
-        print(f"Error connecting to SocketIO server: {e}")
+    print("Disconnected from SocketIO server.")
 
 # handle camera notifications (future work - replace with camera notification protocol)
 # we assume that when light is turned off, the camera stop streaming,
 # in our code(Process_video) there is assumption the streaming stop immeditly (so there is no "black" frame), in future work it will be dealt with
 
-
-
 def event_listen(socket,camera_ip: str, port: int, model_path: str, demo : bool, stream: str = "stream") -> None:
     # the function is responsible to "wait" for camera to start streaming (when lights go on)
     # Returns: Nothing, but will pass on data to DB
-
-    stop_event = threading.Event()
+    stop_event = threading.Event() # this way signal will stop all the threads (since all of them are checking stop_event)
 
     def handle_signal(signal, frame):
         stop_event.set()  # Set the stop event to signal termination
-        print(f"Stopping event listener for camera {camera_ip}:{port}...")
-
+        print(f"stopping event listener for camera {camera_ip}:{port}...")
     # Set up signal handler for gracefully stopping
     signal.signal(signal.SIGINT, handle_signal)
 
@@ -88,7 +74,8 @@ def event_listen(socket,camera_ip: str, port: int, model_path: str, demo : bool,
             except Exception as e:
                 print(f"Error processing video: {e}")
 
-    print("Event listener has been stopped.")
+    print(f"Stopped event listener for camera {camera_ip}:{port}...")
+
 
 
 
@@ -104,14 +91,19 @@ def get_event_from_camera(camera_ip: str, port: int,demo:List[bool]) -> str: #wi
 MODEL_PATH = "Models/ProductDetection.pt"  
 
 #connect to server
-connect_to_socket()
+socket.connect("http://127.0.0.1:5000")
+
 # Start listener for each camera
 camera_info = [("10.0.0.1",8554,"concatenated-sample")] # future work - need to centrlize all the camera work and listing
+threads = []
 for ip, port,stream in camera_info:
     thread = threading.Thread(target=event_listen,
                     args=(socket, ip, port,stream,MODEL_PATH,True), # we are in demo, so True
-                    daemon=True)
+                    daemon=False)
+    threads.append(thread)
     thread.start()
-socket.wait() # should we do disconnect?
+
+for thread in threads:
+    thread.join()  #block the main thread until all threads are done
 
 
