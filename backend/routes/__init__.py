@@ -5,7 +5,7 @@ from routes.data_routes import app_bp
 from routes.shelves_routes import shelves_bp
 from routes.camera_routes import camera_bp
 from routes.picture_routes import picture_bp
-
+from recipe_routes import recipe_bp
 
 
 
