@@ -16,5 +16,6 @@ blueprints = [
     fridge_bp,
     app_bp,
     shelves_bp,
+    recipe_bp,
     camera_bp
 ]
