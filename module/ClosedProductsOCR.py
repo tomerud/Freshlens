@@ -1,4 +1,4 @@
-from typing import List, Tuple,Any
+from typing import List, Tuple,Dict
 import easyocr
 from ultralytics.engine.results import Boxes # for type hinting
 import matplotlib.pyplot as plt
@@ -69,12 +69,12 @@ def extract_text_from_boxes(image: Image, boxes: List[Tuple[float, float, float,
     return ocr_results
 
 
-def ProductsExpDates(model: YOLO, product: Tuple[int,int,Tuple[int, int, int, int],Image.Image]) -> Tuple[int,int,Tuple[int, int, int, int],str]:
+def ProductsExpDates(model: YOLO, product: Image.Image) -> Tuple[int,int,Tuple[int, int, int, int],str]:
 #   handle the logic of getting Products Exp dates
-#   Returns: Id of the object (product), Id class (what product class) ,bounding boxes in original pic, Expiry date
-
+#   Returns:  Expiry date
+    
     #preprocess the image
-    resized_img, scale, pad_left, pad_top = resize_with_letterbox(product[3], target_size=768)
+    resized_img, scale, pad_left, pad_top = resize_with_letterbox(product, target_size=768)
 
     # Predict using YOLO
     results = model.predict(resized_img)
@@ -91,7 +91,7 @@ def ProductsExpDates(model: YOLO, product: Tuple[int,int,Tuple[int, int, int, in
     adjusted_boxes = adjust_boxes(date_boxes, scale, pad_left, pad_top)
 
     # Pass the product image and adjusted boxes to Tesseract OCR
-    ocr_results = extract_text_from_boxes(product[3], adjusted_boxes)
+    ocr_results = extract_text_from_boxes(product, adjusted_boxes)
 
     # add filtering based on OCR results, what is the best canidate for expiry date
     #
@@ -105,13 +105,14 @@ def ProductsExpDates(model: YOLO, product: Tuple[int,int,Tuple[int, int, int, in
     print("need to add return statment")
 
     #remove this part after test
-    plt.imshow(original_img)
+    plt.imshow(product)
     plt.axis('off')
     for box in adjusted_boxes:
         x_min, y_min, x_max, y_max = map(int, box)
         plt.gca().add_patch(plt.Rectangle((x_min, y_min), x_max - x_min, y_max - y_min,
                                           edgecolor='red', facecolor='none', linewidth=2))
     plt.show()
+    return ocr_results
 
 if __name__ == "__main__":
     # Path to the YOLO model and image
@@ -120,8 +121,10 @@ if __name__ == "__main__":
     original_img = Image.open(image_path)
     rotated_img = original_img.rotate(90, expand=True)
 
-    d={2,"orange"}
     # Load the YOLO model
     model = YOLO(model_path)
     model.eval()
-    ProductsExpDates(model,rotated_img,d)
+    ocr=ProductsExpDates(model,rotated_img)
+    print(ocr)
+    for k in ocr:
+        print(k["text"])

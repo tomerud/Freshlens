@@ -21,11 +21,23 @@ import time
 #    - change demo configuration
 
 # 4. **connection to db and threading**
-#    - should the for loop be switched with while?
-# 5. - Update the Ip list from DB?
+#    - Should the for loop be switched with while?
+#    - Update the Ip list from DB?
+#    - Sockets - one for the whole module vs many (maybe even for each camera)
+
+# 5. **Secure conneciton**
+#    - replace the RTSP with Secure RTSP / vpn etc
+
+# 6. ** YOLO resizing**:
+#    - think if resizing training or scaling!!!!
+
 
 # Setup socketIO client
-socket = socketio.Client(reconnection=True, reconnection_attempts=10, reconnection_delay=2)
+socket = socketio.Client(
+    reconnection=True, 
+    reconnection_attempts=10, 
+    reconnection_delay=1,
+    reconnection_delay_max=30)
 
 @socket.event
 def connect():
@@ -39,7 +51,7 @@ def disconnect():
 # we assume that when light is turned off, the camera stop streaming,
 # in our code(Process_video) there is assumption the streaming stop immeditly (so there is no "black" frame), in future work it will be dealt with
 
-def event_listen(socket,camera_ip: str, port: int, model_path: str, demo : bool, stream: str = "stream") -> None:
+def event_listen(socket,camera_ip: str, port: int, demo : bool, stream: str = "stream") -> None:
     # the function is responsible to "wait" for camera to start streaming (when lights go on)
     # Returns: Nothing, but will pass on data to DB
     stop_event = threading.Event() # this way signal will stop all the threads (since all of them are checking stop_event)
@@ -51,8 +63,13 @@ def event_listen(socket,camera_ip: str, port: int, model_path: str, demo : bool,
     signal.signal(signal.SIGINT, handle_signal)
 
     # Load a separate YOLO model instance for this thread
-    model = YOLO(model_path)
-
+    # we have to do it separatly for each thread, since pyhton use GIL
+    # consideration for python!!!! maybe multiprocess is better? need to study it
+    # BASED ON YOLO DOCS! not thread safe
+    # Path to trained YOLO model
+    MODEL_PATH = "Models/ProductDetection.pt" 
+    model = YOLO(MODEL_PATH)
+    class_list = [class_name for _, class_name in sorted(model.names.items())]
     # best will be to use interupts or something similar here, for simplicity, time constarint and since we dont have actual IP camera
     while not stop_event.is_set():
         try:
@@ -67,7 +84,7 @@ def event_listen(socket,camera_ip: str, port: int, model_path: str, demo : bool,
 
             try:
                 detections=Process_video(rtsp_path, model)
-                expDate=find_exp_date(detections)
+                expDate=find_exp_date(detections,class_list)
                 fimg=DrawOnImage(expDate)
                 sendToDB(socket,camera_ip,port,expDate)
                 sendToMongo(socket,camera_ip,port,fimg)
@@ -87,8 +104,7 @@ def get_event_from_camera(camera_ip: str, port: int,demo:List[bool]) -> str: #wi
     return "no_light_detected"
 
 
-# Path to trained YOLO model
-MODEL_PATH = "Models/ProductDetection.pt"  
+ 
 
 #connect to server
 socket.connect("http://127.0.0.1:5000")
@@ -98,7 +114,7 @@ camera_info = [("10.0.0.1",8554,"concatenated-sample")] # future work - need to 
 threads = []
 for ip, port,stream in camera_info:
     thread = threading.Thread(target=event_listen,
-                    args=(socket, ip, port,stream,MODEL_PATH,True), # we are in demo, so True
+                    args=(socket, ip, port,stream,True), # we are in demo, so True
                     daemon=False)
     threads.append(thread)
     thread.start()
