@@ -11,7 +11,7 @@ def get_all_categories_from_db(fridge_id):
     return execute_query("""
         SELECT distinct c.category_id, c.category_name
         FROM categories c
-        JOIN product p ON c.category_id = p.category_id
+        JOIN product_global_info p ON c.category_id = p.category_id
         JOIN item i ON p.product_id = i.product_id
         JOIN camera ca ON i.camera_ip = ca.camera_ip
         WHERE ca.fridge_id = %s
@@ -27,7 +27,7 @@ def get_fridge_products_by_category_from_db(fridge_id, category_name):
     return execute_query("""
         SELECT p.product_id, p.product_name
         FROM categories c
-        JOIN product p ON c.category_id = p.category_id
+        JOIN product_global_info p ON c.category_id = p.category_id
         JOIN item i ON p.product_id = i.product_id
         JOIN camera ca ON i.camera_ip = ca.camera_ip
         WHERE ca.fridge_id = %s and c.category_name = %s
@@ -41,9 +41,53 @@ def get_fridge_product_items_from_db(fridge_id, product_id):
         list: A list of tuples containing items.
     """
     return execute_query("""
-        SELECT p.product_name, i.is_rotten 
-        FROM freshlens.product p
-        JOIN freshlens.item i ON p.product_id = i.product_id
+        SELECT i.item_id, i.is_rotten, i.date_entered, i.anticipated_expiry_date
+        FROM freshlens.item i
         JOIN freshlens.camera ca ON i.camera_ip = ca.camera_ip
-        WHERE ca.fridge_id = %s and p.product_id = %s
+        WHERE ca.fridge_id = %s and i.product_id = %s
     """, (fridge_id, product_id))
+
+
+def get_product_nutrient_data(product_id):
+    """
+    Retrieves all product nutrient data from specific product
+
+    Returns:
+        list: A list of tuples containing items.
+    """
+    return execute_query("""
+        SELECT *
+        FROM freshlens.product_global_info p
+        WHERE p.product_id = %s
+    """, (product_id,))
+
+
+def get_product_price_from_db(product_id):
+    """
+    Retrieves all product nutrient data from specific product
+
+    Returns:
+        list: A list of tuples containing items.
+    """
+    return execute_query("""
+        SELECT p.product_name, AVG(c.price) as avg_price
+        FROM freshlens.product_global_info p 
+        join freshlens.canadian_products_prices c
+        on c.name like concat('%', p.product_name, '%')
+        WHERE p.product_id = %s
+        group by p.product_name
+    """, (product_id,))
+
+
+def get_product_name_from_db(product_id):
+    """
+    Retrieves product name
+
+    Returns:
+        list: A list of product names by id.
+    """
+    return execute_query("""
+        SELECT p.product_id, p.product_name
+        FROM freshlens.product_global_info p 
+        WHERE p.product_id = %s
+    """, (product_id,))

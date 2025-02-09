@@ -1,49 +1,45 @@
-import { useParams, useNavigate } from "react-router-dom";
-import "./productPage.scss";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { FridgeHeader } from "../../fridgeHeader";
+import { ItemsList } from "../ItemsList";
+import { NutrientData } from "../NutrientData";
+import { PriceData } from "../PriceData";
 
-interface Item {
+
+import "./productPage.scss";
+
+interface Product {
+  product_id: string;
   product_name: string;
-  is_rotten: boolean;
 }
 
-const fetchData = async (fridgeId: string, productId: string): Promise<Item[]> => {
-  const response = await fetch(`/api/get_all_product_items?fridge_id=${fridgeId}&product_id=${productId}`);
+const fetchData = async (productId: string): Promise<Product> => {
+  const response = await fetch(`/api/get_product_name?product_id=${productId}`);
 
   if (!response.ok) {
-    throw new Error('Failed to fetch data');
+    throw new Error("Failed to fetch data");
   }
+
   return await response.json();
 };
 
 export const ProductPage = () => {
-  const navigate = useNavigate();
+  const { productId } = useParams<{ productId: string }>();
 
-  const { fridgeId, productId } = useParams<{ fridgeId: string , productId: string }>();
-
-  const { data: items = [], isLoading, error } = useQuery<Item[], Error>({
-    queryKey: ['categories', fridgeId, productId],
-    queryFn: () => fetchData(fridgeId, productId),
+  const { data: ProductName, isLoading, error } = useQuery<Product, Error>({
+    queryKey: ["ProductName", productId],
+    queryFn: () => fetchData(productId!),
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
-  if (!items) {
-    return <p className="not-found">Product not found.</p>;
-  }
-
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  
   return (
     <>
-      <FridgeHeader title={items[0].product_name} subtitle="everything you want to know"/>
-      <ul>
-        {items.map((item, index) => (
-          <li key={index} style={{ color: item.is_rotten ? "red" : "black" }}>
-            {item.product_name} {item.is_rotten ? "🛑 (Rotten)" : "✅ (Fresh)"}
-          </li>
-        ))}
-      </ul>
+      <FridgeHeader title={ProductName!.product_name} subtitle="everything you want to know"/>
+      <ItemsList />
+      <PriceData/>
+      <NutrientData />
     </>
   );
 };

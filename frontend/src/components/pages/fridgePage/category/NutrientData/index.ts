@@ -1,0 +1,1 @@
+export { NutrientData } from './NutrientData';
