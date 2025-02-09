@@ -15,7 +15,7 @@ recipe_bp = Blueprint('recipe_bp', __name__)
 def get_recipe():
     try:
         # data is user_id
-    
+
         user_id = request.args.get("user_id")
         if not user_id:
             return jsonify({"error": "user_id query parameter is required."}), 400
