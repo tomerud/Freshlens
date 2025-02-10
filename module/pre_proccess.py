@@ -1,20 +1,12 @@
 """
 Immage Preprocessing Module
 
-This module provides functions for image preprocessing tasks, including:
-- Resizing images with letterboxing - maintaining aspect ratio.
-- Adjusting bounding boxes after resizing.
-- Calculating intersection areas
-- Calculatig distances between bounding boxes.
-- Identifying the best candidate date boxes based on intersection / proximity.
-
-Functions:
-    - resize_with_letterbox: Resizes an image with letterboxing.
-    - adjust_boxes: Adjusts bounding boxes after resizing.
-    - intersection_area: Intersection area between two boxes.
-    - calculate_center: Computes the center coordinates of a bounding box.
-    - euclidean_distance: Computes the Euclidean distance between two points(centers).
-    - best_candidate_date: Finds the most relevant date boxes based on intersections / proximity.
+This module handle image preprocessing tasks, like:
+- Resizing images while maintaining aspect ratio.
+- Adjusting bounding boxes (after resizing)
+- Calculating intersection area.
+- Calculatig distances between two bounding boxes.
+- Identifying the best candidate date boxes based on intersection / distance.
 """
 
 from typing import List, Tuple
@@ -29,14 +21,9 @@ import numpy as np
 def resize_with_letterbox(image: Image, target_size: int = 768) -> Tuple[Image.Image, float, int, int]:
     """
     Resize an image to the target size with letterboxing to maintain aspect ratio.
-
-    Args:
-        image (Image): The input PIL image.
-        target_size (int, optional): The target size for resizing. Defaults to 768.
-
-    Returns:
-        Tuple[Image.Image, float, int, int]: Letterboxed image, scaling factor, left padding,
-        top padding.
+    Return:
+    Letterboxed image,scaling factor,
+    left padding, top padding.
     """
     original_width, original_height = image.size
     scale = target_size / max(original_width, original_height)
@@ -59,16 +46,7 @@ def resize_with_letterbox(image: Image, target_size: int = 768) -> Tuple[Image.I
 def adjust_boxes(boxes: List[Boxes], scale: float, pad_left: int, pad_top: int) -> List[Tuple[float, float, float, float]]:
     """
     Adjust bounding boxes from letterboxed image to original image coordinates.
-
-    Args:
-        boxes (List[Boxes]): List of bounding boxes.
-        scale (float): Scaling factor.
-        pad_left (int): Left padding.
-        pad_top (int): Top padding.
-
-    Returns:
-        List[Tuple[float, float, float, float]]: Adjusted original image coordinates in
-        xyxy format.
+    Return: Adjusted original image coordinates in xyxy format.
     """
     adjusted_boxes = []
     for box in boxes:
@@ -84,13 +62,7 @@ def adjust_boxes(boxes: List[Boxes], scale: float, pad_left: int, pad_top: int) 
 def intersection_area(box1: Boxes, box2: Boxes) -> float:
     """
     Calculate the intersection area of two bounding boxes.
-
-    Args:
-        box1 (Boxes): First bounding box.
-        box2 (Boxes): Second bounding box.
-
-    Returns:
-        float: Intersection area.
+    Return: Intersection area.
     """
     x_min1, y_min1, x_max1, y_max1 = box1.xyxy[0].tolist()
     x_min2, y_min2, x_max2, y_max2 = box2.xyxy[0].tolist()
@@ -107,12 +79,7 @@ def intersection_area(box1: Boxes, box2: Boxes) -> float:
 def calculate_center(box: Boxes) -> Tuple[float, float]:
     """
     Calculate the center of a bounding box.
-
-    Args:
-        box (Boxes): Bounding box.
-
-    Returns:
-        Tuple[float, float]: (center_x, center_y)
+    Returns: (center_x, center_y)
     """
     return tuple(box.xywh[0].tolist()[:2])
 
@@ -133,13 +100,7 @@ def best_candidate_date(date_boxes: List[Boxes], due_boxes: List[Boxes]) -> List
     """
     Find the date boxes with the largest intersection with due boxes.
     If the intersection is 0 for all boxes, find the closest ones.
-
-    Args:
-        date_boxes (List[Boxes]): List of detected date boxes.
-        due_boxes (List[Boxes]): List of detected 'due' class boxes.
-
-    Returns:
-        List[Boxes]: Best matching date boxes.
+    Return: Best matching date boxes.
     """
     best_matches = []
     max_intersection = 0

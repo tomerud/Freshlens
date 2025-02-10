@@ -302,6 +302,6 @@ def insert_demo_data_to_all_tables():
 
 if __name__ == "__main__":
     # drop_all_tables()
-    # create_tables()
-    # insert_demo_data_to_all_tables()
+    create_tables()
+    insert_demo_data_to_all_tables()
     load_canadial_prices_from_kaggle()

@@ -5,13 +5,6 @@ This module manages the event driven camera monitoring system using:
 - SocketIO for real time communication with the server.
 - Threading for handling multiple cameras.
 - Call all the other file functions for the module functionality
-
-Functions each thread does independently:
-    - event_listen: Listens for camera events and processes video streams.
-    - load_model: Loads the YOLO model and returns the model with class labels.
-    - handle_light_detected: Handles object detection when light is detected.
-    - get_event_from_camera: Simulates receiving an event from a camera.
-
 """
 
 import signal
@@ -54,22 +47,13 @@ def disconnect():
     print("Disconnected from SocketIO server.")
 
 def event_listen(client, cam_ip: str, cam_port: int, demo: bool, video_stream: str = "stream") -> None:
-    """
-    Listen for events from a camera and process video streams.
-
-    Args:
-        client: The SocketIO client instance.
-        cam_ip (str): The IP address of the camera.
-        cam_port (int): The port of the camera.
-        demo (bool): Whether to run in demo mode.
-        video_stream (str): The stream name (default: "stream").
-    """
+    """Listen for events from a camera and process video streams."""
     stop_event = threading.Event()  # Signal to stop all threads.
 
     def handle_signal(_sig, _frame):
         """Handle termination signals."""
         stop_event.set()  # Set the stop event to signal termination.
-        print(f"Stopping event listener for camera {cam_ip}:{cam_port}...")
+        print(f"Stopping event listener for camera {cam_ip}:{cam_port}")
 
     # Set up signal handler for graceful termination.
     signal.signal(signal.SIGINT, handle_signal)
@@ -82,10 +66,13 @@ def event_listen(client, cam_ip: str, cam_port: int, demo: bool, video_stream: s
         if event == "light_detected":
             handle_light_detected(cam_ip, cam_port, video_stream, model, class_list, client)
 
-    print(f"Stopped event listener for camera {cam_ip}:{cam_port}...")
+    print(f"Stopped event listener for camera {cam_ip}:{cam_port}")
 
 def load_model():
-    """Load the YOLO model and return the model and class list."""
+    """
+    Load the YOLO model
+    return: model and class list.
+    """
     model_path = "Models/ProductDetection.pt"
     model = YOLO(model_path)
     class_list = [class_name for _, class_name in sorted(model.names.items())]
@@ -118,14 +105,8 @@ def handle_light_detected(cam_ip: str, cam_port: int, video_stream: str, model, 
 def get_event_from_camera(_cam_ip: str, _cam_port: int, demo: bool) -> str:
     """
     Simulate getting an event from a camera.
-
-    Args:
-        _cam_ip (str): The IP address of the camera.
-        _cam_port (int): The port of the camera.
-        demo (bool): Whether to run in demo mode.
-
-    Returns:
-        str: The event type ("light_detected" or "no_light_detected").
+    Return: The event type ("light_detected" or "no_light_detected").
+    future work - handle this according to the camers configurations
     """
     if demo:
         return "light_detected"

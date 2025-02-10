@@ -1,17 +1,8 @@
 """
 Fruit and Vegetable Freshness Module
 
-This module provides functionality to estimate the expiration dates of fruits and vegetables
-based on their freshness and confidence scores from an object detection model. It draws from
-pre-trained models like YOLO to detect the freshness of produce and calculates the expiration date
-using a base shelf life and confidence adjustment.
-
-Functions:
-    - estimate_expiration: Estimates the expiration date of a given fruit or vegetable based on
-      its freshness label and confidence score.
-    - fresh_rotten: Detects whether a produce item is fresh or rotten and estimates its expiration
-      date using a YOLO model and image of the produce.
-
+This module estimate the expiration dates of fruits and vegetables
+based on their freshness and confidence scores from YOLO model.
 """
 
 from datetime import datetime, timedelta
@@ -35,14 +26,7 @@ from pre_proccess import resize_with_letterbox
 def estimate_expiration(fruit: str, freshness_label: str, confidence: float) -> datetime:
     """
     Estimate the expiration date of the fruit or vegetable based on its freshness and confidence score.
-
-    Parameters:
-    fruit (str): The type of fruit or vegetable (e.g., "banana", "apple", "orange").
-    freshness_label (str): The label indicating freshness ("Fresh" or "Rotten").
-    confidence (float): The confidence score of the freshness label.
-
-    Returns:
-    datetime: The estimated expiration date.
+    Return: The estimated expiration date.
     """
     # Base shelf lives (in days) for the fruit when fresh. These numbers are approximate.
     shelf_life = {
@@ -86,15 +70,8 @@ def estimate_expiration(fruit: str, freshness_label: str, confidence: float) -> 
 
 def fresh_rotten(model: YOLO, produce: Image.Image, identifier_type: str):
     """
-    Detect whether a produce item is fresh or rotten and estimate its expiration date.
-
-    Parameters:
-    model (YOLO): The YOLO model used for object detection.
-    produce (Image.Image): The image of the produce to be analyzed.
-    identifier_type (str): The type of fruit or vegetable (e.g., "banana", "apple").
-
-    Returns:
-    datetime: The estimated expiration date or -1 if detection fails.
+    Detect whether a produce item is fresh or rotten.
+    Return:The estimated expiration date or -1 if detection fails.
     """
     # Preprocess the image
     resized_img, _, _, _ = resize_with_letterbox(produce, target_size=768)

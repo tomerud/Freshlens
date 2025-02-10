@@ -1,13 +1,8 @@
 """
 Expiration Date Detection Module
 
-This module provides functionality for detecting and predicting expiration dates of products
-in images. It uses various models, including YOLO and KMeans, to classify products and predict
-their expiration dates. The predictions help categorize the freshness of items in an image.
-
-Functions:
-    - find_exp_date: Processes detected objects and predicts their expiration dates
-      using YOLO and other freshness detection models.
+This module manage the pipeline of sending products to the correct function,
+which will be able to detect the expiration date for the spesific product
 """
 
 from typing import Tuple, List, Any
@@ -27,14 +22,8 @@ from Kmeans import kmeans_expdate
 
 def find_exp_date(detections: List[Tuple[int, int, Any]], class_list: List[str]) -> List[Tuple[int, int, Tuple[int, int, int, int], str]]:
     """
-    Determines the expiration date of detected objects.
-
-    Args:
-    detections (List[Tuple[int, int, Any]]): A list of detected objects with their bounding boxes.
-    class_list (List[str]): A list of class names for the detected objects.
-
-    Returns:
-    List[Tuple[int, int, Tuple[int, int, int, int], str]]: The updated list with expiration dates for each detected object.
+    Determines right function to pass the object to.
+    Return: updated list with expiration dates for each detected object.
     """
     if len(detections) == 1:  # No objects detected, only shelf
         return detections

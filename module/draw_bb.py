@@ -1,12 +1,9 @@
 """
 DrawBB Module
 
-This module provides functionality to draw bounding boxes on images based on
+This module  draw bounding boxes on images based on
 product expiration dates. The bounding box color indicates whether the product
 is fresh (green), expiring soon (orange), or expired (red).
-
-Functions:
-    - draw_on_image: Draws bounding boxes on an image based on expiry dates.
 """
 
 from datetime import datetime
@@ -23,14 +20,6 @@ def draw_on_image(
 ) -> Image.Image:
     """
     Draws bounding boxes on an image based on expiration dates.
-
-    Parameters:
-    - detections: List of tuples containing product information.
-        - detections[0] contains the full shelf image.
-        - Subsequent elements contain (x_min, y_min, x_max, y_max, exp_date).
-
-    Returns:
-    - Image with drawn bounding boxes.
     """
 
     image = detections[0][3]  # Image of the whole shelf
