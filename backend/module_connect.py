@@ -12,7 +12,7 @@ from Non_Rel_DB.store_pic import decode_and_store_image
 
 
 app = Flask(__name__)
-socketio = SocketIO(app, async_mode="eventlet")
+socketio = SocketIO(app, async_mode="eventlet") # async_mode eventlet is not really relevant right now, but for future work, when we want to have multiple modules that connect to the server
 # Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")
 db = client["image_database"]
