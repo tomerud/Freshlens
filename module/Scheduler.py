@@ -1,5 +1,5 @@
 from Detect_and_track import Process_video
-from Backend_connect import sendToDB, sendToMongo
+from Backend_connect import sendToDB, sendToMongo, alert_server
 import threading 
 from typing import Tuple,List
 import signal
@@ -12,32 +12,29 @@ import time
 #TODO:
 
 # 1. **Threading**
-#    - think about where / if Thread.
+#    - think about where / if Thread - GIL , Multiproccess
 
-# 2. **Video Stream Error Handling**:
-#    - Add error handling for situations where the RTSP stream or video file cannot be opened (`cv2.VideoCapture`).
-
-# 3. **Demo**
+# 2. **Demo**
 #    - change demo configuration
 
-# 4. **connection to db and threading**
+# 3. **connection to db and threading**
 #    - Should the for loop be switched with while?
 #    - Update the Ip list from DB?
-#    - Sockets - one for the whole module vs many (maybe even for each camera)
 
-# 5. **Secure conneciton**
+# 4. **Secure conneciton** - future work
 #    - replace the RTSP with Secure RTSP / vpn etc
 
-# 6. ** YOLO resizing**:
+# 5. ** YOLO resizing**:
 #    - think if resizing training or scaling!!!!
 
+# 6. ** Add SSL/TLS / mTLS**
 
 # Setup socketIO client
-socket = socketio.Client(
+socket = socketio.Client( 
     reconnection=True, 
     reconnection_attempts=10, 
     reconnection_delay=1,
-    reconnection_delay_max=30)
+    reconnection_delay_max=30)#client will attempt to reconnect when disconnected
 
 @socket.event
 def connect():
@@ -84,12 +81,18 @@ def event_listen(socket,camera_ip: str, port: int, demo : bool, stream: str = "s
 
             try:
                 detections=Process_video(rtsp_path, model)
+                if( -1 == detections or None== detections):
+                    error_message = "Error Unable to open video stream"
+                    alert_server(socket,camera_ip,port,error_message)
+                    continue
                 expDate=find_exp_date(detections,class_list)
                 fimg=DrawOnImage(expDate)
                 sendToDB(socket,camera_ip,port,expDate)
                 sendToMongo(socket,camera_ip,port,fimg)
             except Exception as e:
                 print(f"Error processing video: {e}")
+                error_message = "Error processing video"
+                alert_server(socket,camera_ip,port,error_message)
 
     print(f"Stopped event listener for camera {camera_ip}:{port}...")
 
@@ -115,7 +118,7 @@ threads = []
 for ip, port,stream in camera_info:
     thread = threading.Thread(target=event_listen,
                     args=(socket, ip, port,stream,True), # we are in demo, so True
-                    daemon=False)
+                    daemon=False) # since we have added join, we can use daemon = True, for now I will leave it as False for future work of improving this logic
     threads.append(thread)
     thread.start()
 

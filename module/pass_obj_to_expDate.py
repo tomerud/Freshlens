@@ -13,8 +13,6 @@ from fruit_veg_freshness import fresh_rotten
 #    - might be better to detections[i][3]
 #    - Change the type hinting - first element is the photo the rest are str
 
-# 3. **exp_date for fruits and veg**
-#    - need to implement
 
 
 
@@ -22,6 +20,10 @@ if __name__ == "__main__":
     def find_exp_date(detections:List[Tuple[int, int,Any]],class_list:List[str]) ->List[Tuple[int,int,Tuple[int, int, int, int],str]]:  
     # the function is responsible to manage to what function the image is passed on for analysis
     # Returns: List of (object_id,class_id,bounding_boxes,exp_date)
+
+        if (len(detections)==1): # mean didnt detect any objects, detections[0] is the shelf
+            return detections
+
         model_date_path = "Models/DateDetection.pt"
         model_date_detect = YOLO(model_date_path)
         model_date_detect.eval()

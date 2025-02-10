@@ -9,28 +9,12 @@ import threading
 from datetime import datetime
 # TODO:
 
-# 1. **Video Stream Error Handling**:
-#    - Add error handling for situations where the RTSP stream or video file cannot be opened (`cv2.VideoCapture`).
-
-# 2. **Video Stream Reading**:
-#    - Handle cases where `cap.read()` fails to read a frame (e.g., skip the frame or implement retries).
-
-# 3. **Debugging and Visualization**:
+# 1. **Debugging and Visualization**:
 #    - Remove or conditionally disable debug print statements (`YOLO Detection` and `DeepSORT Track` printouts) after testing.
 
-# 4. **DeepSort**:
+# 2. **DeepSort**:
 #    - Add loading and saving of the deepsort intalization, so can restore last detection tracking ID from the camera
 #    - Make sure all the xyxy and xywh format are rights and passed as needed
-
-# 5. **LastFrame**:
-#    - Send LastFrame photo with bounding boxes (color by exp date) to mongoDB : Understand from Tomer Format
-#    - Resize / upscale / improve resolution of pictures
-
-# 6. **Return**:
-#    - change return to class id
-#    - do we really need to return the bounding boxes? or just the cropped image?
-
-
 
 
 if __name__ == "__main__":
@@ -41,9 +25,17 @@ if __name__ == "__main__":
         Detected_products = []  # List to store Track_id(object id), class_id,bounding_box,img]
         # Open video capture
         cap = cv2.VideoCapture(rtsp_path)
-        if not cap.isOpened():
-            print("Error - was not able to open video file")
-            return
+        retry_count = 5
+        for i in range(retry_count):
+            cap = cv2.VideoCapture(rtsp_path)
+            if cap.isOpened():
+                break
+            print(f"Failed to open stream. Retrying... ({i}")
+            time.sleep(i+1)  # Sleep before retrying
+        else:
+            print("Error - unable to open video stream after several retries.")
+            return -1 
+
         
         # List of class names
         class_list = [class_name for _, class_name in sorted(model.names.items())]
@@ -65,8 +57,17 @@ if __name__ == "__main__":
         #try read stream
         while cap.isOpened():
             ret, frame = cap.read()
-            if not ret:
-                break    
+            retry_count = 3
+            for i in range(retry_count):
+                ret, frame = cap.read()
+                if ret:
+                    break
+                print(f"Failed to read frame. Retrying... ({i}")
+                time.sleep(1)  # Sleep before retrying
+            else:
+                print("Error - unable to read frame after several retries.")
+                continue  # Skip this frame and continue processing the next one
+
                 
             # Initialize a list to store objects for the current frame
             last_frame_objects = []

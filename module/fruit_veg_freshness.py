@@ -9,15 +9,13 @@ from datetime import datetime, timedelta
 
 # 2. **calculating the exp date based on scale**
 #    - expand the number of fruits and veg
+#    - fix the base shelf life of the products
 #    - cls = int(box.cls[0])  Class ID (0 for Fresh, 1 for Rotten - might need to fix)
 
 # 3. expiration date formating:
 #    - make sure yyyy-mm-dd
 #    - tomer : is it datetime or str?
 
-# 4. **shelf life**
-#    - fix the base shelf life of the products
-#    - add more fruits and veg to the table
 
 def estimate_expiration(fruit: str, freshness_label: str, confidence: float) -> datetime:
     #  Recive fruit/veg type and freshness score and calcualte expiration

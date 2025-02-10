@@ -1,13 +1,55 @@
-# Ignore the node_modules directory
-node_modules/
-
-# Ignore all log files
-*.log
-
-# Ignore all .env files
-.env
-
-# Ignore all files in temp folder
-temp/
-
+# Bytecode files
+*.pyc
+*.pyo
+*.pyd
 __pycache__/
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Virtual environment directories
+venv/
+env/
+ENV/
+.venv/
+
+
+# Flask-specific files
+instance/
+*.db
+*.sqlite3
+
+# Logs and runtime files
+*.log
+logs/
+*.pid
+*.seed
+*.bak
+*.swp
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Testing
+.coverage
+*.cover
+coverage/
+htmlcov/
+
+# Distribution/build
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore PEM files (private keys, certificates, etc.)
+*.pem
