@@ -254,7 +254,9 @@ def insert_demo_data_to_product_table():
         ]
 
     for product in products:
+        print("hi")
         result = execute_query("SELECT category_id FROM categories WHERE category_name = %s", (product["category_name"],), fetch_one=True)
+        print(result)
 
         if result:
             category_id = result['category_id']

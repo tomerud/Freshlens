@@ -91,3 +91,33 @@ def get_product_name_from_db(product_id):
         FROM freshlens.product_global_info p 
         WHERE p.product_id = %s
     """, (product_id,))
+
+def get_fridge_products_with_expiry_dates(fridge_id):
+    """
+    Retrieves all products and their anticipated expiration dates for a given fridge,
+    and returns them as a formatted string.
+
+    Args:
+        fridge_id (int): The ID of the fridge.
+
+    Returns:
+        str: A string where each product name is followed by its expiration date.
+    """
+    result = execute_query("""
+        SELECT p.product_name, i.anticipated_expiry_date
+        FROM product_global_info p
+        JOIN item i ON p.product_id = i.product_id
+        JOIN camera ca ON i.camera_ip = ca.camera_ip
+        WHERE ca.fridge_id = %s
+        ORDER BY p.product_name, i.anticipated_expiry_date
+    """, (fridge_id,))
+
+    # Create a list to hold formatted strings
+    product_entries = []
+
+    for product_name, expiry_date in result:
+        formatted_entry = f"{product_name}: {expiry_date}"
+        product_entries.append(formatted_entry)
+
+    # Join all entries into a single string
+    return ', '.join(product_entries)
