@@ -3,7 +3,30 @@
 2. use Fake-stream for sending IP camera feed
 
 3. virtual enviroment command:
-python -m venv venv_name
-venv_name\Scripts\activate
+python -m venv venv
+venv\Scripts\activate
 deactivate
 pip install -r requirements.txt
+
+
+
+Backend Connection Design:
+
+Decision:
+- Use a single shared socket for all cameras, guarded by a thread lock to enforce sequential access,
+  so we avoid concurrency issues.
+- Socket auto reconnects with exponential backoff - we have set it to 10 tries, with max delay of 30.
+
+Rationale:
+- Avoids managing multiple connections.
+- Avoids overwhelming the server with excessive connections.
+
+Known Limitations:
+- Potential throughput bottleneck.
+- Latency increases if cameras block each other waiting for the lock.
+
+Future Considerations:
+- Switch to multiple sockets.
+- Learn more about Asyncio as an alternative to threading.
+- Consider multiprocessing due to GIL limitations.
+- Tune reconnection parameters appropriately.

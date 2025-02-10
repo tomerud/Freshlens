@@ -18,7 +18,7 @@ from datetime import datetime
 
 
 if __name__ == "__main__":
-    def Process_video(rtsp_path:str, model: YOLO,Record:bool=False) -> List[Tuple[int,int,Tuple[int, int, int, int],Image.Image]]: #Record is for presentation and debugging purpose only
+    def process_video(rtsp_path:str, model: YOLO,Record:bool=False) -> List[Tuple[int,int,Tuple[int, int, int, int],Image.Image]]: #Record is for presentation and debugging purpose only
         #   Recive Video by RTSP, detect and track objects in the video
         #   Returns:Id of the object (product), id of class, bounding boxes of the product and Image of product 
 
@@ -154,15 +154,15 @@ MODEL_PATH = "Models/ProductDetection.pt"
 # Load YOLO model
 detection_model = YOLO(MODEL_PATH)
 PATH="assets/freshlens2.mp4"
-res= Process_video(PATH,detection_model)
+res= process_video(PATH,detection_model)
 
-from DrawBB import DrawOnImage 
+from draw_bb import draw_on_image 
 res[1] = (res[1][0], res[1][1], res[1][2], "2025-02-08")
 res[2] = (res[2][0], res[2][1], res[2][2], "2025-02-13")
 res[3] = (res[3][0], res[3][1], res[3][2], "2025-02-05")
 
 save_path = "assets/shelf.jpg"
-draw=DrawOnImage(res)
+draw=draw_on_image(res)
 draw = cv2.cvtColor(np.array(draw), cv2.COLOR_RGB2BGR)
 cv2.imwrite(save_path, draw)
 print(f"Image saved at: {save_path}")
