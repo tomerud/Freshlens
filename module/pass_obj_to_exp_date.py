@@ -7,7 +7,7 @@ which will be able to detect the expiration date for the spesific product
 
 from typing import Tuple, List, Any
 from ultralytics import YOLO
-from ClosedProductsOCR import ProductsExpDates
+from ClosedProductsOCR import products_exp_dates
 from fruit_veg_freshness import fresh_rotten
 from Kmeans import kmeans_expdate
 
@@ -20,7 +20,8 @@ from Kmeans import kmeans_expdate
 #    - might be better to detections[i][3]
 #    - Change the type hinting - first element is the photo the rest are str
 
-def find_exp_date(detections: List[Tuple[int, int, Any]], class_list: List[str]) -> List[Tuple[int, int, Tuple[int, int, int, int], str]]:
+def find_exp_date(detections: List[Tuple[int, int, Any]], class_list: List[str]
+) -> List[Tuple[int, int, Tuple[int, int, int, int], str]]:
     """
     Determines right function to pass the object to.
     Return: updated list with expiration dates for each detected object.
@@ -46,7 +47,7 @@ def find_exp_date(detections: List[Tuple[int, int, Any]], class_list: List[str])
             identifier = class_list[class_id]
             exp_date = fresh_rotten(model_freshness_detect, detections[i][3], identifier)
         else:
-            exp_date = ProductsExpDates(model_date_detect, detections[i][3])
-        detections[i] = (detections[0], detections[1], detections[2], exp_date)
+            exp_date = products_exp_dates(model_date_detect, detections[i][3])
+        detections[i] = (detections[i][0], detections[i][1], detections[i][2], exp_date)
 
     return detections  # Ensure consistency with return statements

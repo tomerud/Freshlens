@@ -69,7 +69,7 @@ def extract_text_from_boxes(image: Image, boxes: List[Tuple[float, float, float,
     return ocr_results
 
 
-def ProductsExpDates(model: YOLO, product: Image.Image) -> Tuple[int,int,Tuple[int, int, int, int],str]:
+def products_exp_dates(model: YOLO, product: Image.Image) -> Tuple[int,int,Tuple[int, int, int, int],str]:
 #   handle the logic of getting Products Exp dates
 #   Returns:  Expiry date
     
@@ -87,7 +87,7 @@ def ProductsExpDates(model: YOLO, product: Image.Image) -> Tuple[int,int,Tuple[i
     due_boxes = [box for box in boxes if model.names[int(box.cls)] == "due"]
 
     if due_boxes:
-      date_boxes = Best_Canidate_Date(date_boxes,due_boxes) # reutrn 1 or more boxes
+      date_boxes = best_candidate_date(date_boxes,due_boxes) # reutrn 1 or more boxes
     adjusted_boxes = adjust_boxes(date_boxes, scale, pad_left, pad_top)
 
     # Pass the product image and adjusted boxes to Tesseract OCR
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     # Load the YOLO model
     model = YOLO(model_path)
     model.eval()
-    ocr=ProductsExpDates(model,rotated_img)
+    ocr=products_exp_dates(model,rotated_img)
     print(ocr)
     for k in ocr:
         print(k["text"])

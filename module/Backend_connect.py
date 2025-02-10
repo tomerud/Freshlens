@@ -16,7 +16,6 @@ from PIL import Image
 # 2. Create Readme file
 # 3. Fix reconnection in MongoDB
 
-
 lock = threading.Lock()
 MAX_RETRIES = 10  # Max attempts before giving up
 RETRY_DELAY = 1   # Time (in seconds) to wait between retries

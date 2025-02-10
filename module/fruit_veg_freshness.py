@@ -25,7 +25,7 @@ from pre_proccess import resize_with_letterbox
 
 def estimate_expiration(fruit: str, freshness_label: str, confidence: float) -> datetime:
     """
-    Estimate the expiration date of the fruit or vegetable based on its freshness and confidence score.
+    Estimate the expiration date based on its freshness and confidence score.
     Return: The estimated expiration date.
     """
     # Base shelf lives (in days) for the fruit when fresh. These numbers are approximate.
@@ -88,8 +88,7 @@ def fresh_rotten(model: YOLO, produce: Image.Image, identifier_type: str):
         expiration_date = estimate_expiration(identifier_type, label, conf)
 
         return expiration_date
-    else:
-        return None  # Error: detection failed
+    return None  # Error: detection failed
 
 # Example usage:
 if __name__ == "__main__":

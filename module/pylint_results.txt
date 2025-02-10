@@ -20,7 +20,7 @@ Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\backend_connec
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\backend_connect.py:14: warning (W0511, fixme, ) TODO:
  
  ------------------------------------------------------------------
- Your code has been rated at 9.81/10 (previous run: 9.81/10, +0.00)
+ Your code has been rated at 9.71/10 (previous run: 9.71/10, +0.00)
  
  
 
@@ -33,7 +33,7 @@ Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProducts
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:26: convention (C0301, line-too-long, ) Line too long (117/100)
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:50: convention (C0301, line-too-long, ) Line too long (101/100)
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:56: convention (C0301, line-too-long, ) Line too long (108/100)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:72: convention (C0301, line-too-long, ) Line too long (104/100)
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:72: convention (C0301, line-too-long, ) Line too long (106/100)
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:75: convention (C0303, trailing-whitespace, ) Trailing whitespace
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:86: warning (W0311, bad-indentation, ) Bad indentation. Found 6 spaces, expected 8
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:90: warning (W0311, bad-indentation, ) Bad indentation. Found 6 spaces, expected 8
@@ -41,15 +41,13 @@ Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProducts
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:13: warning (W0511, fixme, ) TODO:
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:1: convention (C0114, missing-module-docstring, ) Missing module docstring
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:1: convention (C0103, invalid-name, ) Module name "ClosedProductsOCR" doesn't conform to snake_case naming style
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:11: error (E0611, no-name-in-module, ) No name 'Best_Canidate_Date' in module 'pre_proccess'
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:26: convention (C0116, missing-function-docstring, extract_text_from_boxes) Missing function or method docstring
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:26: refactor (R0914, too-many-locals, extract_text_from_boxes) Too many local variables (17/15)
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:52: error (E1101, no-member, extract_text_from_boxes) Module 'cv2' has no 'morphologyEx' member
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:52: error (E1101, no-member, extract_text_from_boxes) Module 'cv2' has no 'MORPH_CLOSE' member
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:72: convention (C0116, missing-function-docstring, ProductsExpDates) Missing function or method docstring
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:72: convention (C0103, invalid-name, ProductsExpDates) Function name "ProductsExpDates" doesn't conform to snake_case naming style
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:72: refactor (R0914, too-many-locals, ProductsExpDates) Too many local variables (17/15)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:72: warning (W0621, redefined-outer-name, ProductsExpDates) Redefining name 'model' from outer scope (line 125)
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:72: convention (C0116, missing-function-docstring, products_exp_dates) Missing function or method docstring
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:72: refactor (R0914, too-many-locals, products_exp_dates) Too many local variables (17/15)
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:72: warning (W0621, redefined-outer-name, products_exp_dates) Redefining name 'model' from outer scope (line 125)
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:119: convention (C0103, invalid-name, ) Constant name "model_path" doesn't conform to UPPER_CASE naming style
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:120: convention (C0103, invalid-name, ) Constant name "image_path" doesn't conform to UPPER_CASE naming style
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:10: convention (C0411, wrong-import-order, ) standard import "import math" should be placed before "import easyocr"
@@ -58,7 +56,7 @@ Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProducts
  C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\ClosedProductsOCR.py:6: warning (W0611, unused-import, ) Unused import torch
  
  ------------------------------------------------------------------
- Your code has been rated at 4.00/10 (previous run: 4.00/10, +0.00)
+ Your code has been rated at 4.92/10 (previous run: 4.92/10, +0.00)
  
  
 
@@ -157,25 +155,9 @@ Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_tra
 Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py
 ========================================
 
-************* Module draw_bb
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:19: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:24: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:25: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:26: convention (C0301, line-too-long, ) Line too long (111/100)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:27: convention (C0301, line-too-long, ) Line too long (116/100)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:28: convention (C0301, line-too-long, ) Line too long (101/100)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:30: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:32: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:40: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:42: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:45: convention (C0305, trailing-newlines, ) Trailing newlines
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:18: convention (C0116, missing-function-docstring, draw_on_image) Missing function or method docstring
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:41: error (E1101, no-member, draw_on_image) Module 'cv2' has no 'rectangle' member
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:13: convention (C0411, wrong-import-order, ) standard import "from datetime import datetime" should be placed before "import cv2"
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py:15: convention (C0411, wrong-import-order, ) standard import "from typing import List, Tuple" should be placed before "import cv2"
- 
- ------------------------------------------------------------------
- Your code has been rated at 0.95/10 (previous run: 0.95/10, +0.00)
+
+ --------------------------------------------------------------------
+ Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
  
  
 
@@ -184,21 +166,14 @@ Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_fres
 ========================================
 
 ************* Module fruit_veg_freshness
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:37: convention (C0301, line-too-long, ) Line too long (103/100)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:99: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:101: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:103: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:110: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:112: convention (C0303, trailing-whitespace, ) Trailing whitespace
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:22: warning (W0511, fixme, ) TODO:
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:67: warning (W0621, redefined-outer-name, estimate_expiration) Redefining name 'expiration_date' from outer scope (line 124)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:87: warning (W0621, redefined-outer-name, fresh_rotten) Redefining name 'model' from outer scope (line 119)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:111: warning (W0621, redefined-outer-name, fresh_rotten) Redefining name 'expiration_date' from outer scope (line 124)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:104: refactor (R1705, no-else-return, fresh_rotten) Unnecessary "else" after "return", remove the "else" and de-indent the code inside it
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:122: convention (C0103, invalid-name, ) Constant name "fruit_type" doesn't conform to UPPER_CASE naming style
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:13: warning (W0511, fixme, ) TODO:
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:51: warning (W0621, redefined-outer-name, estimate_expiration) Redefining name 'expiration_date' from outer scope (line 100)
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:71: warning (W0621, redefined-outer-name, fresh_rotten) Redefining name 'model' from outer scope (line 95)
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:88: warning (W0621, redefined-outer-name, fresh_rotten) Redefining name 'expiration_date' from outer scope (line 100)
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:98: convention (C0103, invalid-name, ) Constant name "fruit_type" doesn't conform to UPPER_CASE naming style
  
  ------------------------------------------------------------------
- Your code has been rated at 7.50/10 (previous run: 7.50/10, +0.00)
+ Your code has been rated at 8.96/10 (previous run: 8.96/10, +0.00)
  
  
 
@@ -220,18 +195,15 @@ Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\Kmeans.py
  
 
 ========================================
-Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_expDate.py
+Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py
 ========================================
 
-************* Module pass_obj_to_expDate
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_expDate.py:28: convention (C0301, line-too-long, ) Line too long (138/100)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_expDate.py:37: convention (C0301, line-too-long, ) Line too long (123/100)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_expDate.py:19: warning (W0511, fixme, ) TODO:
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_expDate.py:1: convention (C0103, invalid-name, ) Module name "pass_obj_to_expDate" doesn't conform to snake_case naming style
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_expDate.py:54: error (E1111, assignment-from-no-return, find_exp_date) Assigning result of a function call, where the function has no return
+************* Module pass_obj_to_exp_date
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:14: warning (W0511, fixme, ) TODO:
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:44: error (E1111, assignment-from-no-return, find_exp_date) Assigning result of a function call, where the function has no return
  
  ------------------------------------------------------------------
- Your code has been rated at 6.40/10 (previous run: 6.40/10, +0.00)
+ Your code has been rated at 7.60/10 (previous run: 7.60/10, +0.00)
  
  
 
@@ -240,9 +212,9 @@ Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pre_proccess.p
 ========================================
 
 ************* Module pre_proccess
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pre_proccess.py:29: convention (C0301, line-too-long, ) Line too long (103/100)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pre_proccess.py:59: convention (C0301, line-too-long, ) Line too long (123/100)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pre_proccess.py:25: warning (W0511, fixme, ) TODO:
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pre_proccess.py:21: convention (C0301, line-too-long, ) Line too long (103/100)
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pre_proccess.py:46: convention (C0301, line-too-long, ) Line too long (123/100)
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pre_proccess.py:17: warning (W0511, fixme, ) TODO:
  
  ------------------------------------------------------------------
  Your code has been rated at 9.48/10 (previous run: 9.48/10, +0.00)
@@ -250,16 +222,17 @@ Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pre_proccess.p
  
 
 ========================================
-Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py
+Results for: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\Scheduler.py
 ========================================
 
-************* Module scheduler
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:56: convention (C0301, line-too-long, ) Line too long (103/100)
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:27: warning (W0511, fixme, ) TODO:
- C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:94: refactor (R0913, too-many-arguments, handle_light_detected) Too many arguments (6/5)
+************* Module Scheduler
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\Scheduler.py:49: convention (C0301, line-too-long, ) Line too long (103/100)
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\Scheduler.py:20: warning (W0511, fixme, ) TODO:
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\Scheduler.py:1: convention (C0103, invalid-name, ) Module name "Scheduler" doesn't conform to snake_case naming style
+ C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\Scheduler.py:81: refactor (R0913, too-many-arguments, handle_light_detected) Too many arguments (6/5)
  
  ------------------------------------------------------------------
- Your code has been rated at 9.52/10 (previous run: 9.52/10, +0.00)
+ Your code has been rated at 9.37/10 (previous run: 9.37/10, +0.00)
  
  
 

@@ -41,7 +41,7 @@ def draw_on_image(
         else:
             color = (0, 255, 0)  # Fresh (Green)
 
-        cv2.rectangle(
+        cv2.rectangle(# pylint: disable=E1101
             image, (x_min, y_min), (x_max, y_max), color, 2
         )
 
