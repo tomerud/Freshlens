@@ -106,7 +106,7 @@ def load_canadial_prices_from_kaggle():
 
     df.columns = df.columns.str.replace(" ", "_").str.lower()
     data_to_insert = [
-        (row["name"], clean_price(row["price"]))  # ✅ Cleans price and converts to float
+        (row["name"], clean_price(row["price"]))
         for _, row in df.iterrows()
         ]
     
@@ -153,4 +153,4 @@ def insert_new_product_to_db(product_name, category_id):
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """, (product_name, category_id, serving_size, energy, protein, fat, saturated_fat, carbs, sugars, fiber, sodium))
 
-    print(f"✅ Product '{product_name}' inserted successfully under category_id={category_id}.")
+    print(f"Product '{product_name}' inserted successfully under category_id={category_id}.")

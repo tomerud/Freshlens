@@ -78,14 +78,6 @@ def create_tables():
                     FOREIGN KEY (camera_ip) REFERENCES camera(camera_ip)
                 )
             """,
-            # "products_prices": """
-            #     CREATE TABLE IF NOT EXISTS products_prices (
-            #         product_code VARCHAR(50) UNIQUE NOT NULL PRIMARY KEY,
-            #         product_name VARCHAR(255) NOT NULL,
-            #         price DECIMAL(10,2) NOT NULL,
-            #         manufacturer_description TEXT
-            #     );
-            # """,
             "canadian_products_prices": """
                 CREATE TABLE IF NOT EXISTS canadian_products_prices (
                     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -101,14 +93,14 @@ def create_tables():
 
 def drop_all_tables():
     tables = {
-            "item": """DROP TABLE item""",
-            "camera": """DROP TABLE camera""",
-            "fridges": """DROP TABLE fridges""",
-            "users": """DROP TABLE users""",
-            "subscription": """DROP TABLE subscription""",
-            "product_global_info": """DROP TABLE product_global_info""",
-            "categories": """DROP TABLE categories""",
-            "canadian_products_prices": """DROP TABLE canadian_products_prices"""
+            "item": """DROP TABLE IF EXISTS item""",
+            "camera": """DROP TABLE IF EXISTS camera""",
+            "fridges": """DROP TABLE IF EXISTS fridges""",
+            "users": """DROP TABLE IF EXISTS users""",
+            "subscription": """DROP TABLE IF EXISTS subscription""",
+            "product_global_info": """DROP TABLE IF EXISTS product_global_info""",
+            "categories": """DROP TABLE IF EXISTS categories""",
+            "canadian_products_prices": """DROP TABLE IF EXISTS canadian_products_prices"""
         }
 
     for table_name, table_sql in tables.items():
@@ -254,9 +246,7 @@ def insert_demo_data_to_product_table():
         ]
 
     for product in products:
-        print("hi")
         result = execute_query("SELECT category_id FROM categories WHERE category_name = %s", (product["category_name"],), fetch_one=True)
-        print(result)
 
         if result:
             category_id = result['category_id']
@@ -299,9 +289,10 @@ def insert_demo_data_to_all_tables():
     insert_demo_data_to_fridge_table()
     insert_demo_data_to_camera_table()
     insert_demo_data_to_item_table()
+    load_canadial_prices_from_kaggle()
 
 if __name__ == "__main__":
-    # drop_all_tables()
-    # create_tables()
-    # insert_demo_data_to_all_tables()
-    load_canadial_prices_from_kaggle()
+    drop_all_tables()
+    create_tables()
+    insert_demo_data_to_all_tables()
+    
