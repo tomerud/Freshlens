@@ -30,7 +30,7 @@ export const AddFridge = () => {
     },
 
     onSuccess: () => {setFridgeName("");      
-      setSuccessMessage("✅ Fridge added successfully!");
+      setSuccessMessage("Fridge added successfully!");
       setTimeout(() => setSuccessMessage(null), 2000);
     }
   });
