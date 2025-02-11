@@ -73,6 +73,7 @@ def create_tables():
                     camera_ip VARCHAR(255),
                     date_entered DATE,
                     anticipated_expiry_date DATE,
+                    remove_from_fridge_date DATE,
                     is_rotten BOOLEAN,
                     FOREIGN KEY (product_id) REFERENCES product_global_info(product_id),
                     FOREIGN KEY (camera_ip) REFERENCES camera(camera_ip)
@@ -145,6 +146,7 @@ def insert_demo_data_to_item_table():
         camera_ip = "192.168.1.100"
         date_entered = date.today() - timedelta(days=random.randint(0, 5))
         anticipated_expiry_date = date_entered + timedelta(days=days_to_expiry)
+        remove_from_fridge_date = date_entered + timedelta(days=random.randint(0, days_to_expiry + 5))
         is_rotten = random.choice([False, False, False, True])  # 75% chance not rotten
 
         insert_item_to_db(
@@ -154,6 +156,7 @@ def insert_demo_data_to_item_table():
             camera_ip=camera_ip,
             date_entered=date_entered,
             anticipated_expiry_date=anticipated_expiry_date,
+            remove_from_fridge_date=remove_from_fridge_date,
             is_rotten=is_rotten
         )
 
