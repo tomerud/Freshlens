@@ -1,10 +1,10 @@
 from mysqlDB.db_utils import execute_query
 
-def insert_item_to_db(item_id, is_inserted_by_user, product_id, camera_ip, date_entered, anticipated_expiry_date, is_rotten):
+def insert_item_to_db(item_id, is_inserted_by_user, product_id, camera_ip, date_entered, anticipated_expiry_date, remove_from_fridge_date, is_rotten):
     execute_query("""
-        INSERT INTO item (item_id, is_inserted_by_user, product_id, camera_ip, date_entered, anticipated_expiry_date, is_rotten)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-    """, (item_id, is_inserted_by_user, product_id, camera_ip, date_entered, anticipated_expiry_date, is_rotten))
+        INSERT INTO item (item_id, is_inserted_by_user, product_id, camera_ip, date_entered, anticipated_expiry_date, remove_from_fridge_date, is_rotten )
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    """, (item_id, is_inserted_by_user, product_id, camera_ip, date_entered, anticipated_expiry_date, remove_from_fridge_date, is_rotten))
     
     print(f"Item inserted: item_id={item_id}, product_id={product_id}, camera_ip={camera_ip}")
 
