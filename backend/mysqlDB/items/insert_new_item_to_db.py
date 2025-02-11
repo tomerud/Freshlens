@@ -1,4 +1,4 @@
-from DB.db_utils import execute_query
+from mysqlDB.db_utils import execute_query
 
 def insert_item_to_db(item_id, is_inserted_by_user, product_id, camera_ip, date_entered, anticipated_expiry_date, is_rotten):
     execute_query("""

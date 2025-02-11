@@ -24,7 +24,7 @@ from datetime import datetime
 
 # 5. **LastFrame**:
 #    - Send LastFrame photo with bounding boxes (color by exp date) to mongoDB : Understand from Tomer Format
-#    - Resize / upscale / improve resolution of pictures
+#    - Resize / upscale / improve resolution of images
 
 # 6. **Return**:
 #    - change return to class id

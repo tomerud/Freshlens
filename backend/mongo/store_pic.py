@@ -3,10 +3,8 @@ import gridfs
 import base64
 from io import BytesIO
 from PIL import Image
-import os
 from datetime import datetime
 
-# Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")
 db = client["image_database"]
 fs = gridfs.GridFS(db)

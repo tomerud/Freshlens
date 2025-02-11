@@ -1,12 +1,12 @@
 from datetime import date, timedelta
 import random
-from DB.camera.insert_camera_to_db import insert_camera_to_db
-from DB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
-from DB.items.insert_new_item_to_db import get_all_products_from_db, insert_item_to_db
-from DB.products.insert_new_products_to_db import insert_new_category_to_db, insert_new_product_to_db, load_canadial_prices_from_kaggle
-from DB.user.insert_user_to_db import insert_new_user
+from mysqlDB.camera.insert_camera_to_db import insert_camera_to_db
+from mysqlDB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
+from mysqlDB.items.insert_new_item_to_db import get_all_products_from_db, insert_item_to_db
+from mysqlDB.products.insert_new_products_to_db import insert_new_category_to_db, insert_new_product_to_db, load_canadian_prices_from_kaggle
+from mysqlDB.user.insert_user_to_db import insert_new_user
 
-from DB.db_utils import execute_query
+from mysqlDB.db_utils import execute_query
 
 def create_tables():
     tables = {
@@ -289,7 +289,7 @@ def insert_demo_data_to_all_tables():
     insert_demo_data_to_fridge_table()
     insert_demo_data_to_camera_table()
     insert_demo_data_to_item_table()
-    load_canadial_prices_from_kaggle()
+    load_canadian_prices_from_kaggle()
 
 if __name__ == "__main__":
     drop_all_tables()

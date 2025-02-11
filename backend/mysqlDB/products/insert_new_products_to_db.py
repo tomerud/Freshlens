@@ -1,5 +1,3 @@
-# DB/products/insert_new_products_to_db.py
-
 import os
 import re
 from flask import json
@@ -97,7 +95,7 @@ def clean_price(price_str):
     return 0.0
 
 
-def load_canadial_prices_from_kaggle():
+def load_canadian_prices_from_kaggle():
     df = kagglehub.load_dataset(
             KaggleDatasetAdapter.PANDAS,
             os.getenv("KAGGLE_DATASET"),

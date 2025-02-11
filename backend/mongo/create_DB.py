@@ -2,7 +2,6 @@ from pymongo import MongoClient
 import gridfs
 import os
 
-# Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")
 db = client["image_database"]  
 
@@ -15,4 +14,7 @@ def store_image(file_path):
         image_id = fs.put(image_file, filename=filename)  
     print(f"Image stored with ID(should be camera ip): {image_id}, Filename {filename}")
 
-store_image(r"C:\studies\fourth year\eccomerce backup 2\ecommerce\backend\Non_Rel_DB\pics\cucamber.jpeg") # replace with your url
+relative_path = os.path.join("backend", "mongo", "images", "cucamber.jpeg")
+absolute_path = os.path.abspath(relative_path)
+
+store_image(absolute_path)

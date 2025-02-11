@@ -1,45 +1,72 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-
-import './fridgePage.scss';
+import { useSearch } from '../allFridgesPage/hooks/useSearch';
 import { FridgeHeader } from './fridgeHeader';
 
+import './FridgePage.scss';
+
 interface Category {
-  category_id: number;
-  category_name: string;
+    category_id: number;
+    category_name: string;
 }
 
-const fetchData = async (fridgeId: number): Promise<Category[]> => {
-  const response = await fetch(`/api/get_all_categories?fridge_id=${fridgeId}`);
+interface Fridge {
+    fridge_id: string;
+    fridge_name: string;
+}
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch data');
-  }
-  return await response.json();
+const fetchCategories = async (fridgeId: string): Promise<Category[]> => {
+    const response = await fetch(`/api/get_all_categories?fridge_id=${fridgeId}`);
+    if (!response.ok) throw new Error('Failed to fetch categories');
+    return await response.json();
+};
+
+const fetchFridgeName = async (fridgeId: string): Promise<Fridge> => {
+    const response = await fetch(`/api/get_fridge_name?fridge_id=${fridgeId}`);
+    if (!response.ok) throw new Error('Failed to fetch fridge name');
+    return await response.json();
 };
 
 export const FridgePage = () => {
-  const navigate = useNavigate();
-  const { fridgeId } = useParams<{ fridgeId: string }>();
+    const { fridgeId } = useParams<{ fridgeId: string }>();
 
-  const { data: categories = [], isLoading, error } = useQuery<Category[], Error>({
-    queryKey: ['categories', fridgeId],
-    queryFn: () => fetchData(fridgeId),
-  });
+    const { data: categories = [], isLoading: loadingCategories, error: categoryError } = useQuery<Category[], Error>({
+        queryKey: ['categories', fridgeId],
+        queryFn: () => fetchCategories(fridgeId!),
+    });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+    const { data: fridge, isLoading: loadingFridge, error: fridgeError } = useQuery<Fridge, Error>({
+        queryKey: ['fridgeName', fridgeId],
+        queryFn: () => fetchFridgeName(fridgeId!),
+    });
 
-  return (
-    <div>
-      <FridgeHeader title={'My fridge'} subtitle="All my fridge products"/>
-      <div className="category-list">
-        {categories?.map((category) => (
-          <Link key={category.category_id} to={`${category.category_name}`} className="category-item">
-            {category.category_name}
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
+    const { filteredResults, setSearchQuery } = useSearch(categories, 
+        (category, query) => category.category_name.toLowerCase().includes(query)
+    );
+
+    if (loadingCategories || loadingFridge) return <p>Loading...</p>;
+    if (categoryError) return <p>Error loading categories: {categoryError.message}</p>;
+    if (fridgeError) return <p>Error loading fridge name: {fridgeError.message}</p>;
+
+    console.log(fridge)
+    return (
+        <div>
+            <FridgeHeader
+                title={fridge?.fridge_name || "My fridge"}
+                subtitle="Choose a category"
+                onSearch={setSearchQuery} 
+            />
+            <div className="category-list">
+                {filteredResults.length > 0 ? (
+                    filteredResults.map((category) => (
+                        <Link key={category.category_id} to={`${category.category_name}`} className="category-item">
+                            {category.category_name}
+                        </Link>
+                    ))
+                ) : (
+                    <p>No matching categories found.</p>
+                )}
+            </div>
+        </div>
+    );
 };

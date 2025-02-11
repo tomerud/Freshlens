@@ -1,5 +1,3 @@
-# DB/user/insert_user_to_db.py
-
 from datetime import date
 from time import strftime
 from ..db_utils import execute_query
