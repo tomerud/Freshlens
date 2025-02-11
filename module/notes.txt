@@ -30,3 +30,13 @@ Future Considerations:
 - Learn more about Asyncio as an alternative to threading.
 - Consider multiprocessing due to GIL limitations.
 - Tune reconnection parameters appropriately.
+
+products_ocr Design:
+
+filtering based on conf level (detail=1) is problematic
+because of the printing format of digits on exp dates
+
+finetuning ocr / crnn for exp dates detection
+A Generalized Framework for Recognition of Expiration Date on Product Packages
+
+            
