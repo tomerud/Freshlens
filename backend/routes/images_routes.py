@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, Response
+from flask import Blueprint, jsonify, Response
 from pymongo import MongoClient
 import gridfs
 import base64
@@ -25,11 +25,9 @@ def get_image():
         )
 
         if not latest_image:
-            print("latest_image")
             return jsonify({"error": f"No image found for user_id={user_id} and camera_ip={camera_ip}"}), 404
 
         image_data = latest_image.read()
-        print("image_data")
         image_base64 = base64.b64encode(image_data).decode('utf-8')
 
         return jsonify({
