@@ -1,5 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import "./camerasPage.scss";
 
 interface ImageResponse {
@@ -10,26 +9,28 @@ interface ImageResponse {
 }
 
 const fetchImage = async (): Promise<ImageResponse> => {
-  // GET request to the Flask endpoint (no body, since it’s hardcoded in Flask)
-  const response = await axios.get("/api/get_picture");
+  const response = await fetch("/api/get_image");
+  if (!response.ok) throw new Error("Failed to fetch image");
+  
+  const data = await response.json();
+  if (!data.image_base64) throw new Error("No image found");
 
-  if (!response.data.image_base64) {
-    throw new Error("No image found");
-  }
-  return response.data;
+  return data;
 };
 
 export const CamerasPage = () => {
-  const { mutate, data, isPending, error } = useMutation<ImageResponse, Error>({
-    mutationFn: fetchImage
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["cameraImage"],
+    queryFn: fetchImage,
+    enabled: false,
   });
 
   return (
     <div className="image-fetcher-container">
       <h2 className="title">Fetch Image for user123</h2>
-      <button onClick={() => mutate()}>Get Image</button>
+      <button onClick={() => refetch()}>Get Image</button>
 
-      {isPending && <div>Loading...</div>}
+      {isLoading && <div>Loading...</div>}
       {error && <div className="error">Error: {error.message}</div>}
 
       {data && (

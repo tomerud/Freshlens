@@ -39,7 +39,7 @@ export const NutrientData = () => {
 
   return (
     <div className="nutrient-container">
-      <h2 className="nutrient-title">Nutriant Facts</h2>
+      <h2 className="nutrient-title">Nutriant Values</h2>
       <span className="fridge-subtext">per 100gr</span>
       <p className="serving-size">
       </p>

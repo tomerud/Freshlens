@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from DB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
-from DB.products.products_queries import get_all_categories_from_db, get_fridge_product_items_from_db, get_fridge_products_by_category_from_db, get_product_name_from_db, get_product_nutrient_data, get_product_price_from_db
-from DB.fridge.get_fridges import get_fridges_from_db
+from mysqlDB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
+from mysqlDB.products.products_queries import get_all_categories_from_db, get_fridge_product_items_from_db, get_fridge_products_by_category_from_db, get_product_name_from_db, get_product_nutrient_data, get_product_price_from_db
+from mysqlDB.fridge.get_fridges import get_fridge_name_from_db, get_fridges_from_db
 
 
 fridge_bp = Blueprint('fridge_bp', __name__)
@@ -25,6 +25,16 @@ def get_all_fridges():
     fridges = get_fridges_from_db(user_id)
     
     return jsonify(fridges), 200
+
+@fridge_bp.route('/get_fridge_name', methods=['GET'])
+def get_fridge_name():
+    fridge_id = request.args.get("fridge_id")
+    if not fridge_id:
+        return jsonify({"error": "fridge_id query parameter is required."}), 400
+
+    fridge_names = get_fridge_name_from_db(fridge_id)
+  
+    return jsonify(fridge_names), 200
 
 
 @fridge_bp.route('/get_all_categories', methods=['GET'])

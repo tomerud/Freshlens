@@ -16,7 +16,7 @@ def DrawOnImage(detections: List[
     
     for detection in detections[1:]: 
         x_min, y_min, x_max, y_max = detection[2]  # Bounding box coordinates in (x_min, y_min, x_max, y_max) format
-        exp_date = detection[3]  # Expiry date (Index 3 in detection, instead of the product picture)
+        exp_date = detection[3]  # Expiry date (Index 3 in detection, instead of the product image)
 
         # Parse the expiry date string into a datetime object
         exp_date = datetime.strptime(exp_date, "%Y-%m-%d")  # Assuming date format is YYYY-MM-DD

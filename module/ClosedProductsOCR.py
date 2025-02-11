@@ -12,7 +12,7 @@ from PreProccess import resize_with_letterbox, adjust_boxes , Best_Canidate_Date
 
 #TODO:
 # 1. **Rotation**:
-#    - Add rotation to pictures as detexct (unless under 10? in ordedr to improve results): both sides rotate
+#    - Add rotation to images as detexct (unless under 10? in ordedr to improve results): both sides rotate
 #    - OR try to fine tune OCR
 
 # 2. **Validate Date** - Elya:

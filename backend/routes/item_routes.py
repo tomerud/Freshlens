@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from DB.items.insert_new_item_to_db import insert_item_to_db
+from mysqlDB.items.insert_new_item_to_db import insert_item_to_db
 from datetime import date
 
 item_bp = Blueprint('item_bp', __name__)
