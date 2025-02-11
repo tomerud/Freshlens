@@ -121,3 +121,16 @@ def get_fridge_products_with_expiry_dates(fridge_id):
 
     # Join all entries into a single string
     return ', '.join(product_entries)
+
+
+def about_to_expire_products(user_id):
+    # get only products that it lless then 20% time untill anticipated expiry date
+    return execute_query("""
+        SELECT p.product_id, p.product_name, i.anticipated_expiry_date
+        FROM product_global_info p
+        JOIN item i ON p.product_id = i.product_id
+        JOIN camera ca ON i.camera_ip = ca.camera_ip
+        join fridges f ON f.fridge_id = ca.fridge_id
+        where DATE_ADD(i.date_entered, INTERVAL (DATEDIFF(i.anticipated_expiry_date, i.date_entered) * 0.8) DAY) < CURDATE()
+                AND f.user_id = %s
+    """, (user_id, ))

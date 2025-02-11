@@ -32,7 +32,7 @@ export const FridgeHeader = ({ title, subtitle, showBackButton = true, onSearch 
 
   return (
     <>
-      <header className="header">
+      <header className="fridge-header">
         <button className={classNames("back-button", { hidden: !showBackButton })} onClick={() => navigate(-1)}>←</button>
 
         {showSearch ? (

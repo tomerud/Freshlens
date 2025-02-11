@@ -1,0 +1,60 @@
+.homepage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 25px;
+  height: 15%;
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .app-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+
+  .date {
+    font-size: 16px;
+    color: gray;
+    margin-top: -5px;
+  }
+
+  .header-icons {
+    display: flex;
+    gap: 12px;
+    position: relative;
+
+    .icon {
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    .notification-icon-container {
+      position: relative;
+      display: flex;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #f15e5e;
+      color: white;
+      font-size: 12px;
+  
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

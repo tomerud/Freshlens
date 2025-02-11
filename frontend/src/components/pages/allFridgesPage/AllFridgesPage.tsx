@@ -33,7 +33,7 @@ export const AllFridgesPage = () => {
     if (error) return <p>Error: {error.message}</p>;
 
     return (
-        <div className="fridge-page">
+        <>
             <FridgeHeader 
                 title="YOUR FRIDGES" 
                 subtitle="What fridge do you want to check?" 
@@ -51,6 +51,6 @@ export const AllFridgesPage = () => {
                     <p className="no-fridges">No matching fridges found.</p>
                 )}
             </div>
-        </div>
+        </>
     );
 };

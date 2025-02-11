@@ -1,5 +1,3 @@
-# mysql/user/insert_user_to_db.py
-
 from mysqlDB.db_utils import execute_query
 
 def insert_new_fridge_to_db(user_id, fridge_name):

@@ -9,7 +9,8 @@
   background: white;
   overflow: hidden;
   border-radius: 40px;
-  background: aliceblue;
+  background: #f8f9fa;
+
 }
 
 .content {
@@ -20,6 +21,6 @@
   flex-grow: 1;
   overflow-y: auto;
   height: calc(100% - 60px);
-  padding: 20px;
+  padding: 0 20px;
   padding-bottom: 100px;
 }
