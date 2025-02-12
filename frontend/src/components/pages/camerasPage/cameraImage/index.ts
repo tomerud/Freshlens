@@ -1,0 +1,1 @@
+export { CameraImage } from './CameraImage';

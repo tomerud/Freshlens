@@ -1,48 +1,52 @@
-from flask import Blueprint, jsonify, Response
-from pymongo import MongoClient
-import gridfs
-import base64
-from io import BytesIO
-from PIL import Image
+from flask import Blueprint, request, jsonify
 
-# MongoDB connection setup
-client = MongoClient("mongodb://localhost:27017/")
-db = client["image_database"]
-fs = gridfs.GridFS(db)
+from mongo.mongo_utils import get_latest_image_by_camera_ip
+from mysqlDB.user.user_queries import get_user_camera_ips
 
 image_bp = Blueprint('image_bp', __name__)
 
 @image_bp.route('/get_image', methods=['GET'])
 def get_image():
     try:
-        # Hardcode user_id and camera_ip
-        user_id = "user123"
-        camera_ip = "192.168.1.10"
+        user_id = request.args.get("user_id")
 
-        latest_image = fs.find_one(
-            {"metadata.user_id": user_id, "metadata.camera_ip": camera_ip},
-            sort=[("uploadDate", -1)]
-        )
+        if not user_id:
+            return jsonify({"error": "Missing user_id parameter"}), 400
 
-        if not latest_image:
-            return jsonify({"error": f"No image found for user_id={user_id} and camera_ip={camera_ip}"}), 404
+        camera_ips = get_user_camera_ips(user_id)
+        
+        if not camera_ips:
+            return jsonify({"error": f"No cameras found for user_id={user_id}"}), 404
 
-        image_data = latest_image.read()
-        image_base64 = base64.b64encode(image_data).decode('utf-8')
+        fridge_images = {}
+
+        for entry in camera_ips:
+            camera_ip = entry["camera_ip"]
+            fridge_id = entry["fridge_id"]
+            fridge_name = entry["fridge_name"]
+
+            image_data = get_latest_image_by_camera_ip(camera_ip)
+
+            if image_data:
+                if fridge_id not in fridge_images:
+                    fridge_images[fridge_id] = {
+                        "fridge_id": fridge_id,
+                        "fridge_name": fridge_name,
+                        "images": []  # List of cameras for this fridge
+                    }
+                
+                fridge_images[fridge_id]["images"].append({
+                    "camera_ip": camera_ip,
+                    **image_data
+                })
+
+        if not fridge_images:
+            return jsonify({"error": f"No images found for user_id={user_id}"}), 404
 
         return jsonify({
             "user_id": user_id,
-            "camera_ip": camera_ip,
-            "image_base64": image_base64,
-            "timestamp": latest_image.metadata.get("time")
+            "fridges": list(fridge_images.values())
         }), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
-def serve_pil_image(pil_img):
-    """Optional helper to return a PIL image directly as JPEG in HTTP response."""
-    img_io = BytesIO()
-    pil_img.save(img_io, 'JPEG', quality=70)
-    img_io.seek(0)
-    return Response(img_io, mimetype='image/jpeg')
