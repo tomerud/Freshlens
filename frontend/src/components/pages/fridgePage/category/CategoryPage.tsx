@@ -5,6 +5,7 @@ import { FridgeHeader } from "../fridgeHeader";
 import { useSearch } from "../../allFridgesPage/hooks/useSearch";
 
 import "./categoryPage.scss";
+import { Loader } from "../../../loader";
 
 interface Product {
     product_id: number;
@@ -29,11 +30,11 @@ export const CategoryPage = () => {
         (product, query) => product.product_name.toLowerCase().includes(query)
     );
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <Loader />;
     if (error) return <p>Error: {error.message}</p>;
 
     return (
-        <div>
+        <>
             <FridgeHeader 
                 title={`MY ${categoryName?.toUpperCase()}`} 
                 subtitle="Choose a product" 
@@ -50,6 +51,6 @@ export const CategoryPage = () => {
                     <p className="no-products">No matching products found.</p>
                 )}
             </div>
-        </div>
+        </>
     );
 };

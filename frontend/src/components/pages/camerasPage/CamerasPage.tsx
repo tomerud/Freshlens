@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import "./camerasPage.scss";
+import { Loader } from "../../loader";
 
 interface ImageResponse {
   user_id: string;
@@ -29,8 +30,8 @@ export const CamerasPage = () => {
     <div className="image-fetcher-container">
       <h2 className="title">Fetch Image for user123</h2>
       <button onClick={() => refetch()}>Get Image</button>
-
-      {isLoading && <div>Loading...</div>}
+      
+      {isLoading && <Loader />}
       {error && <div className="error">Error: {error.message}</div>}
 
       {data && (

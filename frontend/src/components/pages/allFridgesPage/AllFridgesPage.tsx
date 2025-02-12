@@ -5,6 +5,7 @@ import { FridgeHeader } from '../fridgePage/fridgeHeader';
 import { useSearch } from './hooks/useSearch';
 
 import './allFridgesPage.scss';
+import { Loader } from '../../loader';
 
 interface Fridge {
     fridge_id: string;
@@ -29,7 +30,7 @@ export const AllFridgesPage = () => {
         (fridge, query) => fridge.fridge_name.toLowerCase().includes(query)
     );
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <Loader />;
     if (error) return <p>Error: {error.message}</p>;
 
     return (

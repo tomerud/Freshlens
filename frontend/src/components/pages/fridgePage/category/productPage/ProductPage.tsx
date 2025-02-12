@@ -1,12 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { FridgeHeader } from "../../fridgeHeader";
-import { ItemsList } from "../ItemsList";
-import { NutrientData } from "../NutrientData";
-import { PriceData } from "../PriceData";
-
+import { ItemsList } from "./ItemsList";
+import { Loader } from "../../../../loader";
+import { PriceData } from "./PriceData";
+import { NutrientData } from "./NutrientData";
+import { TipsSection } from "../../../../TipsSection";
 
 import "./productPage.scss";
+
 
 interface Product {
   product_id: string;
@@ -31,15 +33,16 @@ export const ProductPage = () => {
     queryFn: () => fetchData(productId!),
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   if (error) return <div>Error: {error.message}</div>;
   
   return (
     <>
-      <FridgeHeader title={ProductName!.product_name} subtitle="everything you want to know"/>
+      <FridgeHeader title={ProductName!.product_name.toUpperCase() } subtitle="everything you want to know"/>
       <ItemsList />
       <PriceData/>
       <NutrientData />
+      <TipsSection productId={productId} addedTitle={ProductName!.product_name}/>
     </>
   );
 };

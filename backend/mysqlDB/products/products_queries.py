@@ -79,6 +79,25 @@ def get_product_price_from_db(product_id):
     """, (product_id,))
 
 
+def get_specific_product_tips_from_db(product_id):
+    return execute_query("""
+        SELECT p.product_name, t.refrigerate_tips, t.freeze_tips
+        from freshlens.product_global_info p
+        join freshlens.food_storage_tips t
+        on t.product_name like concat('%' , p.product_name, '%' ) 
+        WHERE t.is_specific_product_tip 
+        AND p.product_id = %s
+    """, (product_id, ))
+
+
+def get_general_tips_from_db():
+    return execute_query("""
+        SELECT t.product_name, concat(product_name, ' - ', t.refrigerate_tips) as refrigerate_tips, concat(product_name, ' - ', t.freeze_tips) as freeze_tips
+        from freshlens.food_storage_tips t
+        WHERE not t.is_specific_product_tip 
+    """)
+
+
 def get_product_name_from_db(product_id):
     """
     Retrieves product name
@@ -91,6 +110,7 @@ def get_product_name_from_db(product_id):
         FROM freshlens.product_global_info p 
         WHERE p.product_id = %s
     """, (product_id,))
+
 
 def get_fridge_products_with_expiry_dates(fridge_id):
     """

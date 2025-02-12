@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
+import { Loader } from "../../../../../loader";
+
 import "./nutrientData.scss";
 
 interface ProductNutrientData {
@@ -34,7 +36,7 @@ export const NutrientData = () => {
     queryFn: () => fetchData(productId!),
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (

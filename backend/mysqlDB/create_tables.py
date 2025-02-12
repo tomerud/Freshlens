@@ -1,9 +1,10 @@
 from datetime import date, timedelta
 import random
+
 from mysqlDB.camera.insert_camera_to_db import insert_camera_to_db
 from mysqlDB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
 from mysqlDB.items.insert_new_item_to_db import get_all_products_from_db, insert_item_to_db
-from mysqlDB.products.insert_new_products_to_db import insert_new_category_to_db, insert_new_product_to_db, load_canadian_prices_from_kaggle
+from mysqlDB.products.insert_new_products_to_db import insert_new_category_to_db, insert_new_product_to_db, load_canadian_prices_from_kaggle, load_storage_tips
 from mysqlDB.user.insert_user_to_db import insert_new_user
 
 from mysqlDB.db_utils import execute_query
@@ -85,6 +86,15 @@ def create_tables():
                     name VARCHAR(255) NOT NULL,
                     price DECIMAL(10,2) NOT NULL            
                 );
+            """,
+            "food_storage_tips": """
+                CREATE TABLE IF NOT EXISTS food_storage_tips (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    product_name VARCHAR(255) NOT NULL,
+                    refrigerate_tips TEXT,
+                    freeze_tips TEXT,
+                    is_specific_product_tip BOOLEAN
+                )
             """
     }
 
@@ -101,7 +111,8 @@ def drop_all_tables():
             "subscription": """DROP TABLE IF EXISTS subscription""",
             "product_global_info": """DROP TABLE IF EXISTS product_global_info""",
             "categories": """DROP TABLE IF EXISTS categories""",
-            "canadian_products_prices": """DROP TABLE IF EXISTS canadian_products_prices"""
+            "canadian_products_prices": """DROP TABLE IF EXISTS canadian_products_prices""",
+            "food_storage_tips" : "DROP TABLE IF EXISTS food_storage_tips"
         }
 
     for table_name, table_sql in tables.items():
@@ -285,17 +296,21 @@ def insert_demo_data_to_users_table():
         insert_new_user(user["user_id"], user["user_name"], user["email"], user["subscription_type"]) 
 
 def insert_demo_data_to_all_tables():
-    insert_demo_data_to_categories_table()
-    insert_demo_data_to_product_table()
-    insert_demo_data_to_subscriptions_table()
-    insert_demo_data_to_users_table()
-    insert_demo_data_to_fridge_table()
-    insert_demo_data_to_camera_table()
-    insert_demo_data_to_item_table()
-    load_canadian_prices_from_kaggle()
+    # insert_demo_data_to_categories_table()
+    # insert_demo_data_to_product_table()
+    # insert_demo_data_to_subscriptions_table()
+    # insert_demo_data_to_users_table()
+    # insert_demo_data_to_fridge_table()
+    # insert_demo_data_to_camera_table()
+    # insert_demo_data_to_item_table()
+    # load_canadian_prices_from_kaggle()
+    load_storage_tips()
+
 
 if __name__ == "__main__":
-    drop_all_tables()
-    create_tables()
+    # drop_all_tables()
+    # create_tables()
     insert_demo_data_to_all_tables()
-    
+
+
+
