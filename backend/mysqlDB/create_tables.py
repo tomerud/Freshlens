@@ -296,20 +296,20 @@ def insert_demo_data_to_users_table():
         insert_new_user(user["user_id"], user["user_name"], user["email"], user["subscription_type"]) 
 
 def insert_demo_data_to_all_tables():
-    # insert_demo_data_to_categories_table()
-    # insert_demo_data_to_product_table()
-    # insert_demo_data_to_subscriptions_table()
-    # insert_demo_data_to_users_table()
-    # insert_demo_data_to_fridge_table()
-    # insert_demo_data_to_camera_table()
-    # insert_demo_data_to_item_table()
-    # load_canadian_prices_from_kaggle()
+    insert_demo_data_to_categories_table()
+    insert_demo_data_to_product_table()
+    insert_demo_data_to_subscriptions_table()
+    insert_demo_data_to_users_table()
+    insert_demo_data_to_fridge_table()
+    insert_demo_data_to_camera_table()
+    insert_demo_data_to_item_table()
+    load_canadian_prices_from_kaggle()
     load_storage_tips()
 
 
 if __name__ == "__main__":
-    # drop_all_tables()
-    # create_tables()
+    drop_all_tables()
+    create_tables()
     insert_demo_data_to_all_tables()
 
 
