@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import "./camerasPage.scss";
 import { Loader } from "../../loader";
+import { FridgeHeader } from "../fridgePage/fridgeHeader";
 
 interface ImageResponse {
   user_id: string;
@@ -27,20 +28,27 @@ export const CamerasPage = () => {
   });
 
   return (
-    <div className="image-fetcher-container">
-      <h2 className="title">Fetch Image for user123</h2>
+    <>
+    <FridgeHeader title={"REAL TIME VIEW"} subtitle={""} showBackButton={false}/>
+    <div className="image-fetcher-container">      
       <button onClick={() => refetch()}>Get Image</button>
       
       {isLoading && <Loader />}
       {error && <div className="error">Error: {error.message}</div>}
 
-      {data && (
+      {/* {data && (
         <img
           src={`data:image/jpeg;base64,${data.image_base64}`}
           alt="Fetched"
           className="fetched-image"
         />
-      )}
+      )} */}
+      <img
+          src={`/fridge-camera/one.jpg`}
+          alt="Fetched"
+          className="fetched-image"
+        />
     </div>
+    </>
   );
 };
