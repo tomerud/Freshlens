@@ -1,54 +1,64 @@
 import { useQuery } from "@tanstack/react-query";
-import "./camerasPage.scss";
-import { Loader } from "../../loader";
-import { FridgeHeader } from "../fridgePage/fridgeHeader";
 
-interface ImageResponse {
-  user_id: string;
+import { FridgeHeader } from "../fridgePage/fridgeHeader";
+import { Loader } from "../../loader";
+
+import { CameraImage } from "./cameraImage";
+
+import "./camerasPage.scss";
+
+interface CameraImage {
   camera_ip: string;
   image_base64: string;
   timestamp: string;
 }
 
-const fetchImage = async (): Promise<ImageResponse> => {
-  const response = await fetch("/api/get_image");
-  if (!response.ok) throw new Error("Failed to fetch image");
-  
-  const data = await response.json();
-  if (!data.image_base64) throw new Error("No image found");
+export interface FridgeImages {
+  fridge_id: number;
+  fridge_name: string;
+  images: CameraImage[];
+}
 
-  return data;
+interface CameraImagesResponse {
+  user_id: string;
+  fridges: FridgeImages[];
+}
+
+const fetchImages = async (): Promise<CameraImagesResponse> => {
+  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
+  const response = await fetch(`/api/get_image?user_id=${userId}`);
+  if (!response.ok) throw new Error("Failed to fetch images");
+
+  return response.json();
 };
 
 export const CamerasPage = () => {
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["cameraImage"],
-    queryFn: fetchImage,
-    enabled: false,
+    queryKey: ["cameraImages"],
+    queryFn: fetchImages,
+    enabled: true,
+    refetchOnWindowFocus: false,
   });
+
+  const fridges = data?.fridges ?? []; // Ensure we always have an array
 
   return (
     <>
-    <FridgeHeader title={"REAL TIME VIEW"} subtitle={""} showBackButton={false}/>
-    <div className="image-fetcher-container">      
-      <button onClick={() => refetch()}>Get Image</button>
-      
-      {isLoading && <Loader />}
-      {error && <div className="error">Error: {error.message}</div>}
+      <FridgeHeader title="REAL TIME VIEW" subtitle="Watch your fridge from everywhere" showBackButton={false} />
 
-      {/* {data && (
-        <img
-          src={`data:image/jpeg;base64,${data.image_base64}`}
-          alt="Fetched"
-          className="fetched-image"
-        />
-      )} */}
-      <img
-          src={`/fridge-camera/one.jpg`}
-          alt="Fetched"
-          className="fetched-image"
-        />
-    </div>
+        {isLoading && <Loader />}
+        {error && <div className="error">Error: {error.message}</div>}
+
+        {fridges.length > 0 ? (
+          <div className="image-grid">
+            {fridges.map((fridge) => (
+              <CameraImage key={fridge.fridge_id} {...fridge}/>
+            ))}
+          </div>
+        ) : (
+          <p className="no-images">No images available.</p>
+        )}
+        <button className="refresh-button" onClick={() => refetch()}>Refresh Images</button>
     </>
   );
 };

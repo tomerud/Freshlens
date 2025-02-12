@@ -15,10 +15,8 @@ def decode_and_store_image(image_base64, user_id, camera_ip, timestamp=None):
     image_data = base64.b64decode(image_base64)
     image = Image.open(BytesIO(image_data))
 
-  
     filename = f"{camera_ip}_{datetime.now().strftime('%Y%m%d%H%M%S')}.jpeg"
 
-    
     if timestamp is None:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -33,5 +31,7 @@ def decode_and_store_image(image_base64, user_id, camera_ip, timestamp=None):
         })
 
     print(f" Image stored with ID: {image_id}, Filename: {filename}, User ID: {user_id}, Camera IP: {camera_ip}, Time: {timestamp}")
+
+
 
 

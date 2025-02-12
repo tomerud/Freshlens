@@ -12,8 +12,8 @@ def get_all_products_from_db():
     """Fetch all products from the database and return a list of tuples (product_id, product_name, category_name)."""
     
     products = execute_query("""SELECT p.product_id, p.product_name, c.category_name
-                    FROM freshlens.product_global_info p
-                    join freshlens.categories c
+                    FROM product_global_info p
+                    join categories c
                     on c.category_id = p.category_id""")
     return products
 
