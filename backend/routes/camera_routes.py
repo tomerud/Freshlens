@@ -13,6 +13,6 @@ def add_camera():
 
         insert_camera_to_db(camera_ip=data["camera_ip"], fridge_id=data["fridge_id"])
 
-        return jsonify({"message": "Camera added successfully!", "data": data}), 200
+        return jsonify({"message": "Camera added successfully!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

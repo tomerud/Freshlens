@@ -31,7 +31,7 @@ def insert_item():
         )
 
         # Return a success response
-        return jsonify({"message": "Item inserted successfully!", "data": data}), 200
+        return jsonify({"message": "Item inserted successfully!"}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
