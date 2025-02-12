@@ -13,7 +13,7 @@ def add_fridge():
         return jsonify({"error": "Invalid data format. 'user_id' and 'fridge_name' are required."}), 400
 
     insert_new_fridge_to_db(data["user_id"], data["fridge_name"])
-    return jsonify({"message": "Fridge added successfully!", "data": data}), 200
+    return jsonify({"message": "Fridge added successfully!"}), 200
 
 
 @fridge_bp.route('/get_all_fridges', methods=['GET'])

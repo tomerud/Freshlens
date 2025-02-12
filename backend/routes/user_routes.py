@@ -49,6 +49,6 @@ def sign_user():
 
     try:
         insert_new_user(data["userId"], data["userName"], data["email"], default_subscription_type)
-        return jsonify({"message": "User signed up successfully!", "data": data}), 200
+        return jsonify({"message": "User signed up successfully!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
