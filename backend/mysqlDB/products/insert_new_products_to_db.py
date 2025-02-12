@@ -116,6 +116,78 @@ def load_canadian_prices_from_kaggle():
     print(f"Successfully inserted rows into canadian_products_prices!")
 
 
+
+def parse_usda_storage_tips():
+    try:
+        with open('../backend/src/foodkeeper-food-safety-tips.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+
+        tips = []
+        for sheet in data.get("sheets", []):
+            if sheet.get("name") == "Product":
+                for entry in sheet.get("data", []):
+                    if isinstance(entry, list):
+                        product_data = {list(item.keys())[0]: list(item.values())[0] for item in entry if isinstance(item, dict)}
+
+                        product_name = product_data.get("Name")
+                        refrigerate_tips = product_data.get("Refrigerate_tips")
+                        freeze_tips = product_data.get("Freeze_Tips")
+
+                        if product_name and (refrigerate_tips or freeze_tips):
+                            tips.append((product_name, refrigerate_tips, freeze_tips))
+        return tips
+    except Exception as e:
+        print(f"Error parsing USDA storage tips: {e}")
+        return []
+
+
+def insert_storage_tips(tips, is_specific):
+    """
+    Inserts storage tips into the database.
+
+    :param tips: List of tuples (product_name, refrigerate_tips, freeze_tips)
+    :param is_specific: Boolean flag (1 for product-specific, 0 for general tips)
+    """
+    if not tips:
+        return
+
+    insert_query = '''
+        INSERT INTO food_storage_tips (product_name, refrigerate_tips, freeze_tips, is_specific_product_tip)
+        VALUES (%s, %s, %s, %s)
+    '''
+
+    formatted_tips = [(tip[0], tip[1], tip[2], int(is_specific)) for tip in tips]
+    for tip in formatted_tips:
+        execute_query(insert_query, params=tip, commit=True)
+
+
+def load_storage_tips():
+    product_tips = parse_usda_storage_tips()
+    insert_storage_tips(product_tips, is_specific=True)
+
+    general_tips = [
+        ("Temperature Safety", "Keep food below 5°C to prevent bacteria growth.", "Freeze below -15°C to keep food safe."),
+        ("High-Risk Foods", "Store raw and cooked meat separately in sealed containers.", "Avoid refreezing thawed food."),
+        ("Cooked Food", "Cool hot food in small portions before refrigerating.", None),
+        ("Perishable Items", "Refrigerate dairy, eggs, seafood, and prepared salads.", None),
+        ("Leftovers", "Store leftovers in airtight containers and eat within days.", "Freeze leftovers for longer storage."),
+        ("Opened Packages", "Transfer canned and jarred food to proper containers.", None),
+        ("Raw vs Cooked", "Store raw food below cooked food to prevent contamination.", None),
+        ("Expiration", "Throw away food left out for 4+ hours.", None),
+        ("Use-By Dates", "Always check expiration dates before eating.", None),
+        ("Cooling Hot Food", "Let hot food cool slightly before refrigerating.", None),
+        ("Grocery Storage", "Put frozen and refrigerated foods away immediately.", None),
+        ("Cold Transport", "Use insulated bags for frozen food on hot days.", None),
+        ("Defrosting", "Keep defrosted food in the fridge until cooking.", None),
+        ("Microwave Thawing", "Cook food immediately after microwave thawing.", None),
+        ("Food Storage Containers", "Use clean, non-toxic, sealed containers.", None),
+        ("Pantry Items", "Store dry foods in cool, dark places.", None)
+    ]
+
+    insert_storage_tips(general_tips, is_specific=False)
+    print(f"Successfully inserted rows into food_storage_tips!")
+
+
 def insert_new_product_to_db(product_name, category_id):
     """
     Inserts a new product into the `product_global_info` table and adds separate nutritional values.

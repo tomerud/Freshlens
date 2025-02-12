@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
+import { Loader } from "../../../../../loader";
+
 import "./priceData.scss";
 
 
@@ -27,7 +29,7 @@ export const PriceData = () => {
     queryFn: () => fetchData(productId!),
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   if (error) return <div>Error: {error.message}</div>;
 
   const formattedPrice =

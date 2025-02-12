@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import "./itemsList.scss";
+import { Loader } from "../../../../../loader";
 
 interface Item {
   item_id: string;
@@ -42,7 +43,7 @@ export const ItemsList = () => {
     queryFn: () => fetchData(fridgeId!, productId!),
   });
 
-  if (isLoading) return <p className="loading">Loading...</p>;
+  if (isLoading) return <Loader />;
   if (error) return <p className="error">Error: {error.message}</p>;
 
   if (!items.length) {

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNotifications } from "./useNotifications";
 import "./notifications.scss";
+import { Loader } from "../../../loader";
 
 export const Notifications = () => {
   const { notifications, isLoading, error } = useNotifications();
@@ -17,7 +18,7 @@ export const Notifications = () => {
     return () => clearInterval(interval);
   }, [notifications]);
 
-  if (isLoading) return <p>Loading notifications...</p>;
+  if (isLoading) return <Loader />;
   if (error) return <p>Error: {error}</p>;
   if (notifications.length === 0) return <p>No notifications</p>;
 

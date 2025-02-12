@@ -2,6 +2,7 @@
 import { HomePageHeader } from './homePageHeader';
 import { Notifications } from './notifications';
 import { GraphSection } from './graphSection';
+import { TipsSection } from '../../TipsSection';
 
 import 'react-circular-progressbar/dist/styles.css';
 import './homePage.scss';
@@ -14,6 +15,7 @@ export const HomePage = () => {
       <div className='homepage-container'>
         <Notifications />
         <GraphSection />
+        <TipsSection />
       </div>
     </>
   );

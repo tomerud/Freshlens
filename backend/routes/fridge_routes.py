@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from mysqlDB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
-from mysqlDB.products.products_queries import get_all_categories_from_db, get_fridge_product_items_from_db, get_fridge_products_by_category_from_db, get_product_name_from_db, get_product_nutrient_data, get_product_price_from_db
+from mysqlDB.products.products_queries import get_all_categories_from_db, get_fridge_product_items_from_db, get_fridge_products_by_category_from_db, get_general_tips_from_db, get_product_name_from_db, get_product_nutrient_data, get_product_price_from_db, get_specific_product_tips_from_db
 from mysqlDB.fridge.get_fridges import get_fridge_name_from_db, get_fridges_from_db
 
 
@@ -146,6 +146,36 @@ def get_product_price():
         return jsonify({"product_name": None, "avg_price": None}), 200
 
     return jsonify(product_price[0]), 200
+
+
+@fridge_bp.route('/get_product_tips', methods=['GET'])
+def get_product_tips():
+    product_id = request.args.get("product_id")
+
+    if not product_id:
+        return jsonify({"error": "Missing product_id parameter"}), 400
+
+    try:
+        product_id = int(product_id)
+    except ValueError:
+        return jsonify({"error": "Invalid product_id. Must be an integer."}), 400
+    
+    tips = get_specific_product_tips_from_db(product_id)
+
+    if not tips or all(tip is None for tip in tips):
+        return jsonify([]), 200
+    
+    return jsonify(tips), 200
+
+
+@fridge_bp.route('/get_general_storage_tips', methods=['GET'])
+def get_general_storage_tips():
+
+    tips = get_general_tips_from_db()
+    if not tips or all(tip is None for tip in tips):
+        return jsonify([]), 200
+    
+    return jsonify(tips), 200
 
 
 @fridge_bp.route('/get_product_name', methods=['GET'])

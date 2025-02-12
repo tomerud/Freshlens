@@ -52,7 +52,6 @@ def get_fridge_name():
             "message": "💰Reminder to check your smart cart!",
             "timestamp": today.isoformat()
         })
-        print(notifications)
         return jsonify(notifications)
 
     except Exception as e:

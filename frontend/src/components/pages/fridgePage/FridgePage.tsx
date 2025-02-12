@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useSearch } from '../allFridgesPage/hooks/useSearch';
 import { FridgeHeader } from './fridgeHeader';
+import { Loader } from '../../loader';
 
 import './FridgePage.scss';
 
@@ -30,29 +31,28 @@ const fetchFridgeName = async (fridgeId: string): Promise<Fridge> => {
 export const FridgePage = () => {
     const { fridgeId } = useParams<{ fridgeId: string }>();
 
-    const { data: categories = [], isLoading: loadingCategories, error: categoryError } = useQuery<Category[], Error>({
-        queryKey: ['categories', fridgeId],
-        queryFn: () => fetchCategories(fridgeId!),
-    });
-
     const { data: fridge, isLoading: loadingFridge, error: fridgeError } = useQuery<Fridge, Error>({
         queryKey: ['fridgeName', fridgeId],
         queryFn: () => fetchFridgeName(fridgeId!),
+    });
+
+    const { data: categories = [], isLoading: loadingCategories, error: categoryError } = useQuery<Category[], Error>({
+        queryKey: ['categories', fridgeId],
+        queryFn: () => fetchCategories(fridgeId!),
     });
 
     const { filteredResults, setSearchQuery } = useSearch(categories, 
         (category, query) => category.category_name.toLowerCase().includes(query)
     );
 
-    if (loadingCategories || loadingFridge) return <p>Loading...</p>;
+    if (loadingCategories || loadingFridge) return <Loader />;
     if (categoryError) return <p>Error loading categories: {categoryError.message}</p>;
     if (fridgeError) return <p>Error loading fridge name: {fridgeError.message}</p>;
 
-    console.log(fridge)
     return (
-        <div>
+        <>
             <FridgeHeader
-                title={fridge?.fridge_name || "My fridge"}
+                title={loadingFridge ? "" : fridge?.fridge_name.toUpperCase() || "MY FRIDGE"}
                 subtitle="Choose a category"
                 onSearch={setSearchQuery} 
             />
@@ -67,6 +67,6 @@ export const FridgePage = () => {
                     <p>No matching categories found.</p>
                 )}
             </div>
-        </div>
+        </>
     );
 };
