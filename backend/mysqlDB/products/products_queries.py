@@ -136,7 +136,8 @@ def get_fridge_products_with_expiry_dates(fridge_id):
     product_entries = []
 
     for product_name, expiry_date in result:
-        formatted_entry = f"{product_name}: {expiry_date}"
+        expiry_date_str = expiry_date.strftime("%Y-%m-%d") if expiry_date else "Unknown"
+        formatted_entry = f"{product_name}: {expiry_date_str}"
         product_entries.append(formatted_entry)
 
     # Join all entries into a single string
