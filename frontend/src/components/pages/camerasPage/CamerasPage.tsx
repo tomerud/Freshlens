@@ -1,44 +1,64 @@
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+
+import { FridgeHeader } from "../fridgePage/fridgeHeader";
+import { Loader } from "../../loader";
+
+import { CameraImage } from "./cameraImage";
+
 import "./camerasPage.scss";
 
-interface ImageResponse {
-  user_id: string;
+interface CameraImage {
   camera_ip: string;
   image_base64: string;
   timestamp: string;
 }
 
-const fetchImage = async (): Promise<ImageResponse> => {
-  // GET request to the Flask endpoint (no body, since it’s hardcoded in Flask)
-  const response = await axios.get("/api/get_picture");
+export interface FridgeImages {
+  fridge_id: number;
+  fridge_name: string;
+  images: CameraImage[];
+}
 
-  if (!response.data.image_base64) {
-    throw new Error("No image found");
-  }
-  return response.data;
+interface CameraImagesResponse {
+  user_id: string;
+  fridges: FridgeImages[];
+}
+
+const fetchImages = async (): Promise<CameraImagesResponse> => {
+  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
+  const response = await fetch(`/api/get_image?user_id=${userId}`);
+  if (!response.ok) throw new Error("Failed to fetch images");
+
+  return response.json();
 };
 
 export const CamerasPage = () => {
-  const { mutate, data, isPending, error } = useMutation<ImageResponse, Error>({
-    mutationFn: fetchImage
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["cameraImages"],
+    queryFn: fetchImages,
+    enabled: true,
+    refetchOnWindowFocus: false,
   });
 
+  const fridges = data?.fridges ?? []; // Ensure we always have an array
+
   return (
-    <div className="image-fetcher-container">
-      <h2 className="title">Fetch Image for user123</h2>
-      <button onClick={() => mutate()}>Get Image</button>
+    <>
+      <FridgeHeader title="REAL TIME VIEW" subtitle="Watch your fridge from everywhere" showBackButton={false} />
 
-      {isPending && <div>Loading...</div>}
-      {error && <div className="error">Error: {error.message}</div>}
+        {isLoading && <Loader />}
+        {error && <div className="error">Error: {error.message}</div>}
 
-      {data && (
-        <img
-          src={`data:image/jpeg;base64,${data.image_base64}`}
-          alt="Fetched"
-          className="fetched-image"
-        />
-      )}
-    </div>
+        {fridges.length > 0 ? (
+          <div className="image-grid">
+            {fridges.map((fridge) => (
+              <CameraImage key={fridge.fridge_id} {...fridge}/>
+            ))}
+          </div>
+        ) : (
+          <p className="no-images">No images available.</p>
+        )}
+        <button className="refresh-button" onClick={() => refetch()}>Refresh Images</button>
+    </>
   );
 };

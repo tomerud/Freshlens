@@ -1,28 +1,55 @@
+import { useEffect, useState } from 'react';
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import { MoneySaveGraph } from './moneySaveGraph';
+
 import './graphSection.scss';
 
 export const GraphSection = () => {
+  const [fridgeFreshness, setPridgeFreshness] = useState(0);
+  const [shoppingCartVisible, setShoppingCartVisible] = useState(false);
+
+  useEffect(() => {
+    const fridgeFreshnessTimeout = setTimeout(() => setPridgeFreshness(82), 300); // Animate CircularProgressbar
+    const hoppingCartTimeout = setTimeout(() => setShoppingCartVisible(true), 300); // Animate shopping cart icon
+
+    return () => {
+      clearTimeout(fridgeFreshnessTimeout);
+      clearTimeout(hoppingCartTimeout);
+    };
+  }, []);
+
   return (
     <>
-      <div className='fridge-info'>
-        <div className='fridge-freshness'>
-          <h2>82%</h2>
-          <p>FRIDGE FRESHNESS</p>
+      <div className="cards-container">
+        <div className="card-wrapper">
+          <p className="card-label">Shopping Cart</p>
+          <div className="card">
+            <img 
+              src='/icons/shopping-cart.png' 
+              alt="Shopping Cart" 
+              className={`card-icon cart-icon-animated ${shoppingCartVisible ? 'cart-icon-visible' : ''}`} 
+            />
+          </div>
         </div>
-        <div className='smart-buy'>
-          <h2>SMART BUY</h2>
+
+        <div className="card-wrapper">
+          <p className="card-label">Fridge Freshness</p>
+          <div className="card">
+            <CircularProgressbar 
+              value={fridgeFreshness} 
+              text={`${fridgeFreshness}%`} 
+              styles={buildStyles({
+                textSize: '20px',
+                pathColor: '#66bb6a',
+                textColor: '#000',
+                trailColor: '#eee',
+              })}
+            />
+          </div>
         </div>
       </div>
 
-      <div className='graph-section'>
-        <div className='time-selectors'>
-          <button>1W</button>
-          <button className='active'>1M</button>
-          <button>1Y</button>
-        </div>
-        <div className='graph'>
-          <p>Graph Placeholder</p>
-        </div>
-      </div>
+      <MoneySaveGraph />
     </>
   );
 };

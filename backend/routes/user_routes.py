@@ -1,7 +1,7 @@
 
 from flask import Blueprint, request, jsonify
-from DB.user.insert_user_to_db import insert_new_user
-from DB.user.user_queries import is_user_already_known_in_db, update_user_subscription_in_db
+from mysqlDB.user.insert_user_to_db import insert_new_user
+from mysqlDB.user.user_queries import is_user_already_known_in_db, update_user_subscription_in_db
 
 user_bp = Blueprint('user_bp', __name__)
 
@@ -49,6 +49,6 @@ def sign_user():
 
     try:
         insert_new_user(data["userId"], data["userName"], data["email"], default_subscription_type)
-        return jsonify({"message": "User signed up successfully!", "data": data}), 200
+        return jsonify({"message": "User signed up successfully!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

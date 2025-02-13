@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from DB.items.insert_new_item_to_db import insert_item_to_db
+from mysqlDB.items.insert_new_item_to_db import insert_item_to_db
 from datetime import date
 
 item_bp = Blueprint('item_bp', __name__)
@@ -31,7 +31,7 @@ def insert_item():
         )
 
         # Return a success response
-        return jsonify({"message": "Item inserted successfully!", "data": data}), 200
+        return jsonify({"message": "Item inserted successfully!"}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

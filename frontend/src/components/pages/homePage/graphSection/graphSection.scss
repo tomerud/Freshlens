@@ -1,48 +1,47 @@
-.fridge-info-graph {
-    margin-top: 20px;
-  }
-  
-  .fridge-info {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 10px;
-    margin-top: 20px;
-  }
-  
-  .fridge-freshness, .smart-buy {
-    text-align: center;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    flex: 1;
-    margin: 0 10px;
-  }
-  
-  .graph-section {
-    text-align: center;
-  }
-  
-  .time-selectors button {
-    background: none;
-    border: none;
-    font-size: 14px;
-    margin: 5px;
-    cursor: pointer;
-  }
-  
-  .time-selectors .active {
-    font-weight: bold;
-    text-decoration: underline;
-  }
-  
-  .graph {
-    height: 130px;
-    background-color: #f9f9f9;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-  }
-  
+.cards-container {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-label {
+  margin-bottom: 0;
+  margin-top: 8px;
+  text-align: left;
+  padding-left: 6px;
+  font-size:12px;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+  width: 70%;
+  height: 70%;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.cart-icon-animated {
+  transform: translateX(-50px);
+  opacity: 0;
+}
+
+.cart-icon-visible {
+  transform: translateX(0);
+  opacity: 1;
+}

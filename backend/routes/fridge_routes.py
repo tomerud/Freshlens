@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from DB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
-from DB.products.products_queries import get_all_categories_from_db, get_fridge_product_items_from_db, get_fridge_products_by_category_from_db, get_product_name_from_db, get_product_nutrient_data, get_product_price_from_db
-from DB.fridge.get_fridges import get_fridges_from_db
+from mysqlDB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
+from mysqlDB.products.products_queries import get_all_categories_from_db, get_fridge_product_items_from_db, get_fridge_products_by_category_from_db, get_general_tips_from_db, get_product_name_from_db, get_product_nutrient_data, get_product_price_from_db, get_specific_product_tips_from_db
+from mysqlDB.fridge.get_fridges import get_fridge_name_from_db, get_fridges_from_db
 
 
 fridge_bp = Blueprint('fridge_bp', __name__)
@@ -13,7 +13,7 @@ def add_fridge():
         return jsonify({"error": "Invalid data format. 'user_id' and 'fridge_name' are required."}), 400
 
     insert_new_fridge_to_db(data["user_id"], data["fridge_name"])
-    return jsonify({"message": "Fridge added successfully!", "data": data}), 200
+    return jsonify({"message": "Fridge added successfully!"}), 200
 
 
 @fridge_bp.route('/get_all_fridges', methods=['GET'])
@@ -25,6 +25,16 @@ def get_all_fridges():
     fridges = get_fridges_from_db(user_id)
     
     return jsonify(fridges), 200
+
+@fridge_bp.route('/get_fridge_name', methods=['GET'])
+def get_fridge_name():
+    fridge_id = request.args.get("fridge_id")
+    if not fridge_id:
+        return jsonify({"error": "fridge_id query parameter is required."}), 400
+
+    fridge_names = get_fridge_name_from_db(fridge_id)
+  
+    return jsonify(fridge_names), 200
 
 
 @fridge_bp.route('/get_all_categories', methods=['GET'])
@@ -136,6 +146,36 @@ def get_product_price():
         return jsonify({"product_name": None, "avg_price": None}), 200
 
     return jsonify(product_price[0]), 200
+
+
+@fridge_bp.route('/get_product_tips', methods=['GET'])
+def get_product_tips():
+    product_id = request.args.get("product_id")
+
+    if not product_id:
+        return jsonify({"error": "Missing product_id parameter"}), 400
+
+    try:
+        product_id = int(product_id)
+    except ValueError:
+        return jsonify({"error": "Invalid product_id. Must be an integer."}), 400
+    
+    tips = get_specific_product_tips_from_db(product_id)
+
+    if not tips or all(tip is None for tip in tips):
+        return jsonify([]), 200
+    
+    return jsonify(tips), 200
+
+
+@fridge_bp.route('/get_general_storage_tips', methods=['GET'])
+def get_general_storage_tips():
+
+    tips = get_general_tips_from_db()
+    if not tips or all(tip is None for tip in tips):
+        return jsonify([]), 200
+    
+    return jsonify(tips), 200
 
 
 @fridge_bp.route('/get_product_name', methods=['GET'])

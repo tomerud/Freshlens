@@ -1,49 +1,56 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
-// import { ProductPage } from "./productPage/ProductPage";
-import "./categoryPage.scss";
+import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+
 import { FridgeHeader } from "../fridgeHeader";
+import { useSearch } from "../../allFridgesPage/hooks/useSearch";
+
+import "./categoryPage.scss";
+import { Loader } from "../../../loader";
 
 interface Product {
-  product_id: number;
-  product_name: string;
+    product_id: number;
+    product_name: string;
 }
 
 const fetchData = async (fridgeId: string, categoryName: string): Promise<Product[]> => {
-  const response = await fetch(`/api/get_all_products?fridge_id=${fridgeId}&category_name=${categoryName}`);
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch data');
-  }
-  return await response.json();
+    const response = await fetch(`/api/get_all_products?fridge_id=${fridgeId}&category_name=${categoryName}`);
+    if (!response.ok) throw new Error('Failed to fetch data');
+    return await response.json();
 };
 
 export const CategoryPage = () => {
-  const { fridgeId, categoryName } = useParams<{ fridgeId: string, categoryName: string }>();
-  const navigate = useNavigate();
+    const { fridgeId, categoryName } = useParams<{ fridgeId: string, categoryName: string }>();
 
-  const { data: Products = [], isLoading, error } = useQuery<Product[], Error>({
-    queryKey: ['categories', fridgeId, categoryName],
-    queryFn: () => fetchData(fridgeId, categoryName),
-  });
+    const { data: products = [], isLoading, error } = useQuery<Product[], Error>({
+        queryKey: ['products', fridgeId, categoryName],
+        queryFn: () => fetchData(fridgeId!, categoryName!),
+    });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+    const { filteredResults, setSearchQuery } = useSearch(products, 
+        (product, query) => product.product_name.toLowerCase().includes(query)
+    );
 
-  return (
-    <div>
-      <FridgeHeader title={'MY ' + categoryName?.toUpperCase()} subtitle="choose your category"/>
-      {Products ? (
-        <div className="product-list">
-          {Products.map((product) => (
-            <Link key={product.product_id} to={`${product.product_id}`} className="product-item">
-              <p>{product.product_name}</p>
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <p className="no-products">No products found for this category.</p>
-      )}
-    </div>
-  );
+    if (isLoading) return <Loader />;
+    if (error) return <p>Error: {error.message}</p>;
+
+    return (
+        <>
+            <FridgeHeader 
+                title={`MY ${categoryName?.toUpperCase()}`} 
+                subtitle="Choose a product" 
+                onSearch={setSearchQuery} 
+            />
+            <div className="product-list">
+                {filteredResults.length > 0 ? (
+                    filteredResults.map((product) => (
+                        <Link key={product.product_id} to={`${product.product_id}`} className="product-item">
+                            {product.product_name}
+                        </Link>
+                    ))
+                ) : (
+                    <p className="no-products">No matching products found.</p>
+                )}
+            </div>
+        </>
+    );
 };

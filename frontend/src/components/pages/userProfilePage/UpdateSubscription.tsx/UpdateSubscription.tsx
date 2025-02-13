@@ -35,7 +35,7 @@ export const UpdateSubscription = () => {
     },
 
     onSuccess: () => {
-      setSuccessMessage("✅ Subscription updated successfully!");
+      setSuccessMessage("Subscription updated successfully!");
       setTimeout(() => setSuccessMessage(null), 2000);
     },
   });

@@ -1,34 +1,67 @@
-.header {
+.fridge-header {
   display: flex;
-  align-items: center; 
-  justify-content: space-between; 
-  padding: 10px 20px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 25px;
+  height: 15%;
+  border-bottom: 1px solid #ddd;
   background-color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 10px; 
-}
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
-.header h1 {
-  flex-grow: 1; 
-  font-size: 20px;
-  font-weight: bold;
-  margin: 0;
-  
-}
+  .back-button,
+  .search-button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
 
-.search-button{
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-}
+  .back-button {
+    visibility: visible;
 
-.back-button {
-  background: none;
-  cursor: pointer;
-}
+    &.hidden {
+      visibility: hidden;
+    }
+  }
 
-.BackButtonHidden {
-  padding-left: 40px;
+  h1 {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 24px;
+    white-space: nowrap;
+  }
+
+  .search-button {
+    visibility: visible;
+
+    &.hidden {
+      visibility: hidden;
+    }
+
+    .search-icon, .cancel-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .search-input {
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    width: 100%;
+    transition: width 0.3s ease;
+    background: #fff;
+
+    &::placeholder {
+      color: #aaa;
+    }
+  }
 }
 

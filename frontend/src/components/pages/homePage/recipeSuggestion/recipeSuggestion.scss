@@ -1,0 +1,36 @@
+.recipe-container {
+  background: #2C5E74;
+  padding: 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+.recipe-title {
+  padding-top: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+.recipe-text {
+  font-size: 16px;
+  color: white;
+  min-height: 30px;
+  padding-bottom: 12px;
+  text-align: center;
+  margin: 0 10px;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+}
+
+.no-recipe {
+  color: rgb(61, 186, 67);
+  text-align: center;
+}

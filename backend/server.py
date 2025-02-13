@@ -1,6 +1,4 @@
-# server.py
-from flask import Flask, jsonify
-import datetime
+from flask import Flask
 from routes import blueprints  
 
 app = Flask(__name__)
@@ -11,3 +9,5 @@ for bp in blueprints:
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
+
