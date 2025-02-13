@@ -5,7 +5,7 @@ import base64
 import io
 
 # Setup socketIO client - I ahve updated the setup, need to check updated version
-socket = socketio.Client()
+socket = socketio.Client(ssl_verify=False)
 
 @socket.event
 def connect():
@@ -18,7 +18,7 @@ def disconnect():
 # Connect to SocketIO before threads start
 def connect_to_socket():
     try:
-        socket.connect("http://127.0.0.1:5000",transports=["websocket"]) 
+        socket.connect("wss://127.0.0.1:5000",transports=["websocket"]) 
         print("SocketIO connected.")
     except Exception as e:
         print(f"Error connecting to SocketIO server: {e}")

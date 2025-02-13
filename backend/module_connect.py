@@ -1,13 +1,15 @@
 from flask import Flask
 from flask_socketio import SocketIO
 from pymongo import MongoClient
+import eventlet
 import gridfs
 import base64
 from io import BytesIO
 from PIL import Image
 import os
 from datetime import datetime
-from Non_Rel_DB.store_pic import decode_and_store_image
+#from Non_Rel_DB.store_pic import decode_and_store_image
+import ssl
 
 
 
@@ -40,7 +42,7 @@ def handle_send_to_mongo(data):
     decide how you want the data to be encoded / sent - image_base64, image_Binary, nparray etc
     """
     user_id=1 #test
-    decode_and_store_image(data["image"], user_id, data["camera_ip"])
+    #decode_and_store_image(data["image"], user_id, data["camera_ip"])
     # Handle the data
     return
 
@@ -56,5 +58,19 @@ def stream_error(data):
         file.write(f": {error_message}\n")
 
 if __name__ == "__main__":
-    print("Starting Flask-SocketIO server on port 5000...")
-    socketio.run(app, host="0.0.0.0", port=5000, debug=True,)
+    
+
+    print("Starting Flask-SocketIO server on port 5000 with SSL...")
+    
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context.load_cert_chain(certfile="server.cert", keyfile="server.key")
+
+    secure_socket = eventlet.wrap_ssl(
+        eventlet.listen(('0.0.0.0', 5000)), 
+        certfile="server.cert",
+        keyfile="server.key",
+        server_side=True
+    )
+
+    # Start the eventlet WSGI server with the wrapped socket
+    eventlet.wsgi.server(secure_socket, app)
