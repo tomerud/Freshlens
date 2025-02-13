@@ -113,7 +113,7 @@ def get_event_from_camera(_cam_ip: str, _cam_port: int, demo: bool) -> str:
     return "no_light_detected"
 
 # Connect to the server.
-socket_client.connect("http://127.0.0.1:5000")
+socket_client.connect("http://127.0.0.1:5000",transports=["websocket"])
 
 # Start listener for each camera.
 camera_info = [("10.0.0.1", 8554, "concatenated-sample")]

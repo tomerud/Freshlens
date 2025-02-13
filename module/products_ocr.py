@@ -1,3 +1,11 @@
+"""
+products_ocr Module
+
+This module detect expiration dates using a YOLO model,
+and preprocess the expiration dates canidates
+and extract the date using EasyOCR.
+"""
+
 from typing import List, Tuple,Dict
 import easyocr
 from ultralytics.engine.results import Boxes # for type hinting
@@ -12,8 +20,8 @@ from proccess_img_and_date import resize_with_letterbox, adjust_boxes , best_can
 
 #TODO:
 # 1. **Rotation**:
-#    - Add rotation to pictures as detexct (unless under 10? in ordedr to improve results): both sides rotate
-#    - OR try to fine tune OCR
+#    - Consider what angles require rotations!
+#      for now did <10, maybe <30?
 
 # 2. **test**
 #   - remove the test and debug codes
@@ -113,4 +121,3 @@ if __name__ == "__main__":
     model.eval()
     ocr=products_exp_dates(model,rotated_img)
     print(ocr)
-    print(type(ocr))

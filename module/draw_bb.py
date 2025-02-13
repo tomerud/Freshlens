@@ -12,6 +12,7 @@ import cv2
 import numpy as np
 from PIL import Image
 
+
 def draw_on_image(
     detections: List[
         Tuple[int, int, Tuple[int, int, int, int], np.ndarray] |
@@ -41,7 +42,7 @@ def draw_on_image(
         else:
             color = (0, 255, 0)  # Fresh (Green)
 
-        cv2.rectangle(# pylint: disable=E1101
+        cv2.rectangle(  # pylint: disable=E1101
             image, (x_min, y_min), (x_max, y_max), color, 2
         )
 

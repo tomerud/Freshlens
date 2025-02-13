@@ -1,5 +1,5 @@
 import socketio
-from Backend_connect import sendToDB,sendToMongo
+from backend_connect import send_to_db,send_to_mongo
 from PIL import Image
 import base64
 import io
@@ -26,8 +26,8 @@ def connect_to_socket():
 connect_to_socket()
 camera_ip = "10.0.0.1"
 port=8554
-#expDate = [1, 2, (100, 200, 300, 400), "2025-02-01"]
-#sendToDB(socket,camera_ip,port, expDate)
+expDate = [1, 2, (100, 200, 300, 400), "2025-02-01"]
+send_to_db(socket,camera_ip,port, expDate)
 
-image = Image.open("assets/shelf.jpg")
-sendToMongo(socket,camera_ip,port, image)
+#image = Image.open("assets/shelf.jpg")
+#send_to_mongo(socket,camera_ip,port, image)
