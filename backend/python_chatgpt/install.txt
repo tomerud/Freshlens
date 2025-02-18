@@ -1,0 +1,6 @@
+Install openai lib in venv :
+
+python -m venv venv    # Once to create the virtual environment
+venv\Scripts\activate   
+pip install -q openai
+deactivate
