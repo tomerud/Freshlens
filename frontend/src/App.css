@@ -1,16 +1,16 @@
 #root {
-  margin: 0 auto;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  width: 360px;
-  height: 660px;
+  width: 292px;
+  height: 633px;
   margin: auto;
-  padding: 20px;
+  padding: 12px;
   text-align: center;
   background: rgba(0, 0, 0, 0.684);
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
-  border-radius: 40px;
+  border-radius: 30px;
   overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {

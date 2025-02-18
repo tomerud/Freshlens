@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { FridgeHeader } from "../../fridgeHeader";
+import { FridgeHeader } from "../../../fridgeHeader";
 import { ItemsList } from "./ItemsList";
-import { Loader } from "../../../../loader";
+import { Loader } from "../../../../../loader";
 import { PriceData } from "./PriceData";
 import { NutrientData } from "./NutrientData";
-import { TipsSection } from "../../../../TipsSection";
+import { TipsSection } from "../../../../../TipsSection";
 
 import "./productPage.scss";
 
@@ -38,7 +38,7 @@ export const ProductPage = () => {
   
   return (
     <>
-      <FridgeHeader title={ProductName!.product_name.toUpperCase() } subtitle="everything you want to know"/>
+      <FridgeHeader title={ProductName!.product_name} subtitle="everything you want to know"/>
       <ItemsList />
       <PriceData/>
       <NutrientData />

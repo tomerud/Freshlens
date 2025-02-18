@@ -1,7 +1,12 @@
-.fridge-card {
+.add-fridge-card {
   background: white;
   padding-bottom: 15px;
   border-radius: 12px;
+  box-shadow: 0px 0px 3.1px 2px rgba(0, 0, 0, 0.07);
+}
+
+.add-fridge-subtitle {
+margin-bottom: 14px;
 }
 
 .input-container {
@@ -31,4 +36,19 @@
   font-size: 14px;
   font-weight: bold;
   margin-top: 10px;
+}
+
+.add-fridge-button {
+  background: none;
+  border: none;
+  outline: none; 
+  box-shadow: none; 
+  cursor: pointer; 
+}
+
+.add-fridge-button:focus,
+.add-fridge-button:active {
+  border: none;
+  outline: none;
+  box-shadow: none;
 }

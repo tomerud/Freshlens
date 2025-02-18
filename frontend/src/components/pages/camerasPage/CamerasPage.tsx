@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { FridgeHeader } from "../fridgePage/fridgeHeader";
 import { Loader } from "../../loader";
-
+import { FridgeHeader } from "../allFridgesPage/fridgeHeader";
 import { CameraImage } from "./cameraImage";
 
 import "./camerasPage.scss";

@@ -22,7 +22,8 @@ const fetchRecipe = async (userId: string): Promise<RecipeResponse> => {
 };
 
 export const RecipeSuggestion = () => {
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
   // const { data, isLoading, error } = useQuery<RecipeResponse, Error>({
   //   queryKey: ["recipeSuggestion", userId],
   //   queryFn: () => fetchRecipe(userId),

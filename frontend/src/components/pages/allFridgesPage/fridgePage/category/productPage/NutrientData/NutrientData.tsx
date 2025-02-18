@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
-import { Loader } from "../../../../../loader";
+import { Loader } from "../../../../../../loader";
 
 import "./nutrientData.scss";
 
