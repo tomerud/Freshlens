@@ -15,18 +15,17 @@ from python_chatgpt.chat import generate_recipe
 >>>>>>> 092d4e2 (Removed API key from chat.py)
 recipe_bp = Blueprint('recipe_bp', __name__)
 
-@recipe_bp.route('/get_recipe', methods=['GET'])
-def get_recipe():
+@recipe_bp.route('/get_suggested_recipe', methods=['GET'])
+def get_suggested_recipe():
     try:
-        # data is fridge_id
-
         fridge_id = request.args.get("fridge_id")
+        
         if not fridge_id:
             return jsonify({"error": "fridge_id query parameter is required."}), 400
 
         inventory = get_fridge_products_with_expiry_dates(fridge_id)
+        print("inventory: ", inventory)
 
-        # Generate recipe
         recipe = generate_recipe(inventory)
         if recipe:
             print(recipe)
