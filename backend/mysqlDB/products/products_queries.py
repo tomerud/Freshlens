@@ -150,6 +150,7 @@ def get_fridge_products_with_expiry_dates(fridge_id):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     
 =======
     # Join all entries into a single string
@@ -159,6 +160,9 @@ def get_fridge_products_with_expiry_dates(fridge_id):
 =======
     
 >>>>>>> 67fc08a (changed_productQ)
+=======
+    
+>>>>>>> origin/main
     return ', '.join(product_entries)
 
 
