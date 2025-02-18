@@ -141,6 +141,8 @@ def get_fridge_products_with_expiry_dates(fridge_id):
         product_entries.append(formatted_entry)
 
     # Join all entries into a single string
+    a = ', '.join(product_entries)
+    print(a)
     return ', '.join(product_entries)
 
 

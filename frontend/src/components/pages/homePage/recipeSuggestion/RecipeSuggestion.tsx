@@ -12,7 +12,7 @@ interface RecipeResponse {
 }
 
 const fetchRecipe = async (userId: string): Promise<RecipeResponse> => {
-  const response = await fetch(`/api/get_suggested_recipe?user_id=${userId}`);
+  const response = await fetch(`/api/get_suggested_recipe?fridge_id=${1}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch recipe");
@@ -24,14 +24,14 @@ const fetchRecipe = async (userId: string): Promise<RecipeResponse> => {
 export const RecipeSuggestion = () => {
   // const { user } = useAuth();
   const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
-  // const { data, isLoading, error } = useQuery<RecipeResponse, Error>({
-  //   queryKey: ["recipeSuggestion", userId],
-  //   queryFn: () => fetchRecipe(userId),
-  // });
+  const { data, isLoading, error } = useQuery<RecipeResponse, Error>({
+    queryKey: ["recipeSuggestion", userId],
+    queryFn: () => fetchRecipe(userId),
+  });
 
-  // if (isLoading) return <Loader />;
-  // if (error) return <p className="error-message">Error: {error.message}</p>;
-  // if (!data?.recipe) return <p className="no-recipe">No recipe for today</p>;
+  if (isLoading) return <Loader />;
+  if (error) return <p className="error-message">Error: {error.message}</p>;
+  if (!data?.recipe) return <p className="no-recipe">No recipe for today</p>;
 
   const recipe = "khrjg gshgkj hg jhg ks"
   return (
