@@ -39,11 +39,12 @@ def format_recipes(recipe_string):
         ingredients = extract_ingredients(recipe_text)
         instructions = extract_instructions(recipe_text)
 
-        formatted_recipes.append({
-            "title": title,
-            "ingredients": ingredients,
-            "instructions": instructions
-        })
+        if ingredients and instructions:
+            formatted_recipes.append({
+                "title": title,
+                "ingredients": ingredients,
+                "instructions": instructions
+            })
     
     return formatted_recipes
 

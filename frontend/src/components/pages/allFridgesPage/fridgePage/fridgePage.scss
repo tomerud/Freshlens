@@ -7,3 +7,26 @@
 .fridge-page.fade-in {
   opacity: 1;
 }
+
+.recipe-button {
+  display: inline-block;
+  width: 100%;
+  max-width: 250px;
+  padding: 12px 20px;
+  margin-top: 15px;
+  background: #007AFF;  /* Nice blue color */
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  border: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.get-recipe-button{
+  color:black;
+  margin-top: 20px;
+}

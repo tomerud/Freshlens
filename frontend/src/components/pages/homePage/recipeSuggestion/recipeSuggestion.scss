@@ -1,53 +1,59 @@
 .recipe-container {
-  background: #c1e0ed;
-  padding: 0;
+  padding: 0 15px;
   border-radius: 10px;
-  box-shadow: 0px 0px 3.1px 2px rgba(0, 0, 0, 0.07);
-  text-align: center;
-  width: 100%;
-  transition: all 0.3s ease-in-out;
+  text-align: left;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: #000;
+  font-feature-settings: 'dlig' on;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 200;
+  line-height: 33.341px;
+}
+
+.recipe-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.recipe-card:hover {
+  transform: scale(1.02);
 }
 
 .recipe-title {
-  padding-top: 12px;
   font-size: 18px;
-  font-weight: bold;
-  color: rgb(0, 0, 0);
-}
-
-.recipe-text {
-  font-size: 16px;
-  color: rgb(0, 0, 0);
-  min-height: 30px;
-  padding-bottom: 12px;
-  text-align: center;
-  margin: 0 10px;
-}
-
-.error-message {
-  color: red;
-  text-align: center;
-}
-
-.no-recipe {
-  color: rgb(61, 186, 67);
-  text-align: center;
-}
-
-
-.no-bullets, .no-numbers {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.ingredient-list, .instruction-list {
-  margin-top: 5px;
   margin-bottom: 10px;
+  text-transform: uppercase;
+  font-feature-settings: 'dlig' on;
+  font-style: normal;
+  font-weight: 200;
+  line-height: 33.341px;
 }
 
-.ingredient-item, .instruction-item {
-  margin: 2px 0;
+.section-header {
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.ingredient-list,
+.instruction-list {
+  padding: 0 10px;
+}
+
+.ingredient-item,
+.instruction-item {
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
+  margin-bottom: 5px;
+}
+
+.ingredient-list li,
+.instruction-list li {
+  list-style-type: none;
 }

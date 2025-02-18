@@ -1,8 +1,8 @@
 import { useState } from "react";
 import _ from "lodash";
+import classNames from "classnames"; 
 
 import { useNavigate } from "react-router-dom";
-import classNames from "classnames"; 
 
 import './FridgeHeader.scss';
 

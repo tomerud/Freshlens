@@ -14,13 +14,17 @@
 
 .camera-timestamp {
   margin: 0 5px;
-}
-
-.camera-ip {
-  margin-top: 10px;
-  margin-bottom: 0;
+  text-align: left;
+  padding-left: 6px;
+  font-size: 12px;
+  color: #A4A4A4;
 }
 
 .fridge-name{
   margin: 0;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 200;
+  line-height: 36px;
+  letter-spacing: -0.72px;
 }

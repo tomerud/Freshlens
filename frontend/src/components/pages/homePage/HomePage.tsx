@@ -18,7 +18,6 @@ export const HomePage = () => {
         <Notifications />
         <GraphSection />
         <TipsSection />
-        <RecipeSuggestion />
       </div>
     </>
   );
