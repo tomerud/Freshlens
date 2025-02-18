@@ -24,13 +24,10 @@ def get_suggested_recipe():
             return jsonify({"error": "fridge_id query parameter is required."}), 400
 
         inventory = get_fridge_products_with_expiry_dates(fridge_id)
-        print("inventory: ", inventory)
 
-        recipe = generate_recipe(inventory)
-        if recipe:
-            print(recipe)
+        recipes = generate_recipe(inventory)
 
-        return jsonify(recipe), 200
+        return jsonify(recipes), 200
     except Exception as e:
 <<<<<<< HEAD
         return jsonify({"error": str(e)}), 500
