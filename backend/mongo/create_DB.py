@@ -15,12 +15,22 @@ def store_image(file_path, camera_ip):
     print(f"Image stored with ID: {image_id}, Camera IP: {camera_ip}, Filename: {filename}")
     return image_id
 
-# Example Usage
-camera_ip = "192.168.1.100"
-relative_path = os.path.join("backend", "mongo", "demo-images", "one.jpg")
-absolute_path = os.path.abspath(relative_path)
+image_paths = [
+    os.path.join("backend", "mongo", "demo-images", "one.jpg"),
+    os.path.join("backend", "mongo", "demo-images", "two.jpg"),
+    os.path.join("backend", "mongo", "demo-images", "three.jpg"),
+]
 
-store_image(absolute_path, camera_ip)
+camera_ips = [
+    "192.168.1.100",
+    "192.168.1.101",
+    "192.168.1.102"
+]
+
+absolute_paths = [os.path.abspath(path) for path in image_paths]
+
+for path, ip in zip(absolute_paths, camera_ips):
+    store_image(path, ip)
 
 
 

@@ -1,15 +1,11 @@
-.nutrient-container {
-  // padding: 20px;
-  margin: auto;
-  text-align: center;
-  border-radius: 8px;
-  box-shadow: 0px 0px 3.1px 2px rgba(0, 0, 0, 0.07);
-}
-
 .nutrient-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 4px;
+  color: #A4A4A4;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 36px;
+  text-align: left;
+  padding-left: 10px;
 }
 
 .serving-size {
@@ -27,10 +23,23 @@
 .nutrient-table th, .nutrient-table td {
   padding: 6px;
   border: 1px solid #ddd;
-  text-align: center;
+
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 16.038px;
+  letter-spacing: -0.368px;
+  padding: 10px 16px;
 }
 
 .nutrient-table th {
-  background-color: #c1e4fb;
-  font-weight: bold;
+  background-color: #171918;
+  color: white;
+  font-feature-settings: 'dlig' on;
+  font-family: Inter;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 16.038px;
+  letter-spacing: -0.368px;
+  padding: 16px;
 }

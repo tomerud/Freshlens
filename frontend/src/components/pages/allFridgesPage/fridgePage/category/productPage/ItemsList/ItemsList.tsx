@@ -52,13 +52,12 @@ export const ItemsList = () => {
 
   return (
     <div className="items-container">
-      <h3 className="items-title">🛒 Items in Your Fridge</h3>
+      <h3 className="items-title">Items in Your Fridge</h3>
       <ul className="items-list">
         {items.map((item, index) => (
           <li key={index} className={`item-card ${item.is_rotten ? "rotten" : "fresh"}`}>
             <div className="item-header">
               <span className="status-icon">{item.is_rotten ? "🛑 Rotten" : "✅ Fresh"}</span>
-              <span className="item-id">#{item.item_id}</span>
             </div>
             <div className="item-info">
               <span><strong>Entered:</strong> {item.date_entered}</span>

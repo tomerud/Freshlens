@@ -7,7 +7,7 @@ export const Loader = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 3000); // Delay to prevent flickering
+    const timer = setTimeout(() => setVisible(true), 1000); // Delay to prevent flickering
     return () => clearTimeout(timer);
   }, []);
 

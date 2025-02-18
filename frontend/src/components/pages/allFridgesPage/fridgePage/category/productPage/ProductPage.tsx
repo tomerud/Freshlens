@@ -42,7 +42,7 @@ export const ProductPage = () => {
       <ItemsList />
       <PriceData/>
       <NutrientData />
-      <TipsSection productId={productId} addedTitle={ProductName!.product_name}/>
+      <TipsSection productId={productId} addedTitle={ProductName!.product_name} classname="no-border"/>
     </>
   );
 };

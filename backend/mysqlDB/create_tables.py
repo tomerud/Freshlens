@@ -130,9 +130,10 @@ def insert_demo_data_to_fridge_table():
     insert_new_fridge_to_db(example_user_id, example_fridge_name_2)
 
 def insert_demo_data_to_camera_table():
-    example_camera_ip = "192.168.1.100"
     example_fridge_id = 1
-    insert_camera_to_db(camera_ip=example_camera_ip, fridge_id=example_fridge_id)
+    insert_camera_to_db(camera_ip="192.168.1.100", fridge_id=example_fridge_id)
+    insert_camera_to_db(camera_ip="192.168.1.101", fridge_id=example_fridge_id)
+    insert_camera_to_db(camera_ip="192.168.1.102", fridge_id=example_fridge_id)
 
 def insert_demo_data_to_item_table():
     products = get_all_products_from_db()

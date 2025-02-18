@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {useParams } from 'react-router-dom';
+import {Link, useParams } from 'react-router-dom';
 import { Options } from '../options';
 
 import './FridgePage.scss';
@@ -16,10 +16,13 @@ interface Category {
   };
   
   export const FridgePage = () => {
-    const { fridgeId } = useParams<{ fridgeId: string }>();
+    const { fridgeId } = useParams<{ fridgeId?: string }>();
+
+    if (!fridgeId) return <p className="error-message">Invalid fridge ID</p>;
   
     return (
-      <Options
+      <>
+        <Options
         title="My Fridge"
         subtitle="Choose a category"
         queryKey={["categories", fridgeId]}
@@ -28,6 +31,12 @@ interface Category {
         itemKey={(category) => category.category_id}
         itemLabel={(category) => category.category_name}
         itemLink={(category) => `${category.category_name}`}
-      />
+        />
+        <div className="get-recipe-button">
+          <Link key={fridgeId} to={`/fridges/recipes/${fridgeId}`}>
+            Get Recipe!
+          </Link>
+        </div>
+      </>
     );
   };
