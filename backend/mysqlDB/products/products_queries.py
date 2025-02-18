@@ -134,13 +134,20 @@ def get_fridge_products_with_expiry_dates(fridge_id):
 
     # Create a list to hold formatted strings
     product_entries = []
+    for row in result:
+        product_name = row["product_name"]
+        expiry_date = row["anticipated_expiry_date"]
+        if isinstance(expiry_date, str):  # if str, wont work beacusedyt dosent have strftime 
+            try:
+                expiry_date = datetime.strptime(expiry_date, "%Y-%m-%d")  # Adjust format 
+            except ValueError:
+                expiry_date = None  # Handle invalid date formats
 
-    for product_name, expiry_date in result:
         expiry_date_str = expiry_date.strftime("%Y-%m-%d") if expiry_date else "Unknown"
         formatted_entry = f"{product_name}: {expiry_date_str}"
         product_entries.append(formatted_entry)
 
-    # Join all entries into a single string
+    
     return ', '.join(product_entries)
 
 
