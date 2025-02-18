@@ -145,27 +145,50 @@ if __name__ == "__main__":
 MODEL_PATH = "Models/object_detect_v8.pt"   
 # Load YOLO model
 detection_model = YOLO(MODEL_PATH)
-PATH="assets/fruitSO.mp4"
+PATH="newvids/IMG_0737.MOV"
 # PATH="assets/freshlens2.mp4"
-res= process_video(PATH,detection_model)
+res= process_video(PATH,detection_model,True)
 
 # for detect in res:
 #     print(detect[2])
 
-
+save = res[1][3]
 
 from draw_bb import draw_on_image 
-res[1] = (res[1][0], res[1][1], (868, 54, 1152, 529), "2025-02-24")
-res[2] = (res[2][0], res[2][1], (515, 540, 825, 797), "2025-02-27")
-res[3] = (res[3][0], res[3][1], (828, 618, 1041, 834), "2025-02-22")
+res[1] = (res[1][0], res[1][1], res[1][2], "2025-02-23")
+res[2] = (res[2][0], res[2][1], res[2][2], "2025-02-21")
+#res[3] = (res[3][0], res[3][1], res[3][2], "2025-02-19")
 
-save_path = "assets/test2.jpg"
+save_path = "assets/sofia3.jpg"
 draw=draw_on_image(res)
 draw = cv2.cvtColor(np.array(draw), cv2.COLOR_RGB2BGR)
 cv2.imwrite(save_path, draw)
 print(f"Image saved at: {save_path}")
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+if isinstance(save, Image.Image):
+    save = np.array(save)  # Convert to NumPy array
+
+testing = Image.fromarray(save)  # Convert back to PIL Image if needed
+
+# Convert PIL Image to NumPy array for OpenCV
+testing_cv = np.array(testing)  
+
+# Ensure it's in the right color format (OpenCV uses BGR)
+testing_cv = cv2.cvtColor(testing_cv, cv2.COLOR_RGB2BGR)
+
+save_path = "assets/ocrtest.jpg"
+cv2.imwrite(save_path, testing_cv)  # Save image using OpenCV
+
+# Load YOLO model
+model_date_path = "Models/DateDetection.pt"
+model_date_detect = YOLO(model_date_path)
+model_date_detect.eval()
+
+# Import function and pass the correct image format
+from products_ocr import products_exp_dates
+i = products_exp_dates(model_date_detect, testing)  # Ensure `testing` is the expected format
+print(i)
 
 """ for i,j,k,l in res:
     l.show()

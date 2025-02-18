@@ -95,18 +95,28 @@ def products_exp_dates(model: YOLO, product: Image.Image) -> str:
 
     # Pass the product image and adjusted boxes to Tesseract OCR
     ocr_results = extract_text_from_boxes(product, adjusted_boxes)
-
     date = select_best_expiration_date(ocr_results) # format dates and return best canidate
-    return date
+
 
     # for debug - this code show the detected date boxes.
+    #from datetime import datetime
+    # date_obj = datetime.strptime(date, "%Y-%m-%d")
+    # formatted_date = date_obj.strftime("%d %m %Y")
+
     # plt.imshow(product)
     # plt.axis('off')
-    # for box in adjusted_boxes:
+    # i=0
+    # for box in adjusted_boxes[:1]:
     #     x_min, y_min, x_max, y_max = map(int, box)
     #     plt.gca().add_patch(plt.Rectangle((x_min, y_min), x_max - x_min, y_max - y_min,
-    #                                       edgecolor='red', facecolor='none', linewidth=2))
+    #                                       edgecolor='red', facecolor='none', linewidth=1))
+        
+    #     plt.text(x_min-300, y_min + 500, formatted_date, color='black', fontsize=6, fontweight='bold')
+
     # plt.show()
+    return date
+
+    
 
 
 if __name__ == "__main__":

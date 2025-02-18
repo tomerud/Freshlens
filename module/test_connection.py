@@ -26,8 +26,12 @@ def connect_to_socket():
 connect_to_socket()
 camera_ip = "10.0.0.1"
 port=8554
-expDate = [1, 2, (100, 200, 300, 400), "2025-02-01"]
-send_to_db(socket,camera_ip,port, expDate)
+"""
+tomer camera Ip, port and a list
+    [(product_id,class_id,exp date)]
+"""
+detections = [[(-1,-1,1)],[(1,2, "2025-02-01")]]
+send_to_db(socket,camera_ip,port, detections)
 
 #image = Image.open("assets/shelf.jpg")
 #send_to_mongo(socket,camera_ip,port, image)

@@ -10,7 +10,7 @@ import os
 from datetime import datetime
 #from Non_Rel_DB.store_pic import decode_and_store_image
 import ssl
-
+from mysqlDB.items.insert_new_item_to_db import sync_items_for_camera
 
 
 app = Flask(__name__)
@@ -29,9 +29,11 @@ def handle_connect():
 def handle_send_to_db(data):
     """ you get camera Ip, port and a list
     [(product_id,class_id,exp date)]
-    format of exp date -> with Elya!
-
+    format of exp date  
     """
+    ip=data['camera_ip']
+    print(type(data))
+    sync_items_for_camera(ip,data)
     # Handle the data 
     print("Received data for DB:", data)
     
