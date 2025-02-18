@@ -8,8 +8,11 @@ import "./homePageHeader.scss";
 
 export const HomePageHeader = () => {
   const today = new Date();
-  const options: Intl.DateTimeFormatOptions = { weekday: "long", day: "numeric", month: "long" };
-  const formattedDate = today.toLocaleDateString("en-US", options);
+  const formattedDate = today.toLocaleDateString("en-US", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
 
   const { notifications } = useNotifications();
   const notificationCount = notifications.length;

@@ -1,0 +1,26 @@
+.status-bar {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 292px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: black;
+  background: white;
+}
+
+.time {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  padding-left: 20px;
+}
+
+.icons {
+  height: 16px;
+  padding-right: 20px;
+}

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import _ from "lodash";
+
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames"; 
 
@@ -45,7 +47,7 @@ export const FridgeHeader = ({ title, subtitle, showBackButton = true, onSearch 
             autoFocus
           />
         ) : (
-          <h1>{title}</h1>
+            <h1>{_.startCase(_.toLower(title))}</h1>
         )}
 
         <button className={classNames("search-button", { hidden: !onSearch })} onClick={toggleSearch}>

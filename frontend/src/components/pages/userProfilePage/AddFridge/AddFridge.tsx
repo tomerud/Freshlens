@@ -36,8 +36,8 @@ export const AddFridge = () => {
   });
 
   return (
-    <div className="fridge-card">
-      <h3>Add a New Fridge</h3>
+    <div className="add-fridge-card">
+      <h4 className="add-fridge-subtitle">Add a New Fridge</h4>
       <div className="input-container">
         <input
           type="text"
@@ -46,7 +46,7 @@ export const AddFridge = () => {
           onChange={(e) => setFridgeName(e.target.value)}
           disabled={isPending}
         />
-        <button onClick={() => addFridge({ newFridgeName: fridgeName })} disabled={isPending}>Add</button>
+        <button className="add-fridge-button" onClick={() => addFridge({ newFridgeName: fridgeName })} disabled={isPending}>+</button>
       </div>
       {successMessage && <p className="success-text">{successMessage}</p>}
       {error && <p className="error-text">Error: {error.message}</p>}

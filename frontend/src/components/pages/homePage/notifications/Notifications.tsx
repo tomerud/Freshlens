@@ -33,7 +33,7 @@ export const Notifications = () => {
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
         >
-          <p>{notifications[index].message}</p>
+          <p className="notification-text">{notifications[index].message}</p>
         </motion.div>
       </AnimatePresence>
     </div>
