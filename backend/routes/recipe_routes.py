@@ -1,35 +1,34 @@
 from flask import Blueprint, request, jsonify
-from DB.fridge.get_fridges import get_fridges_from_db
-#from DB.??? import ???  
+from DB.products.products_queries import get_fridge_products_with_expiry_dates
+from python_chatgpt.chat import generate_recipe
 
 # TODO:
 #  
 # **SQL**: 
 # - fill the correct from DB.??? import ??? - to get all the product, amount, exp 
 
-# ** recpie func**: 
-# - fill recpie = .... with the right function
 recipe_bp = Blueprint('recipe_bp', __name__)
 
 @recipe_bp.route('/get_recipe', methods=['GET'])
 def get_recipe():
     try:
-        # data is user_id
+        # data is fridge_id
 
-        user_id = request.args.get("user_id")
-        if not user_id:
-            return jsonify({"error": "user_id query parameter is required."}), 400
-        
-        # Get fridges
-        fridges = get_fridges_from_db(user_id)
-        #fridges_list = [{"fridge_id": row[0], "fridge_name": row[1]} for row in fridges]
+        fridge_id = request.args.get("fridge_id")
+        if not fridge_id:
+            return jsonify({"error": "fridge_id query parameter is required."}), 400
 
-        # Get products for each fridge: need to get the procut, amount, expdate
-        ingridients = None # fill
+        inventory = get_fridge_products_with_expiry_dates(fridge_id)
 
         # Generate recipe
-        recipe = generate_recipe(ingridients)
+        recipe = generate_recipe(inventory)
+        if recipe:
+            print(recipe)
 
         return jsonify(recipe), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
+
+    

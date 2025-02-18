@@ -96,32 +96,20 @@ def create_tables():
                     is_specific_product_tip BOOLEAN
                 )
             """,
-            "item_usage": """
-            CREATE TABLE IF NOT EXISTS item_usage (
-                usage_id INT AUTO_INCREMENT PRIMARY KEY,
-                item_id INT NOT NULL,
-                user_id VARCHAR(28) NOT NULL,
-                quantity_used DECIMAL(10,2),
-                date_consumed DATE NOT NULL,
-                was_wasted BOOLEAN DEFAULT FALSE,
-                FOREIGN KEY (item_id) REFERENCES item(item_id),
-                FOREIGN KEY (user_id) REFERENCES users(user_id)
-            );
-        """,
-        "user_purchases": """
-            CREATE TABLE IF NOT EXISTS user_purchases (
-                purchase_id INT AUTO_INCREMENT PRIMARY KEY,
-                user_id VARCHAR(28) NOT NULL,
-                product_id INT NOT NULL,
-                quantity DECIMAL(10,2) NOT NULL,
-                purchase_date DATE NOT NULL,
-                price DECIMAL(10,2),
-                store VARCHAR(255),
-                FOREIGN KEY (user_id) REFERENCES users(user_id),
-                FOREIGN KEY (product_id) REFERENCES product_global_info(product_id)
-            );
+        "user_product_history": """
+        CREATE TABLE IF NOT EXISTS user_product_history (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id VARCHAR(28),
+            product_id INT,
+            purchase_date DATE,
+            quantity_purchased INT,
+            quantity_consumed INT,
+            quantity_thrown_out INT
+        );
         """
-    }
+            
+    }       #user_product_history - need to add FOREIGN KEY (user_id) REFERENCES users(id),
+            #user_product_history - need to add FOREIGN KEY (product_id) REFERENCES products(id)
 
     for table_name, table_sql in tables.items():
         execute_query(table_sql)
@@ -139,7 +127,9 @@ def drop_all_tables():
             "canadian_products_prices": """DROP TABLE IF EXISTS canadian_products_prices""",
             "food_storage_tips" : "DROP TABLE IF EXISTS food_storage_tips",
             "item_usage": """DROP TABLE IF EXISTS item_usage""",
-            "user_purchases": """DROP TABLE IF EXISTS user_purchases"""
+            "user_purchases": """DROP TABLE IF EXISTS user_purchases""",
+
+            "user_product_history": """DROP TABLE IF EXISTS user_product_history"""
         }
 
     for table_name, table_sql in tables.items():

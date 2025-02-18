@@ -24,7 +24,6 @@ if __name__ == "__main__":
 
         Detected_products = []  # List to store Track_id(object id), class_id,bounding_box,img]
         # Open video capture
-        cap = cv2.VideoCapture(rtsp_path)
         retry_count = 5
         for i in range(retry_count):
             cap = cv2.VideoCapture(rtsp_path)
@@ -57,22 +56,14 @@ if __name__ == "__main__":
         #try read stream
         while cap.isOpened():
             ret, frame = cap.read()
-            retry_count = 3
-            for i in range(retry_count):
-                ret, frame = cap.read()
-                if ret:
-                    break
-                print(f"Failed to read frame. Retrying... ({i}")
-                time.sleep(1)  # Sleep before retrying
-            else:
-                print("Error - unable to read frame after several retries.")
-                continue  # Skip this frame and continue processing the next one
+            if not ret:
+                break
 
                 
             # Initialize a list to store objects for the current frame
             last_frame_objects = []
             Last_frame = frame.copy()            # Run YOLO detection on the frame
-            results = model.track(frame, persist=True, classes=[1, 2, 3, 5, 6, 7])  # YOLO class indices
+            results = model.track(frame, persist=True)  # YOLO class indices
 
             detections = []
             if results[0].boxes.data is not None:
@@ -103,18 +94,18 @@ if __name__ == "__main__":
 
                 # Retrieve the class index (class ID) instead of the name
                 class_id = track.get_det_class() if track.get_det_class() is not None else -1  # Use -1 for unknown class
-
+                name= class_list[class_id]
                 # Debug output for DeepSORT tracks - remove after test
-                print(f"DeepSORT Track - ID: {track.track_id}, BBox: [{x1}, {y1}, {x2}, {y2}], Class: {class_id}")
+                print(f"DeepSORT Track - ID: {track.track_id}, BBox: [{x1}, {y1}, {x2}, {y2}], Class: {name}")
 
                 # Draw DeepSORT bounding box
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)  # Green Box
-                cv2.putText(frame, f"ID: {track.track_id} {class_id}", (x1, y1 - 10),
+                cv2.putText(frame, f"ID: {track.track_id} {name}", (x1, y1 - 10),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
                 # Add to last frame objects
                 last_frame_objects.append({
                         "id": track.track_id,
-                        "class_id": class_id,
+                        "class_id": name,
                         "bbox": (x1, y1, x2, y2)
                     })
             if Record:
@@ -150,18 +141,25 @@ if __name__ == "__main__":
 
 
 # Path to trained YOLO model
-MODEL_PATH = "Models/ProductDetection.pt"  
+#MODEL_PATH = "Models/ProductDetection.pt"
+MODEL_PATH = "Models/object_detect_v8.pt"   
 # Load YOLO model
 detection_model = YOLO(MODEL_PATH)
-PATH="assets/freshlens2.mp4"
+PATH="assets/fruitSO.mp4"
+# PATH="assets/freshlens2.mp4"
 res= process_video(PATH,detection_model)
 
-from draw_bb import draw_on_image 
-res[1] = (res[1][0], res[1][1], res[1][2], "2025-02-08")
-res[2] = (res[2][0], res[2][1], res[2][2], "2025-02-13")
-res[3] = (res[3][0], res[3][1], res[3][2], "2025-02-05")
+# for detect in res:
+#     print(detect[2])
 
-save_path = "assets/shelf.jpg"
+
+
+from draw_bb import draw_on_image 
+res[1] = (res[1][0], res[1][1], (868, 54, 1152, 529), "2025-02-24")
+res[2] = (res[2][0], res[2][1], (515, 540, 825, 797), "2025-02-27")
+res[3] = (res[3][0], res[3][1], (828, 618, 1041, 834), "2025-02-22")
+
+save_path = "assets/test2.jpg"
 draw=draw_on_image(res)
 draw = cv2.cvtColor(np.array(draw), cv2.COLOR_RGB2BGR)
 cv2.imwrite(save_path, draw)
