@@ -42,7 +42,7 @@ export const UpdateSubscription = () => {
 
   return (
     <div className="subscription-card">
-    <h3>Update Subscription Plan</h3>
+    <h4>Update Subscription Plan</h4>
     <div className="buttons">
       {SUBSCRIPTION_OPTIONS.map(({ id, label, className }) => (
         <button

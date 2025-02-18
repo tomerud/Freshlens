@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import "./itemsList.scss";
-import { Loader } from "../../../../../loader";
+import { Loader } from "../../../../../../loader";
 
 interface Item {
   item_id: string;

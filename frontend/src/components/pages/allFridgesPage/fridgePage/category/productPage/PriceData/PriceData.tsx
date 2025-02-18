@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
-import { Loader } from "../../../../../loader";
+import { Loader } from "../../../../../../loader";
 
 import "./priceData.scss";
 
