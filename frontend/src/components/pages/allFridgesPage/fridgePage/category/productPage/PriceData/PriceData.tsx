@@ -39,7 +39,7 @@ export const PriceData = () => {
   
   return (
       <div className="price-container">
-        <span className="price-label">Average Price:</span>
+        <span>Average Price:</span>
         <span className={`price-value ${productPrice?.avg_price ? "valid" : "invalid"}`}>
           {formattedPrice}
         </span>

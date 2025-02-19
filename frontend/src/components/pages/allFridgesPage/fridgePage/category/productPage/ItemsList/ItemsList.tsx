@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import "./itemsList.scss";
+
 import { Loader } from "../../../../../../loader";
+
+import "./itemsList.scss";
 
 interface Item {
   item_id: string;
@@ -52,16 +54,20 @@ export const ItemsList = () => {
 
   return (
     <div className="items-container">
-      <h3 className="items-title">Items in Your Fridge</h3>
+      <h4 className="items-title">Items In Your Fridge</h4>
       <ul className="items-list">
         {items.map((item, index) => (
-          <li key={index} className={`item-card ${item.is_rotten ? "rotten" : "fresh"}`}>
+          <li key={index} className="item-card">
             <div className="item-header">
-              <span className="status-icon">{item.is_rotten ? "🛑 Rotten" : "✅ Fresh"}</span>
-            </div>
-            <div className="item-info">
-              <span><strong>Entered:</strong> {item.date_entered}</span>
-              <span><strong>Expires:</strong> {item.anticipated_expiry_date}</span>
+              {item.is_rotten ? (
+                <img src="/icons/rotten.png" alt="rotten" className="status-icon" />
+              ) : (
+                <img src="/icons/fresh.png" alt="Cancel" className="status-icon"/>
+              )}
+              <div className="item-info">
+                <span><strong>Entered:</strong> {item.date_entered}</span>
+                <span><strong>Expires:</strong> {item.anticipated_expiry_date}</span>
+              </div>
             </div>
           </li>
         ))}
