@@ -1,23 +1,21 @@
 .price-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
   margin: 15px auto;
   padding: 10px 15px;
   background: white;
   border-radius: 8px;
   box-shadow: 0px 0px 3.1px 2px rgba(0, 0, 0, 0.07);
-}
 
-.price-label {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  margin-right: 8px;
+  color: #131313;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 200;
+  letter-spacing: -0.72px;
 }
 
 .price-value {
-  font-size: 20px;
-  font-weight: bold;
+  font-weight: 400;
   color: #27ae60;
+  padding-left: 10px;
 }

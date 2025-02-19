@@ -32,11 +32,11 @@ interface Category {
         itemLabel={(category) => category.category_name}
         itemLink={(category) => `${category.category_name}`}
         />
-        <div className="get-recipe-button">
+        <button className="recipe-button">
           <Link key={fridgeId} to={`/fridges/recipes/${fridgeId}`}>
             Get Recipe!
           </Link>
-        </div>
+        </button>
       </>
     );
   };
