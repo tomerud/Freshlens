@@ -1,30 +1,7 @@
-# File: backend/mysqlDB/items/insert_all_items_to_history_by_camera.py
 
-"""
-✅ **Check for __init__.py Files:**
-Ensure the following directories contain an `__init__.py` file:
-
-- `backend/`
-- `backend/mysqlDB/`
-- `backend/mysqlDB/items/`
-- `backend/mysqlDB/camera/`
-
-This allows Python to recognize these directories as packages, making relative imports work properly.
-
-To create them (if missing), run:
-```bash
-touch backend/__init__.py
-touch backend/mysqlDB/__init__.py
-touch backend/mysqlDB/items/__init__.py
-touch backend/mysqlDB/camera/__init__.py
-```
-Each `__init__.py` can be empty.
-
----
-"""
 
 from ..camera.get_items import get_items_by_camera_ip
-from .insert_to_history import insert_to_history
+from insert_to_history import insert_to_history
 
 def insert_all_items_to_history_by_camera(camera_ip):
     """
