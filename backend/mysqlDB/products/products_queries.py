@@ -1,6 +1,6 @@
 import datetime
 from ..db_utils import execute_query
-from datetime import datetime
+
 
 def get_all_categories_from_db(fridge_id):
     """
@@ -147,9 +147,8 @@ def get_fridge_products_with_expiry_dates(fridge_id):
         expiry_date_str = expiry_date.strftime("%Y-%m-%d") if expiry_date else "Unknown"
         formatted_entry = f"{product_name}: {expiry_date_str}"
         product_entries.append(formatted_entry)
-    # Join all entries into a single string
-    a = ', '.join(product_entries)
-    print(a)
+
+    
     return ', '.join(product_entries)
 
 
@@ -164,6 +163,3 @@ def about_to_expire_products(user_id):
         where DATE_ADD(i.date_entered, INTERVAL (DATEDIFF(i.anticipated_expiry_date, i.date_entered) * 0.8) DAY) < CURDATE()
                 AND f.user_id = %s
     """, (user_id, ))
-
-
-    
