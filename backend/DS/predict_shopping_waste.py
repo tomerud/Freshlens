@@ -26,60 +26,38 @@ import pandas as pd
 import plotly.graph_objects as go
 
 def plot_forecast_with_go2(forecast, title="Forecast"):
-    # Filter forecast to only include 2025
+
     forecast_2025 = forecast[forecast['ds'].dt.year == 2025]
     cutoff_date = pd.Timestamp("2025-02-10")
-
-    # Filter forecast to only include dates from 10th Feb 2025 and later
     forecast_2025 = forecast[(forecast['ds'].dt.year == 2025) & (forecast['ds'] >= cutoff_date)]
 
-    # Create a trace for the forecast
     trace = go.Scatter(
         x=forecast_2025['ds'], 
         y=forecast_2025['yhat'], 
         mode='lines+markers', 
         name='Forecast',
     )
-
-    # Layout for the plot
     layout = go.Layout(
         title=title,
         xaxis=dict(title="Date"),
         yaxis=dict(title="Quantity", showticklabels=False),
         hovermode="closest"
     )
-
-    # Create the figure
     fig = go.Figure(data=[trace], layout=layout)
-    
-    # Show the plot
     fig.show()
 
 
-
-
 def plot_forecast_with_go(forecast, title="Forecast"):
-    # Create a trace for the forecast
     trace = go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast')
-
-    # Create a trace for the lower bound
     lower_bound = go.Scatter(x=forecast['ds'], y=forecast['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash'))
-
-    # Create a trace for the upper bound
     upper_bound = go.Scatter(x=forecast['ds'], y=forecast['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash'))
-
-    # Layout for the plot
     layout = go.Layout(
         title=title,
         xaxis=dict(title="Date"),
         yaxis=dict(title="Quantity"),
         hovermode="closest"
     )
-
-    # Create the figure
     fig = go.Figure(data=[trace, lower_bound, upper_bound], layout=layout)
-    
-    # Show the plot
     fig.show()
 
 def get_user_history(user_id:int) -> pd.DataFrame:
@@ -87,20 +65,13 @@ def get_user_history(user_id:int) -> pd.DataFrame:
     this function get a user id and should send get the data, 
     for now implemented Naivly instead for speed of implementation
     """
-    # Define the query
     query = "SELECT * FROM user_product_history"
-
-    # Execute the query
     result = db_utils.execute_query(query, fetch_all=True)
 
-    # Check if the query was successful
     if result is None:
         return None
     else:
-        # Convert the result into a DataFrame
         df = pd.DataFrame(result)
-
-        # Optionally, convert the purchase_date column to datetime
         df['purchase_date'] = pd.to_datetime(df['purchase_date'])
     return df
     
@@ -111,13 +82,10 @@ def process_db(df:pd.DataFrame,product_id:int, user_id:str,
     df['user_id'] = df['user_id'].astype(str)
     df_filtered = df[(df['user_id'] == user_id) & (df['product_id'] == product_id)].copy()
     df_filtered.sort_values('purchase_date', inplace=True)
-
-    # Prepare the DataFrame for forecasting quantity purchased
+                   
     df_purchase = df_filtered[['purchase_date', 'quantity_purchased']].rename(
         columns={'purchase_date': 'ds', 'quantity_purchased': 'y'}
     )
-
-    # Prepare the DataFrame for forecasting quantity thrown out
     df_thrown = df_filtered[['purchase_date', 'quantity_thrown_out']].rename(
         columns={'purchase_date': 'ds', 'quantity_thrown_out': 'y'}
     )
@@ -136,8 +104,8 @@ def initialize_prophets(df:pd.DataFrame) -> Prophet:
     #df["floor"] = 0 # Since negatives don't make sense
     """Build Prophet Models"""
     model =  Prophet(
-    yearly_seasonality=False,   # Capture annual trends
-    weekly_seasonality=False,  # Weekly seasonality might not be useful for weekly data
+    yearly_seasonality=False,
+    weekly_seasonality=False,  # Weekly seasonality ? should think about
 )
     model.add_seasonality(name="quarterly", period=90, fourier_order=3)  
     model.add_seasonality(name='monthly', period=30.5, fourier_order=3)
@@ -149,7 +117,7 @@ def pipeline(user_id:str):
     user_history = get_user_history(user_id)
     #df['user_id'] = df['user_id'].astype(str)
     products = user_history['product_id'].dropna().unique()
-    products=[5] # test
+    products=[5] # test - so wont show for too much products
     for product in products:
         df_purchase, df_thrown = process_db(user_history, product, user_id,)
             
@@ -174,20 +142,12 @@ def pipeline(user_id:str):
         forecast_combined['product'] = [product_name] * len(forecast_combined)
         print(forecast_combined.tail(2))
         
-        
-
-        # PLOT RESULTS
         fig_purchase = plot_plotly(model_purchase, forecast_purchase)
         fig_thrown = plot_plotly(model_thrown, forecast_thrown)
-
-        #fig_purchase.show()
-        #fig_thrown.show()
-        # For forecasting purchases
-        product_name="tomatoes"
+        
         plot_forecast_with_go2(forecast_purchase, f"Purchase Forecast {product_name}")
 
-# For forecasting waste
-        #plot_forecast_with_go(forecast_thrown, f"thrown Forecast {product_name}")
+        plot_forecast_with_go(forecast_thrown, f"thrown Forecast {product_name}")
         
 
 
@@ -195,41 +155,6 @@ def pipeline(user_id:str):
 
 if __name__ == "__main__":
     pipeline('101')
-    # user_id='101'
-    # user_history = get_user_history(user_id)
-    # products = user_history['product_id'].dropna().unique()
-    # print("-------------------")
-    # df=user_history
-    
-    # df['user_id'] = df['user_id'].astype(str)
-    # i=0
-    # for product in products:
-    #     i+=1
-    #     product_id=product
-    #     df_filtered = df[(df['user_id'] == user_id) & (df['product_id'] == product)]
-        
-    #     df_purchase, df_thrown = process_db(user_history, product, user_id,)
-    #     if(i==14):
-    #         print(df_purchase)
-
-    #         model_purchase = initialize_prophets(df_purchase)
-    #         future_purchase = model_purchase.make_future_dataframe(periods=2, freq='W-MON')
-    #         forecast_purchase = model_purchase.predict(future_purchase)
-    #         print(forecast_purchase[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail())
-    #         plot_forecast_with_go(forecast_purchase, "Purchase Forecast")
-    #         model_purchase.plot_components(forecast_purchase)
-    #         product_name = products_queries.get_product_name_from_db(int(i))
-    #         product_name = product_name[0]['product_name']
-    #         plot_forecast_with_go(forecast_purchase, f"Purchase Forecast {product_name}")
-    #     # if the DataFrame has less than 2 non-NaN rows prophet wont work
-    #     if len(df_non_nan) < 2:
-    #         continue
-        
-    #     df_non_nan = df_thrown.dropna()
-    #     #if the DataFrame has less than 2 non-NaN rows prophet wont work
-    #     if len(df_non_nan) < 2:
-    #         continue
-    #     print("yes")
         
         
         
