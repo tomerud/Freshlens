@@ -95,8 +95,21 @@ def create_tables():
                     freeze_tips TEXT,
                     is_specific_product_tip BOOLEAN
                 )
-            """
-    }
+            """,
+        "user_product_history": """
+        CREATE TABLE IF NOT EXISTS user_product_history (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id VARCHAR(28),
+            product_id INT,
+            purchase_date DATE,
+            quantity_purchased INT,
+            quantity_consumed INT,
+            quantity_thrown_out INT
+        );
+        """
+            
+    }       #user_product_history - need to add FOREIGN KEY (user_id) REFERENCES users(id),
+            #user_product_history - need to add FOREIGN KEY (product_id) REFERENCES products(id)
 
     for table_name, table_sql in tables.items():
         execute_query(table_sql)
@@ -112,7 +125,11 @@ def drop_all_tables():
             "product_global_info": """DROP TABLE IF EXISTS product_global_info""",
             "categories": """DROP TABLE IF EXISTS categories""",
             "canadian_products_prices": """DROP TABLE IF EXISTS canadian_products_prices""",
-            "food_storage_tips" : "DROP TABLE IF EXISTS food_storage_tips"
+            "food_storage_tips" : "DROP TABLE IF EXISTS food_storage_tips",
+            "item_usage": """DROP TABLE IF EXISTS item_usage""",
+            "user_purchases": """DROP TABLE IF EXISTS user_purchases""",
+
+            "user_product_history": """DROP TABLE IF EXISTS user_product_history"""
         }
 
     for table_name, table_sql in tables.items():
