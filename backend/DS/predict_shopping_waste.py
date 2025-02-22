@@ -18,6 +18,46 @@ from prophet.plot import plot_plotly
 # notice date in user_product_history is in WEEKS!!!!!
 # change continoue in function for more modular!!!!
 
+import plotly.graph_objects as go
+import pandas as pd
+import plotly.graph_objects as go
+import pandas as pd
+
+import plotly.graph_objects as go
+
+def plot_forecast_with_go2(forecast, title="Forecast"):
+    # Filter forecast to only include 2025
+    forecast_2025 = forecast[forecast['ds'].dt.year == 2025]
+    cutoff_date = pd.Timestamp("2025-02-10")
+
+    # Filter forecast to only include dates from 10th Feb 2025 and later
+    forecast_2025 = forecast[(forecast['ds'].dt.year == 2025) & (forecast['ds'] >= cutoff_date)]
+
+    # Create a trace for the forecast
+    trace = go.Scatter(
+        x=forecast_2025['ds'], 
+        y=forecast_2025['yhat'], 
+        mode='lines+markers', 
+        name='Forecast',
+    )
+
+    # Layout for the plot
+    layout = go.Layout(
+        title=title,
+        xaxis=dict(title="Date"),
+        yaxis=dict(title="Quantity", showticklabels=False),
+        hovermode="closest"
+    )
+
+    # Create the figure
+    fig = go.Figure(data=[trace], layout=layout)
+    
+    # Show the plot
+    fig.show()
+
+
+
+
 def plot_forecast_with_go(forecast, title="Forecast"):
     # Create a trace for the forecast
     trace = go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast')
@@ -114,7 +154,7 @@ def pipeline(user_id:str):
         df_purchase, df_thrown = process_db(user_history, product, user_id,)
             
         model_purchase = initialize_prophets(df_purchase)
-        future_purchase = model_purchase.make_future_dataframe(periods=3, freq='W-MON')
+        future_purchase = model_purchase.make_future_dataframe(periods=7, freq='W-MON')
         forecast_purchase = model_purchase.predict(future_purchase)
         print(forecast_purchase[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail())
 
@@ -140,13 +180,14 @@ def pipeline(user_id:str):
         fig_purchase = plot_plotly(model_purchase, forecast_purchase)
         fig_thrown = plot_plotly(model_thrown, forecast_thrown)
 
-        fig_purchase.show()
-        fig_thrown.show()
+        #fig_purchase.show()
+        #fig_thrown.show()
         # For forecasting purchases
-        plot_forecast_with_go(forecast_purchase, f"Purchase Forecast {product_name}")
+        product_name="tomatoes"
+        plot_forecast_with_go2(forecast_purchase, f"Purchase Forecast {product_name}")
 
 # For forecasting waste
-        plot_forecast_with_go(forecast_thrown, f"thrown Forecast {product_name}")
+        #plot_forecast_with_go(forecast_thrown, f"thrown Forecast {product_name}")
         
 
 
