@@ -21,5 +21,5 @@ def get_latest_image_by_camera_ip(camera_ip):
     return {
         "camera_ip": camera_ip,
         "image_base64": image_base64,
-        "timestamp": latest_image.metadata.get("time")
+        "timestamp": latest_image.upload_date
     }

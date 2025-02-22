@@ -40,9 +40,9 @@ export const ProductPage = () => {
     <>
       <FridgeHeader title={ProductName!.product_name} subtitle="everything you want to know"/>
       <ItemsList />
-      <PriceData/>
       <NutrientData />
-      <TipsSection productId={productId} addedTitle={ProductName!.product_name}/>
+      <PriceData/>
+      <TipsSection productId={productId} addedTitle={ProductName!.product_name} classname="no-border"/>
     </>
   );
 };

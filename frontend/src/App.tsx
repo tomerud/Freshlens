@@ -13,6 +13,7 @@ import { CategoryPage } from './components/pages/allFridgesPage/fridgePage/categ
 import { ProductPage } from './components/pages/allFridgesPage/fridgePage/category/productPage';
 
 import './App.css'
+import { RecipeSuggestion } from './components/pages/homePage/recipeSuggestion';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/fridges" element={<AllFridgesPage />} />
             <Route path="/fridges/:fridgeId" element={<FridgePage />} />
+            <Route path="/fridges/recipes/:fridgeId" element={<RecipeSuggestion />} />
             <Route path="/fridges/:fridgeId/:categoryName" element={<CategoryPage />} />
             <Route path="/fridges/:fridgeId/:categoryName/:productId" element={<ProductPage />} />
             <Route path="/cameras" element={<CamerasPage />} />

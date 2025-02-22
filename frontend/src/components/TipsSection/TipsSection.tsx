@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import classNames from "classnames"; 
 
 import { Loader } from "../loader";
 
@@ -15,6 +16,7 @@ interface ProductTips {
 interface TipsSectionProps {
   addedTitle?: string;
   productId?: string;
+  classname?: string;
 }
 
 const fetchData = async (productId?: string): Promise<ProductTips[]> => {
@@ -32,7 +34,7 @@ const fetchData = async (productId?: string): Promise<ProductTips[]> => {
   return Array.isArray(data) ? data : [];
 };
 
-export const TipsSection = ({ addedTitle, productId}: TipsSectionProps) => {
+export const TipsSection = ({ addedTitle, productId, classname}: TipsSectionProps) => {
   const { data: tipsData = [], isLoading, error } = useQuery<ProductTips[], Error>({
     queryKey: ["tips", productId],
     queryFn: () => fetchData(productId),
@@ -59,8 +61,8 @@ export const TipsSection = ({ addedTitle, productId}: TipsSectionProps) => {
   if (tipsArray.length === 0) return <></>;
 
   return (
-    <div className="tips-container">
-      <h3 className="tips-title">{addedTitle} Storage Tips</h3>
+    <div className={classNames("tips-container", classname)}>
+      <h3 className="tips-title">{addedTitle} Storage Tip</h3>
       <AnimatePresence mode="wait">
         <motion.p
           key={currentTipIndex}

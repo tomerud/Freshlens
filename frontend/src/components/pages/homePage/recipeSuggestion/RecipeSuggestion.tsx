@@ -1,40 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-
+import { useParams } from "react-router-dom";
+import { useMemo } from "react";
 import { Loader } from "../../../loader";
-import { useAuth } from "../../../../contexts/userContext";
+import { FridgeHeader } from "../../allFridgesPage/fridgeHeader";
 
 import "./recipeSuggestion.scss";
 
-
-interface RecipeResponse {
-  recipes: string;
+interface Recipe {
+  title: string;
+  ingredients: string[];
+  instructions: string[];
 }
 
+interface RecipeResponse {
+  recipes: Recipe[];
+}
 
-const splitRecipes = (recipeString: string) => {
-  const rawRecipes = recipeString.split("###").map(recipe => recipe.trim()).filter(recipe => recipe.length > 0);
-
-  return rawRecipes.map(recipeText => {
-    const titleMatch = recipeText.match(/Recipe \d+:\s*(.*)/);
-    const title = titleMatch ? titleMatch[1].trim() : "Unknown Recipe";
-
-    const ingredientsMatch = recipeText.match(/Ingredients:\n([\s\S]*?)\n\nInstructions:/);
-    const ingredients = ingredientsMatch 
-      ? ingredientsMatch[1].split("\n").map(line => line.trim()).filter(line => line.startsWith("-")) 
-      : [];
-
-    const instructionsMatch = recipeText.match(/Instructions:\n([\s\S]*)/);
-    const instructions = instructionsMatch 
-      ? instructionsMatch[1].split("\n").map(line => line.trim()).filter(line => line.length > 0) 
-      : [];
-
-    return { title, ingredients, instructions };
-  });
-};
-
-const fetchRecipe = async (userId: string): Promise<RecipeResponse> => {
-  const response = await fetch(`/api/get_suggested_recipe?fridge_id=${1}`);
+const fetchRecipe = async (fridgeId: string): Promise<RecipeResponse> => {
+  const response = await fetch(`/api/get_suggested_recipe?fridge_id=${fridgeId}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch recipe");
@@ -44,29 +27,48 @@ const fetchRecipe = async (userId: string): Promise<RecipeResponse> => {
 };
 
 export const RecipeSuggestion = () => {
-  // const { user } = useAuth();
-  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
-  // const { data, isLoading, error } = useQuery<RecipeResponse, Error>({
-  //   queryKey: ["recipeSuggestion", userId],
-  //   queryFn: () => fetchRecipe(userId),
-  // });
+  const { fridgeId } = useParams<{ fridgeId?: string }>();
 
-  // const a = splitRecipes(data.recipes)
-  // console.log(a);
+  const { data, isLoading, error } = useQuery<RecipeResponse, Error>({
+    queryKey: fridgeId ? ["recipeSuggestion", fridgeId] : ["recipeSuggestion"],
+    queryFn: () => fetchRecipe(fridgeId as string),
+    enabled: !!fridgeId,
+  });
 
-  // if (isLoading) return <Loader />;
-  // if (error) return <p className="error-message">Error: {error.message}</p>;
-  // if (!data?.recipe) return <p className="no-recipe">No recipe for today</p>;
-  const recipe = "khrjg gshgkj hg jhg ks"
+  const recipes = useMemo(() => data?.recipes ?? [], [data]);
+
   return (
-    <motion.div
-      className="recipe-container"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <h3 className="recipe-title">Suggested Recipe</h3>
-      <p className="recipe-text">{recipe}</p> 
-    </motion.div>
+    <>
+      <FridgeHeader title="Recipes" subtitle="Recipes to use still good products!" />
+  
+      {!fridgeId && <p className="error-message">Invalid fridge ID</p>}
+  
+      <div className="recipe-container">
+        {isLoading && <Loader />}
+        {error && <p className="error-message">Error: {error.message}</p>}
+        {!isLoading && !error && recipes.length === 0 && (
+          <h4 className="no-recipe">No recipe for today</h4>
+        )}
+        {!isLoading && !error && recipes.length > 0 &&
+          recipes.map((recipe, index) => (
+            <div key={index} className="recipe-card">
+              <p className="recipe-title">{recipe.title}</p>
+              <p className="section-header">Ingredients:</p>
+              <ul className="ingredient-list">
+                {recipe.ingredients.map((ingredient, i) => (
+                  <li key={i} className="ingredient-item">• {ingredient.replace(/^- /, "")}</li>
+                ))}
+              </ul>
+              <p className="section-header">Instructions:</p>
+              <ol className="instruction-list">
+                {recipe.instructions.map((instruction, i) => (
+                  <li key={i} className="instruction-item">{i + 1}. {instruction.replace(/^\d+\.\s/, "")}</li>
+                ))}
+              </ol>
+            </div>
+          ))
+        }
+      </div>
+    </>
   );
 };

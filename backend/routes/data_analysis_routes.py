@@ -52,6 +52,12 @@ def get_fridge_name():
             "message": "💰Reminder to check your smart cart!",
             "timestamp": today.isoformat()
         })
+
+        notifications.append({
+            "id": "savings-1",
+            "message": "🔔 We have new recipes for you!",
+            "timestamp": today.isoformat()
+        })
         return jsonify(notifications)
 
     except Exception as e:

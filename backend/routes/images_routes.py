@@ -26,13 +26,14 @@ def get_image():
             fridge_name = entry["fridge_name"]
 
             image_data = get_latest_image_by_camera_ip(camera_ip)
+            print("timestamp: ", image_data["timestamp"])
 
             if image_data:
                 if fridge_id not in fridge_images:
                     fridge_images[fridge_id] = {
                         "fridge_id": fridge_id,
                         "fridge_name": fridge_name,
-                        "images": []  # List of cameras for this fridge
+                        "images": []
                     }
                 
                 fridge_images[fridge_id]["images"].append({
