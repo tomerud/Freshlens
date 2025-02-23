@@ -33,23 +33,23 @@ product with date box and expiration date
 │
 │── 📂 assets/                      # for running locally
 │
-│── 📂 model_training/               # scripts that were used to train the models
+│── 📂 model_training/               # scripts used to train the models
 │
-│── 📂 models/                       # DL models to load
+│── 📂 models/                       # Deep Learning models to load
 │
 │── 📂 scripts/                      # Helper scripts
-│   ├── 📄 code_formatting.py        # Script checking formatting using pylint and flake8
-│   ├── 📄 run_demo.py               # Script to run demo and showcase the system
+│   ├── 📄 code_formatting.py        # Checks formatting using pylint and flake8
+│   ├── 📄 run_demo.py               # Runs demo and showcases the system
 │
-│── 📜 README.md                    # module documentation
+│── 📜 README.md                     # Module documentation
 │
-│── 📄 backend_connect.py           # Script that defines sending the data to backend
-│── 📄 detect_and_track.py          # Script for object detection and tracking
-│── 📄 draw_bb.py                   # Script for drawing bounding boxes based on freshness
-│── 📄 fruit_veg_freshness.py       # Script for freshness detection using classification
-│── 📄 pass_obj_to_exp_date.py      # Script for navigating which exp_date function is needed
-│── 📄 products_ocr.py              # Script for optical character recognition expiration date detection
-│── 📄 scheduler.py                 # Script for the "manager" of the system
+│── 📄 backend_connect.py            # Sends data to the backend
+│── 📄 detect_and_track.py           # Object detection and tracking
+│── 📄 draw_bb.py                    # Draws bounding boxes based on freshness
+│── 📄 fruit_veg_freshness.py        # Freshness detection using classification
+│── 📄 pass_obj_to_exp_date.py       # Determines which expiration date function is needed
+│── 📄 products_ocr.py               # Optical character recognition for expiration date detection
+│── 📄 scheduler.py                  # Manages the system
 
 
 ## Main files explanation:
