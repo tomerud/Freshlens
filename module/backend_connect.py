@@ -1,7 +1,7 @@
 """
 Backend Connection Module
-
-Handles communication with the backend database and MongoDB via socket connections.
+Handles communication with the backend database and MongoDB
+via Websocket connections (assume got the socket).
 """
 
 import base64
@@ -12,13 +12,12 @@ from typing import List, Tuple
 from PIL import Image
 
 # TODO:
-# 1. Secure connection (Auth token, SSL/TLS)
-# 2. Create Readme file
-# 3. Fix reconnection in MongoDB
+# 1. Create Readme file
 
 lock = threading.Lock()
 MAX_RETRIES = 10  # Max attempts before giving up
 RETRY_DELAY = 1   # Time (in seconds) to wait between retries
+
 
 def send_data(socket, event: str, data: dict) -> None:
     """Helper function to send data to the backend via socket with retries."""
@@ -35,14 +34,18 @@ def send_data(socket, event: str, data: dict) -> None:
             print(f"Socket disconnected. Retrying {attempt+1}...")
             time.sleep(RETRY_DELAY + attempt)
 
-    print(f"Failed to send data for event '{event}' after multiple attempts. Dropping the message.")
+    print(
+        f"Failed to send data for event '{event}' after multiple attempts. "
+        "Dropping the message."
+)
+
 
 def send_to_db(
     socket,
     camera_ip: str,
     port: int,
     exp_date: List[Tuple[int, int, Tuple[int, int, int, int], str]]
-    ) -> None:
+) -> None:
     """Sends data to MySQL database via socket connection."""
     data = {
         "camera_ip": camera_ip,
@@ -50,6 +53,7 @@ def send_to_db(
         "products_data": exp_date[1:]  # Exclude shelf if no detections
     }
     send_data(socket, "send_to_db", data)
+
 
 def send_to_mongo(socket, camera_ip: str, _port: int, image: Image.Image) -> None:
     """Sends image data to MongoDB via socket connection."""
@@ -61,6 +65,7 @@ def send_to_mongo(socket, camera_ip: str, _port: int, image: Image.Image) -> Non
         "image": image_base64
     }
     send_data(socket, "send_to_mongo", data)
+
 
 def alert_server(socket, camera_ip: str, port: int, error_message: str) -> None:
     """Sends an error alert to the server via socket connection."""

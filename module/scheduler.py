@@ -12,10 +12,10 @@ import threading
 from ultralytics import YOLO
 import socketio
 
-from detect_and_track import process_video
-from backend_connect import send_to_db, send_to_mongo, alert_server
-from pass_obj_to_exp_date import find_exp_date
-from draw_bb import draw_on_image
+from .detect_and_track import process_video
+from .backend_connect import send_to_db, send_to_mongo, alert_server
+from .pass_obj_to_exp_date import find_exp_date
+from .draw_bb import draw_on_image
 
 #TODO:
 # 1. **Threading** - think about where / if Thread - GIL , Multiproccess
@@ -33,7 +33,8 @@ socket_client = socketio.Client(
     reconnection=True,
     reconnection_attempts=10,
     reconnection_delay=1,
-    reconnection_delay_max=30
+    reconnection_delay_max=30,
+    ssl_verify=False
 )  # Client will attempt to reconnect when disconnected.
 
 @socket_client.event
@@ -73,7 +74,7 @@ def load_model():
     Load the YOLO model
     return: model and class list.
     """
-    model_path = "Models/ProductDetection.pt"
+    model_path = "models/ProductDetection.pt"
     model = YOLO(model_path)
     class_list = [class_name for _, class_name in sorted(model.names.items())]
     return model, class_list

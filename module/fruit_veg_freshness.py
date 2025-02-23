@@ -8,37 +8,33 @@ based on their freshness and confidence scores from YOLO model.
 from datetime import datetime, timedelta
 from ultralytics import YOLO
 from PIL import Image
-from pre_proccess import resize_with_letterbox
+from .proccess_img_and_date import resize_with_letterbox
 
 # TODO:
-# 1. **Resize**
-#    - make sure Resizing to the size trained on
 
 # 2. **calculating the exp date based on scale**
 #    - expand the number of fruits and veg
 #    - fix the base shelf life of the products
-#    - cls = int(box.cls[0])  Class ID (0 for Fresh, 1 for Rotten - might need to fix)
+#    - cls = int(box.cls[0])  Class ID (0 for Fresh, 1 for Rotten)
 
-# 3. expiration date formating:
-#    - make sure yyyy-mm-dd
-#    - tomer : is it datetime or str?
 
-def estimate_expiration(fruit: str, freshness_label: str, confidence: float) -> datetime:
+def estimate_expiration(fruit: str, freshness_label: str, confidence: float
+) -> datetime:
     """
     Estimate the expiration date based on its freshness and confidence score.
     Return: The estimated expiration date.
     """
-    # Base shelf lives (in days) for the fruit when fresh. These numbers are approximate.
+    # Base shelf lives. These numbers are approximate based on internet.
     shelf_life = {
-        "banana": 5,   # bananas typically ripen and over-ripen quickly
-        "apple": 30,   # apples can last quite a while
-        "orange": 14,  # oranges fall in between
+        'Apple': 26,
+        'Banana': 7,
+        'Carrot': 20,
+        'Orange': 12,
+        'Tomato': 9
     }
-
     # If the fruit is classified as Rotten, we assume it has already expired.
     # We choose to say it expired x days ago depending on how 'rotten' it is.
     if freshness_label == "Rotten":
-        # Subtract extra days based on confidence:
         if confidence < 0.8:
             days_past = 2
         elif confidence < 0.9:
@@ -50,10 +46,7 @@ def estimate_expiration(fruit: str, freshness_label: str, confidence: float) -> 
 
         expiration_date = datetime.today() - timedelta(days=days_past)
     else:
-        # For fresh fruits, we start with a base shelf life.
-        base_life = shelf_life.get(fruit, 7)  # Default to 7 days if fruit is not listed.
-
-        # Adjust shelf life based on confidence
+        base_life = shelf_life.get(fruit)
         if confidence >= 0.9:
             multiplier = 1.0
         elif confidence >= 0.8:
@@ -89,18 +82,3 @@ def fresh_rotten(model: YOLO, produce: Image.Image, identifier_type: str):
 
         return expiration_date
     return None  # Error: detection failed
-
-# Example usage:
-if __name__ == "__main__":
-    model = YOLO('path_to_model')  # fill with new path
-    product_img = Image.open('path_to_image.jpg')  # fill with new path
-
-    fruit_type = "apple"  # Could be "banana" or "orange"
-    try:
-        expiration_date = fresh_rotten(model, product_img, fruit_type)
-        if expiration_date != -1:
-            print(f"Estimated expiration date: {expiration_date.strftime('%Y-%m-%d')}")
-        else:
-            print("Error: No valid prediction.")
-    except ValueError as e:
-        print(e)

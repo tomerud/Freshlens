@@ -1,196 +1,202 @@
-import cv2
-from ultralytics import YOLO
-from typing import List, Tuple
-from deep_sort_realtime.deepsort_tracker import DeepSort
+"""
+This module detect and track objects in a video stream using YOLOv8 and DeepSORT.
+In the future, we should finetune DeepSORT to achieve better tracking on our objects.
+There was an attempt to use YOLOv11 with BOTSort,
+but the BOTSort implementation had problems in the repository,
+so at the last minute, we did the switch,
+in future work, should finetune the trakcer,
+and we should also implement saving and loading of the DeepSORT tracker,
+so we can restore the last tracking ID of the objects.
+Also, we will need to "add heads" to the YOLO model so we can detect the expiration dates
+of the products in the video stream.
+"""
+
 import time
-from PIL import Image
-import numpy as np
-import threading
 from datetime import datetime
-# TODO:
+import threading
+from typing import List, Tuple, Dict, Any
+import cv2
+import numpy as np
+from PIL import Image
+from deep_sort_realtime.deepsort_tracker import DeepSort
+from ultralytics import YOLO
 
-# 1. **Debugging and Visualization**:
-#    - Remove or conditionally disable debug print statements (`YOLO Detection` and `DeepSORT Track` printouts) after testing.
+# TODO: DeepSort
+# - Implement loading and saving of the DeepSort initialization
+#   to restore the last detection tracking ID from the camera.
+# - Ensure all XYXY and XYWH formats are correct and passed as needed.
 
-# 2. **DeepSort**:
-#    - Add loading and saving of the deepsort intalization, so can restore last detection tracking ID from the camera
-#    - Make sure all the xyxy and xywh format are rights and passed as needed
+def open_video_stream(rtsp_path: str) -> cv2.VideoCapture:
+    """
+    Open an RTSP video stream and return the capture object.
+    If the stream fails to open, retry several times before giving up.
+    """
+    cap = cv2.VideoCapture(rtsp_path)
+    retry_count = 5
+    for i in range(retry_count):
+        if cap.isOpened():
+            return cap
+        print(f"Failed to open stream. Retrying... ({i})")
+        time.sleep(i + 1)
+    print("Error - unable to open video stream after several retries.")
+    return None
+
+def initialize_video_writer(cap: cv2.VideoCapture) -> cv2.VideoWriter:
+    """
+    initialize the video writer to save the video with the tracking and detection results,
+    in case we want to see the tracking and detection results later.
+    """
+    frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+    thread_id = threading.get_ident()
+    current_date = datetime.now().strftime("%Y%m%d_%H%M%S")  # Format: YYYYMMDD_HHMMSS
+    output_path = f"output/tracked_vid_{thread_id}_{current_date}.mp4"
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+
+    return cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
 
-if __name__ == "__main__":
-    def process_video(rtsp_path:str, model: YOLO,Record:bool=False) -> List[Tuple[int,int,Tuple[int, int, int, int],Image.Image]]: #Record is for presentation and debugging purpose only
-        #   Recive Video by RTSP, detect and track objects in the video
-        #   Returns:Id of the object (product), id of class, bounding boxes of the product and Image of product 
+def update_tracker(
+    tracker: Any,
+    detections: List[np.ndarray],
+    frame: np.ndarray,
+    last_frame_objects: List[Dict[str, Any]],
+    detected_products: List[Dict[str, Any]],
+    debug: bool,
+    class_list: List[str]
+) -> None:
+    """
+    Update the DeepSORT tracker with the latest detections and track the objects.
+    for now we are using DeepSORT tracker.
+    """
+    tracks = tracker.update_tracks(detections, frame=frame)
 
-        Detected_products = []  # List to store Track_id(object id), class_id,bounding_box,img]
-        # Open video capture
-        retry_count = 5
-        for i in range(retry_count):
-            cap = cv2.VideoCapture(rtsp_path)
-            if cap.isOpened():
-                break
-            print(f"Failed to open stream. Retrying... ({i}")
-            time.sleep(i+1)  # Sleep before retrying
+    for track in tracks:
+        if not track.is_confirmed() or track.time_since_update > 1:
+            continue
+
+        # DeepSORT bounding box in tlbr format
+        bbox = track.to_tlbr()
+        min_x, min_y, max_x, max_y = map(int, bbox)
+
+        class_id = track.get_det_class() if track.get_det_class() is not None else -1  # Use -1 for unknown class
+        name= class_list[class_id]
+        if debug:
+            print(f"DeepSORT Track - ID: {track.track_id}, BBox: [{min_x}, {min_y}, {max_x}, {max_y}], Class: {name}")
+
+        # Visulaize the tracking and detection results
+        cv2.rectangle(frame, (min_x, min_y), (max_x, max_y), (0, 255, 0), 2)  # Green Box
+        cv2.putText(frame, f"ID: {track.track_id} {name}", (min_x, min_y - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+
+        last_frame_objects.append({
+                "id": track.track_id,
+                "class_id": name,
+                "bbox": (min_x, min_y, max_x, max_y)
+            })
+
+
+
+
+def process_video(
+    rtsp_path: str,
+    model: YOLO,
+    record: bool = False,
+    debug: bool = False,
+) -> List[Tuple[int, int, Tuple[int, int, int, int], Image.Image]]:
+    """
+    Process a video stream from an RTSP source, detect and track objects in the video.
+    Returns: list of tuples containing the object ID, class ID, bounding box,
+    and image of the product.
+    """
+    detected_products = []  # List to store [Track_id(object id), class_id,bounding_box,img]
+
+    cap = open_video_stream(rtsp_path)
+    if cap is None:
+        return -1
+    if record:
+        out = initialize_video_writer(cap)
+
+    class_list = [class_name for _, class_name in sorted(model.names.items())]
+    tracker = DeepSort(max_age=80, nn_budget=200, max_iou_distance=0.4)
+    last_frame = None
+
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            frame = None  # error in reading the frame
+            break
+        # Initialize a list to store objects for the current frame
+        last_frame_objects = []
+        last_frame = frame.copy()
+        results = model.track(frame, persist=True)
+
+        detections = []
+        if results[0].boxes.data is not None and len(results[0].boxes) > 0:
+            boxes = results[0].boxes.xyxy.cpu().numpy()  # Bounding boxes
+            confidences = results[0].boxes.conf.cpu().numpy()  # Confidence scores
+            class_indices = results[0].boxes.cls.int().cpu().numpy()  # Class indices
+
+            for box, confidence, class_idx in zip(boxes, confidences, class_indices):
+                min_x, min_y, max_x, max_y = box
+                width, height = max_x - min_x, max_y - min_y
+                detections.append([[min_x, min_y, width, height], float(confidence), int(class_idx)])
+
+                if debug:
+                    print(f"YOLO Detection: Box: [{min_x}, {min_y}, {max_x}, {max_y}], Confidence: {confidence}, Class: {class_list[class_idx]}")
         else:
-            print("Error - unable to open video stream after several retries.")
-            return -1 
-
-        
-        # List of class names
-        class_list = [class_name for _, class_name in sorted(model.names.items())]
-
-        # Initialize DeepSORT tracker
-        tracker = DeepSort(max_age=80, nn_budget=200, max_iou_distance=0.4)
-        last_frame=None
-
-        if Record:
-            # Get frame dimensions
-            frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-            frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-            fps = int(cap.get(cv2.CAP_PROP_FPS))
-            thread_id = threading.get_ident()  # Get the thread ID
-            current_date = datetime.now().strftime("%Y%m%d_%H%M%S")  # Format: YYYYMMDD_HHMMSS
-            output_path = f"output/tracked_vid_{thread_id}_{current_date}.mp4"  # Combine thread ID and date for unique identification
-            fourcc = cv2.VideoWriter_fourcc(*'mp4v')  
-            out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
-        #try read stream
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
-
-                
-            # Initialize a list to store objects for the current frame
-            last_frame_objects = []
-            Last_frame = frame.copy()            # Run YOLO detection on the frame
-            results = model.track(frame, persist=True)  # YOLO class indices
-
-            detections = []
-            if results[0].boxes.data is not None:
-                boxes = results[0].boxes.xyxy.cpu().numpy()  # Bounding boxes
-                confidences = results[0].boxes.conf.cpu().numpy()  # Confidence scores
-                class_indices = results[0].boxes.cls.int().cpu().numpy()  # Class indices
-
-                for box, confidence, class_idx in zip(boxes, confidences, class_indices):
-                    x1, y1, x2, y2 = box # can access boxes,xywh, can be replaced
-                    w, h = x2 - x1, y2 - y1  # Convert to (x, y, w, h) format for DeepSORT
-                    detections.append([[x1, y1, w, h], float(confidence), int(class_idx)])
-
-                    # Debug YOLO detections - remove after tests
-                    print(f"YOLO Detection: Box: [{x1}, {y1}, {x2}, {y2}], Confidence: {confidence}, Class: {class_list[class_idx]}")
-            else:
+            if debug:
                 print("No detections in this frame.")
 
-            # Update DeepSORT tracker
-            tracks = tracker.update_tracks(detections, frame=frame)
+        # Update DeepSORT tracker - need to fine tune the tracker for our objects
+        update_tracker(tracker, detections, frame, last_frame_objects, detected_products, debug, class_list)
 
-            for track in tracks:
-                if not track.is_confirmed() or track.time_since_update > 1:
-                    continue
+        if record:
+            out.write(frame)
 
-                # DeepSORT bounding box in tlbr format
-                bbox = track.to_tlbr()
-                x1, y1, x2, y2 = map(int, bbox)
+        cv2.imshow("YOLO Object Tracking & Counting", frame)
 
-                # Retrieve the class index (class ID) instead of the name
-                class_id = track.get_det_class() if track.get_det_class() is not None else -1  # Use -1 for unknown class
-                name= class_list[class_id]
-                # Debug output for DeepSORT tracks - remove after test
-                print(f"DeepSORT Track - ID: {track.track_id}, BBox: [{x1}, {y1}, {x2}, {y2}], Class: {name}")
+        if cv2.waitKey(1) & 0xFF == ord('q'):  # Exit loop if 'q' key is pressed
+            break
 
-                # Draw DeepSORT bounding box
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)  # Green Box
-                cv2.putText(frame, f"ID: {track.track_id} {name}", (x1, y1 - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-                # Add to last frame objects
-                last_frame_objects.append({
-                        "id": track.track_id,
-                        "class_id": name,
-                        "bbox": (x1, y1, x2, y2)
-                    })
-            if Record:
-                out.write(frame)
-                
-            # Show the frame 
-            cv2.imshow("YOLO Object Tracking & Counting", frame)
-            
-            # Exit loop if 'q' key is pressed
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-            
-        print("\nLast Frame Objects:") # remove after debug
+    if debug:
+        print("\nLast Frame Objects:")
         for obj in last_frame_objects:
             print(f"ID: {obj['id']}, Class: {obj['class_id']}")
-        if Last_frame is not None:
-            last_frame_pil = Image.fromarray(cv2.cvtColor(Last_frame, cv2.COLOR_BGR2RGB))
-            Detected_products.append((-1,-1,-1 ,last_frame_pil))  # add the Last frame, for drawing later the bounding boxes.
-        if last_frame_objects:
-            for obj in last_frame_objects:
-                x1, y1, x2, y2 = obj['bbox']
-                cropped_product = Last_frame[y1:y2, x1:x2]  # Crop the product's bounding box from the frame
-                cropped_product_pil = Image.fromarray(cv2.cvtColor(cropped_product, cv2.COLOR_BGR2RGB))
-                Detected_products.append((obj['id'], obj['class_id'],obj['bbox'],cropped_product_pil))
-                
-            Last_frame=None
-        # Release resources
-        if Record:
-            out.release()  # Release the VideoWriter
-        cap.release()
-        cv2.destroyAllWindows()
-        return Detected_products
+
+    if frame is not None:
+        last_frame_pil = Image.fromarray(cv2.cvtColor(last_frame, cv2.COLOR_BGR2RGB))
+        # add the Last frame, for drawing later the bounding boxes.
+        detected_products.append((-1, -1, (-1, -1, -1, -1) , last_frame_pil))
+    if last_frame_objects:
+        for obj in last_frame_objects:
+            min_x, min_y, max_x, max_y = obj['bbox']
+            cropped_product = last_frame[min_y:max_y, min_x:max_x]  # only a single product
+            detected_products.append(
+            (
+                obj["id"],
+                obj["class_id"],
+                obj["bbox"],
+                Image.fromarray(cv2.cvtColor(cropped_product, cv2.COLOR_BGR2RGB)),
+            )
+        )
 
 
-# Path to trained YOLO model
-#MODEL_PATH = "Models/ProductDetection.pt"
-MODEL_PATH = "Models/object_detect_v8.pt"   
-# Load YOLO model
+    # Release resources
+    if record:
+        out.release()  # Release the VideoWriter
+    cap.release()
+    cv2.destroyAllWindows()
+    return detected_products
+
+MODEL_PATH = "./models/object_detect_v8.pt" 
 detection_model = YOLO(MODEL_PATH)
-PATH="newvids/IMG_0737.MOV"
-# PATH="assets/freshlens2.mp4"
-res= process_video(PATH,detection_model,True)
+class_list = [class_name for _, class_name in sorted(detection_model.names.items())]
 
-# for detect in res:
-#     print(detect[2])
+# can change to any video path
+PATH="./assets/freshlens2.MP4"
 
-save = res[1][3]
-
-from draw_bb import draw_on_image 
-res[1] = (res[1][0], res[1][1], res[1][2], "2025-02-23")
-res[2] = (res[2][0], res[2][1], res[2][2], "2025-02-21")
-#res[3] = (res[3][0], res[3][1], res[3][2], "2025-02-19")
-
-save_path = "assets/sofia3.jpg"
-draw=draw_on_image(res)
-draw = cv2.cvtColor(np.array(draw), cv2.COLOR_RGB2BGR)
-cv2.imwrite(save_path, draw)
-print(f"Image saved at: {save_path}")
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-if isinstance(save, Image.Image):
-    save = np.array(save)  # Convert to NumPy array
-
-testing = Image.fromarray(save)  # Convert back to PIL Image if needed
-
-# Convert PIL Image to NumPy array for OpenCV
-testing_cv = np.array(testing)  
-
-# Ensure it's in the right color format (OpenCV uses BGR)
-testing_cv = cv2.cvtColor(testing_cv, cv2.COLOR_RGB2BGR)
-
-save_path = "assets/ocrtest.jpg"
-cv2.imwrite(save_path, testing_cv)  # Save image using OpenCV
-
-# Load YOLO model
-model_date_path = "Models/DateDetection.pt"
-model_date_detect = YOLO(model_date_path)
-model_date_detect.eval()
-
-# Import function and pass the correct image format
-from products_ocr import products_exp_dates
-i = products_exp_dates(model_date_detect, testing)  # Ensure `testing` is the expected format
-print(i)
-
-""" for i,j,k,l in res:
-    l.show()
-    if cv2.waitKey(0) & 0xFF == ord('q'):  # Wait for key press, quit if 'q' is pressed
-        break """
+# dont change - this is the pipeline
+# if want to see the tracking video, change the False to True
+detections = process_video(PATH,detection_model,False)
