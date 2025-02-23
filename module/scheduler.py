@@ -27,6 +27,7 @@ from .draw_bb import draw_on_image
 # 5. ** YOLO resizing**:
 #    - think if resizing training or scaling!!!!
 # 6. ** Add SSL/TLS / mTLS**
+# 7. ALERT SERVERS!!
 
 # Setup SocketIO client
 socket_client = socketio.Client(

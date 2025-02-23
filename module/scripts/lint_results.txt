@@ -1,0 +1,287 @@
+﻿
+================================================================================
+FILE: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\backend_connect.py
+================================================================================
+
+PYLINT RESULTS:
+----------------------------------------
+************* Module module.backend_connect
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\backend_connect.py:14:1: W0511: TODO: (fixme)
+
+------------------------------------------------------------------
+Your code has been rated at 9.71/10 (previous run: 9.71/10, +0.00)
+
+FLAKE8 RESULTS:
+----------------------------------------
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\backend_connect.py:40:1: E122 continuation line missing indentation or outdented
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\backend_connect.py:58:80: E501 line too long (82 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\backend_connect.py:70:80: E501 line too long (80 > 79 characters)
+
+********************************************************************************
+
+
+================================================================================
+FILE: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py
+================================================================================
+
+PYLINT RESULTS:
+----------------------------------------
+************* Module module.detect_and_track
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:83:0: C0301: Line too long (113/100) (line-too-long)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:86:0: C0301: Line too long (118/100) (line-too-long)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:144:0: C0301: Line too long (101/100) (line-too-long)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:147:0: C0301: Line too long (145/100) (line-too-long)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:153:0: C0301: Line too long (108/100) (line-too-long)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:193:43: C0303: Trailing whitespace (trailing-whitespace)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:24:1: W0511: TODO: DeepSort (fixme)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:60:0: R0913: Too many arguments (7/5) (too-many-arguments)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:60:0: R0914: Too many local variables (16/15) (too-many-locals)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:62:4: W0621: Redefining name 'detections' from outer scope (line 202) (redefined-outer-name)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:67:4: W0621: Redefining name 'class_list' from outer scope (line 195) (redefined-outer-name)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:65:4: W0613: Unused argument 'detected_products' (unused-argument)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:102:0: R0914: Too many local variables (30/15) (too-many-locals)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:121:4: W0621: Redefining name 'class_list' from outer scope (line 195) (redefined-outer-name)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:135:8: W0621: Redefining name 'detections' from outer scope (line 202) (redefined-outer-name)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:102:0: R0912: Too many branches (16/12) (too-many-branches)
+
+------------------------------------------------------------------
+Your code has been rated at 8.42/10 (previous run: 0.00/10, +8.42)
+
+FLAKE8 RESULTS:
+----------------------------------------
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:2:80: E501 line too long (81 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:3:80: E501 line too long (85 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:10:80: E501 line too long (89 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:29:1: E302 expected 2 blank lines, found 1
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:44:1: E302 expected 2 blank lines, found 1
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:46:80: E501 line too long (90 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:53:80: E501 line too long (86 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:57:80: E501 line too long (81 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:70:80: E501 line too long (81 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:83:80: E501 line too long (113 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:84:13: E225 missing whitespace around operator
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:86:80: E501 line too long (118 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:89:80: E501 line too long (89 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:102:1: E303 too many blank lines (4)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:109:80: E501 line too long (86 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:113:80: E501 line too long (92 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:138:80: E501 line too long (82 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:139:80: E501 line too long (85 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:141:80: E501 line too long (85 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:144:80: E501 line too long (101 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:147:80: E501 line too long (145 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:152:80: E501 line too long (81 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:153:80: E501 line too long (108 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:160:80: E501 line too long (80 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:169:80: E501 line too long (85 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:171:59: E203 whitespace before ','
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:175:80: E501 line too long (91 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:177:13: E122 continuation line missing indentation or outdented
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:181:80: E501 line too long (82 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:183:9: E122 continuation line missing indentation or outdented
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:186:5: E303 too many blank lines (2)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:193:1: E305 expected 2 blank lines after class or function definition, found 1
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:193:44: W291 trailing whitespace
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:195:80: E501 line too long (84 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:198:5: E225 missing whitespace around operator
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:202:32: E231 missing whitespace after ','
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\detect_and_track.py:202:48: E231 missing whitespace after ','
+
+********************************************************************************
+
+
+================================================================================
+FILE: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\draw_bb.py
+================================================================================
+
+PYLINT RESULTS:
+----------------------------------------
+-------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 7.62/10, +2.38)
+
+FLAKE8 RESULTS:
+----------------------------------------
+No issues found by Flake8.
+
+********************************************************************************
+
+
+================================================================================
+FILE: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py
+================================================================================
+
+PYLINT RESULTS:
+----------------------------------------
+************* Module module.fruit_veg_freshness
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:13:1: W0511: TODO: (fixme)
+
+------------------------------------------------------------------
+Your code has been rated at 9.73/10 (previous run: 9.73/10, +0.00)
+
+FLAKE8 RESULTS:
+----------------------------------------
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:22:1: E124 closing bracket does not match visual indentation
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\fruit_veg_freshness.py:64:1: E302 expected 2 blank lines, found 1
+
+********************************************************************************
+
+
+================================================================================
+FILE: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py
+================================================================================
+
+PYLINT RESULTS:
+----------------------------------------
+************* Module module.pass_obj_to_exp_date
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:42:34: C0303: Trailing whitespace (trailing-whitespace)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:14:1: W0511: TODO: (fixme)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:12:0: C0411: third party import "from PIL import Image" should be placed before "from .products_ocr import products_exp_dates" (wrong-import-order)
+
+------------------------------------------------------------------
+Your code has been rated at 8.70/10 (previous run: 8.70/10, +0.00)
+
+FLAKE8 RESULTS:
+----------------------------------------
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:20:31: E231 missing whitespace after ','
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:20:35: E231 missing whitespace after ','
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:20:80: E501 line too long (98 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:21:2: E225 missing whitespace around operator
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:24:5: E125 continuation line with same indent as next logical line
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:42:11: E271 multiple spaces after keyword
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:42:35: W291 trailing whitespace
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:43:24: E225 missing whitespace around operator
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:48:80: E501 line too long (89 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\pass_obj_to_exp_date.py:51:24: E262 inline comment should start with '# '
+
+********************************************************************************
+
+
+================================================================================
+FILE: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py
+================================================================================
+
+PYLINT RESULTS:
+----------------------------------------
+************* Module module.proccess_img_and_date
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:20:0: C0301: Line too long (103/100) (line-too-long)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:46:0: C0301: Line too long (123/100) (line-too-long)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:247:0: C0301: Line too long (123/100) (line-too-long)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:288:22: C0303: Trailing whitespace (trailing-whitespace)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:311:0: C0301: Line too long (101/100) (line-too-long)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:144:0: R0911: Too many return statements (11/6) (too-many-return-statements)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:144:0: R0912: Too many branches (18/12) (too-many-branches)
+
+------------------------------------------------------------------
+Your code has been rated at 9.58/10 (previous run: 8.97/10, +0.61)
+
+FLAKE8 RESULTS:
+----------------------------------------
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:20:80: E501 line too long (103 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:22:80: E501 line too long (82 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:31:80: E501 line too long (81 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:46:80: E501 line too long (123 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:89:80: E501 line too long (92 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:103:80: E501 line too long (88 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:136:1: E302 expected 2 blank lines, found 1
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:137:80: E501 line too long (80 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:147:1: W293 blank line contains whitespace
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:153:1: W293 blank line contains whitespace
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:170:80: E501 line too long (85 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:202:80: E501 line too long (83 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:234:80: E501 line too long (88 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:247:80: E501 line too long (123 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:260:80: E501 line too long (84 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:265:80: E501 line too long (80 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:288:23: W291 trailing whitespace
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\proccess_img_and_date.py:311:80: E501 line too long (101 > 79 characters)
+
+********************************************************************************
+
+
+================================================================================
+FILE: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py
+================================================================================
+
+PYLINT RESULTS:
+----------------------------------------
+************* Module module.products_ocr
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:54:63: C0303: Trailing whitespace (trailing-whitespace)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:27:1: W0511: TODO: (fixme)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:32:0: R0914: Too many local variables (18/15) (too-many-locals)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:16:0: C0411: standard import "from typing import List, Tuple" should be placed before "import numpy as np" (wrong-import-order)
+
+------------------------------------------------------------------
+Your code has been rated at 8.97/10 (previous run: 8.97/10, +0.00)
+
+FLAKE8 RESULTS:
+----------------------------------------
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:27:1: E265 block comment should start with '# '
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:32:80: E501 line too long (97 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:39:80: E501 line too long (94 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:42:80: E501 line too long (85 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:53:17: E225 missing whitespace around operator
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:53:21: E261 at least two spaces before inline comment
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:54:25: E225 missing whitespace around operator
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:54:64: W291 trailing whitespace
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:57:25: E225 missing whitespace around operator
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:78:80: E501 line too long (91 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:88:52: E231 missing whitespace after ','
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:88:63: E261 at least two spaces before inline comment
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:88:80: E501 line too long (87 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:92:5: E303 too many blank lines (2)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:93:52: E261 at least two spaces before inline comment
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\products_ocr.py:93:80: E501 line too long (91 > 79 characters)
+
+********************************************************************************
+
+
+================================================================================
+FILE: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py
+================================================================================
+
+PYLINT RESULTS:
+----------------------------------------
+************* Module module.scheduler
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:50:0: C0301: Line too long (103/100) (line-too-long)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:20:1: W0511: TODO: (fixme)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:82:0: R0913: Too many arguments (6/5) (too-many-arguments)
+
+------------------------------------------------------------------
+Your code has been rated at 9.52/10 (previous run: 9.52/10, +0.00)
+
+FLAKE8 RESULTS:
+----------------------------------------
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:20:1: E265 block comment should start with '# '
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:23:80: E501 line too long (83 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:40:1: E302 expected 2 blank lines, found 1
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:45:1: E302 expected 2 blank lines, found 1
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:50:1: E302 expected 2 blank lines, found 1
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:50:80: E501 line too long (103 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:68:80: E501 line too long (92 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:72:1: E302 expected 2 blank lines, found 1
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:82:1: E302 expected 2 blank lines, found 1
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:82:80: E501 line too long (100 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:89:80: E501 line too long (89 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:98:80: E501 line too long (92 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:101:80: E501 line too long (94 > 79 characters)
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:106:1: E302 expected 2 blank lines, found 1
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:117:1: E305 expected 2 blank lines after class or function definition, found 1
+C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\scheduler.py:117:46: E231 missing whitespace after ','
+
+********************************************************************************
+
+
+================================================================================
+FILE: C:\Users\shaba\Desktop\Uni\workshop\Freshlens\module\__init__.py
+================================================================================
+
+PYLINT RESULTS:
+----------------------------------------
+No issues found by Pylint.
+
+FLAKE8 RESULTS:
+----------------------------------------
+No issues found by Flake8.
+
+********************************************************************************
+

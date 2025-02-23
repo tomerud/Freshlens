@@ -1,5 +1,5 @@
 """
-This module runs Pylint and Flake8 on all Python files in a specified directory
+This module runs Pylint and Flake8 on all Python files in the specified directory
 and saves the results to a file.
 """
 
@@ -40,7 +40,7 @@ def run_linters_on_files(directory, output_file_path):
                         lint.Run([file_path], do_exit=False)  # No return_std here
                         pylint_output_str = sys.stdout.getvalue()  # Capture everything printed to stdout
                         if not pylint_output_str.strip():
-                            pylint_output_str = "No Pylint output"
+                            pylint_output_str = "No issues found by Pylint."
                     except Exception as error:  # Catch specific exceptions if possible
                         pylint_output_str = f"Error running Pylint on {file_path}: {error}"
 
@@ -53,29 +53,38 @@ def run_linters_on_files(directory, output_file_path):
                             ["flake8", file_path], capture_output=True, text=True, check=True
                         )
                         flake8_results = flake8_output.stdout
+                        if not flake8_results.strip():
+                            flake8_results = "No issues found by Flake8."
                     except subprocess.CalledProcessError as error:
                         flake8_results = error.output
 
-                    # Write output to file with a separator
-                    output_file_handle.write(f"{'=' * 40}\n")
-                    output_file_handle.write(f"Results for: {file_path}\n")
-                    output_file_handle.write(f"{'=' * 40}\n\n")
+                    # Write output to file with improved formatting
+                    output_file_handle.write(f"\n{'=' * 80}\n")
+                    output_file_handle.write(f"FILE: {file_path}\n")
+                    output_file_handle.write(f"{'=' * 80}\n\n")
 
-                    output_file_handle.write("Pylint Results:\n")
-                    output_file_handle.write(f"{'-' * 20}\n")
-                    output_file_handle.write(pylint_output_str + "\n\n")
+                    # Pylint Results
+                    output_file_handle.write("PYLINT RESULTS:\n")
+                    output_file_handle.write(f"{'-' * 40}\n")
+                    output_file_handle.write(pylint_output_str.strip() + "\n\n")
 
-                    output_file_handle.write("Flake8 Results:\n")
-                    output_file_handle.write(f"{'-' * 20}\n")
-                    output_file_handle.write(flake8_results + "\n\n")
+                    # Flake8 Results
+                    output_file_handle.write("FLAKE8 RESULTS:\n")
+                    output_file_handle.write(f"{'-' * 40}\n")
+                    output_file_handle.write(flake8_results.strip() + "\n\n")
+
+                    output_file_handle.write(f"{'*' * 80}\n\n")  # End of file section
 
     except Exception as error:  # Catch specific exceptions if possible
         print(f"An error occurred: {error}")
 
 
-# Run linters on all Python files in the current directory
-CURRENT_DIRECTORY = os.getcwd()
-OUTPUT_FILE = "lint_results.txt"
-run_linters_on_files(CURRENT_DIRECTORY, OUTPUT_FILE)
+# Get the parent directory of the script's location
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))  # module/scripts
+PARENT_DIRECTORY = os.path.dirname(SCRIPT_DIRECTORY)  # module
+
+# Run linters on all Python files in the parent directory
+OUTPUT_FILE = os.path.join(SCRIPT_DIRECTORY, "lint_results.txt")
+run_linters_on_files(PARENT_DIRECTORY, OUTPUT_FILE)
 
 print(f"\nLinting results saved to {OUTPUT_FILE}")

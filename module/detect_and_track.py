@@ -189,14 +189,3 @@ def process_video(
     cap.release()
     cv2.destroyAllWindows()
     return detected_products
-
-MODEL_PATH = "./models/object_detect_v8.pt" 
-detection_model = YOLO(MODEL_PATH)
-class_list = [class_name for _, class_name in sorted(detection_model.names.items())]
-
-# can change to any video path
-PATH="./assets/freshlens2.MP4"
-
-# dont change - this is the pipeline
-# if want to see the tracking video, change the False to True
-detections = process_video(PATH,detection_model,False)
