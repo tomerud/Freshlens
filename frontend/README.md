@@ -30,8 +30,7 @@
 
 
 
-
-<img src="https://github.com/user-attachments/assets/bcebeb4b-3f3e-4c71-8abd-8459cb957f33" alt="App Screenshot" width="300" />
+<img src="https://github.com/user-attachments/assets/46a1758e-5e4b-4b66-bf50-8ac0b07fc9cb" alt="App Screenshot" width="300" />
 <img src="https://github.com/user-attachments/assets/04b6e507-7c33-4afe-a742-b3f6b384df32" alt="App Screenshot" width="300" />
 ---
 
