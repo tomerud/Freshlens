@@ -1,10 +1,10 @@
 # FreshLens Frontend
 
 ## Table of Contents
-- [Homepage](#Page 1)
-- [Real-Time View](#page-2)
-- [Detailed Fridge View](#page-3)
-- [Account & Settings](#page-4)
+- [Homepage](#page-1-homepage)
+- [Real-Time View](#page-2-real-time-view)
+- [Detailed Fridge View](#page-3-detailed-fridge-view)
+- [Account & Settings](#page-4-account--settings)
 - [Getting Started](#getting-started)
 - [Contributing](#contributing)
 
