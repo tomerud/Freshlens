@@ -5,8 +5,8 @@ import eventlet
 import gridfs
 import ssl
 from datetime import datetime, timedelta
-from .mysqlDB.items.insert_new_item_to_db import insert_item_to_db
-from .mysqlDB.items.handle_item_update import handle_camera_update
+from backend.mysqlDB.items.insert_new_item_to_db import insert_item_to_db
+from backend.mysqlDB.items.handle_item_update import handle_camera_update
 
 import os
 
@@ -48,48 +48,37 @@ def handle_send_to_db(data):
     camera_ip = data.get('camera_ip')
     products_data = data.get('products_data')
     print(f"Received data from camera {camera_ip}")
-<<<<<<< HEAD
-        
-    for product in products_data:
-        track_id = product[0]
-        class_id = product[1]
-        exp_date= product[2]
-        print(f"Product with track_id {track_id} and class_id {class_id} has expiry date {exp_date}")
-    #handle_camera_update(camera_ip, product)
-=======
-
+    
     item_list = []
     for product in products_data:
-        for info in product:
-            track_id, class_id, exp_date = info
-            current_date = datetime.today().date()
+        track_id, class_id, exp_date = product
+        current_date = datetime.today().date()
 
-            # Determine anticipated expiry date and compute is_rotten
-            if isinstance(exp_date, int):
-                expiry_datetime = datetime.today() + timedelta(days=exp_date)
-                anticipated_expiry_date = expiry_datetime.strftime("%Y-%m-%d")
-            else:
-                anticipated_expiry_date = exp_date
-                expiry_datetime = datetime.strptime(exp_date, "%Y-%m-%d")
-            
-            # Set is_rotten to 1 if current date is greater than anticipated expiry date
-            is_rotten = 1 if current_date > expiry_datetime.date() else 0
+        # Determine anticipated expiry date and compute is_rotten
+        if isinstance(exp_date, int):
+            expiry_datetime = datetime.today() + timedelta(days=exp_date)
+            anticipated_expiry_date = expiry_datetime.strftime("%Y-%m-%d")
+        else:
+            anticipated_expiry_date = exp_date
+            expiry_datetime = datetime.strptime(exp_date, "%Y-%m-%d")
+        
+        # Set is_rotten to 1 if current date is greater than anticipated expiry date
+        is_rotten = 1 if current_date > expiry_datetime.date() else 0
 
-            item = {
-                "item_id": track_id,
-                "is_inserted_by_user": 0,
-                "product_id": class_id,
-                "camera_ip": camera_ip,
-                "date_entered": datetime.today().strftime("%Y-%m-%d"),
-                "anticipated_expiry_date": anticipated_expiry_date,
-                "remove_from_fridge_date": None,
-                "is_rotten": is_rotten
-            }
-            item_list.append(item)
-            print(f"Prepared item: {item}")
+        item = {
+            "item_id": track_id,
+            "is_inserted_by_user": 0,
+            "product_id": class_id,
+            "camera_ip": camera_ip,
+            "date_entered": datetime.today().strftime("%Y-%m-%d"),
+            "anticipated_expiry_date": anticipated_expiry_date,
+            "remove_from_fridge_date": None,
+            "is_rotten": is_rotten
+        }
+        item_list.append(item)
+        print(f"Prepared item: {item}")
 
     handle_camera_update(camera_ip, item_list)
->>>>>>> origin/main
 
 @socketio.on("send_to_mongo")
 def handle_send_to_mongo(data):
