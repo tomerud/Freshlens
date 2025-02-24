@@ -1,16 +1,16 @@
 # FreshLens Frontend
 
 ## Table of Contents
-- [Homepage](#homepage)
-- [Page 2](#page-2)
-- [Page 3](#page-3)
-- [Page 4](#page-4)
+- [Homepage](#Page 1)
+- [Real-Time View](#page-2)
+- [Detailed Fridge View](#page-3)
+- [Account & Settings](#page-4)
 - [Getting Started](#getting-started)
 - [Contributing](#contributing)
 
 ---
 
-## Homepage
+## Page 1: Homepage
 
 ### Overview
 - **Notifications:** Displays alerts for items about to expire, plus other important app notifications.
