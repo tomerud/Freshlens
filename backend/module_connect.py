@@ -48,6 +48,15 @@ def handle_send_to_db(data):
     camera_ip = data.get('camera_ip')
     products_data = data.get('products_data')
     print(f"Received data from camera {camera_ip}")
+<<<<<<< HEAD
+        
+    for product in products_data:
+        track_id = product[0]
+        class_id = product[1]
+        exp_date= product[2]
+        print(f"Product with track_id {track_id} and class_id {class_id} has expiry date {exp_date}")
+    #handle_camera_update(camera_ip, product)
+=======
 
     item_list = []
     for product in products_data:
@@ -80,6 +89,7 @@ def handle_send_to_db(data):
             print(f"Prepared item: {item}")
 
     handle_camera_update(camera_ip, item_list)
+>>>>>>> origin/main
 
 @socketio.on("send_to_mongo")
 def handle_send_to_mongo(data):

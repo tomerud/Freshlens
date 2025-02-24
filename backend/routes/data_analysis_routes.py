@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from datetime import date
 from DS.nutrition_idea import get_nutrition_data
 from DS.predict_shopping_waste import pipeline
-from mysqlDB.products.products_queries import about_to_expire_products
+from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db
 
 analysis_bp = Blueprint('analysis_bp', __name__)
 
@@ -94,23 +94,26 @@ def get_shopping_cart_recommendations():
         res=pipeline(user_id)
         if res is None:
             return jsonify({"error": "No predictions available for the user."}), 404
-        return res.to_json(orient='records')
+        result = [
+        {
+        "product_id": get_product_id_from_db(row["product"]),
+        "product": row["product"],
+        "amount_buy": row["quantity_estimated"],
+        "amount_will_throw": row["amount_thrown_out_estimated"],
+        "recommendation": max(row["quantity_estimated"] - row["amount_thrown_out_estimated"], 0),
+        }
+        for _, row in res.iterrows()
+        ]
+        return jsonify(result)
     except Exception as e:
         print("Error fetching user prediciton:", str(e))
         return jsonify({"error": "Failed to fetch user prediciton"}), 500
 
     """
-    res : <class 'pandas.core.frame.DataFrame'>
-    this is how res look like, if we printed it:
-        ds                quantity_estimated| amount_thrown_out_estimated| user_id|             product
-    0 2025-03-03                 5.0                          3.0     101                      Milk
-    1 2025-03-10                 6.0                          3.0     101                      Milk
-    3 2025-03-10                 5.0                          2.0     101   Golden Delicious Apples
-    4 2025-03-03                 7.0                          4.0     101                      Cola
-    5 2025-03-10                 6.0                          3.0     101                      Cola
-    6 2025-03-03                 7.0                          4.0     101    Farmers 14% Sour Cream
-    7 2025-03-10                 6.0                          3.0     101    Farmers 14% Sour Cream
-    8 2025-03-03                 7.0                          4.0     101  Baxter 2% Cottage Cheese
-    9 2025-03-10                 7.0                          4.0     101  Baxter 2% Cottage Cheese
+    [{'product_id': 1, 'product': 'Milk', 'amount_buy': 5.0, 'amount_will_throw': 3.0, 'recommendation': 2.0}, 
+    {'product_id': 4, 'product': 'Golden Delicious Apples', 'amount_buy': 7.0, 'amount_will_throw': 4.0, 'recommendation': 3.0}, 
+    {'product_id': 6, 'product': 'Cola', 'amount_buy': 7.0, 'amount_will_throw': 4.0, 'recommendation': 3.0}, 
+    {'product_id': 9, 'product': 'Farmers 14% Sour Cream', 'amount_buy': 7.0, 'amount_will_throw': 4.0, 'recommendation': 3.0}, 
+    {'product_id': 10, 'product': 'Baxter 2% Cottage Cheese', 'amount_buy': 7.0, 'amount_will_throw': 4.0, 'recommendation': 3.0}]
     """
 

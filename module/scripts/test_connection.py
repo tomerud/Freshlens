@@ -24,6 +24,19 @@ def connect_to_socket():
 
 # Connect before sending any data
 connect_to_socket()
+<<<<<<< HEAD
+camera_ip = "10.0.0.1"
+port=8554
+"""
+tomer camera Ip, port and a list
+    [(product_id,class_id,exp date)]
+"""
+detections = [(-1,-1,1),(1,2, "2025-02-01"),(4,5, "2025-03-04")]
+send_to_db(socket,camera_ip,port, detections)
+detections = [(-1, -1, (-1, -1, -1, -1), -1)]
+send_to_db(socket,camera_ip,port, detections)
+=======
+>>>>>>> origin/main
 
 camera_ip = "192.168.1.100"
 port = 8554
