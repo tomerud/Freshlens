@@ -81,7 +81,7 @@ npm install
 ***add Usage instructions***
 
 ## Acknowledgements
-***SOFIA : UPDATE THE TITLES ACORDING TO THE SLIDES YOU HAVE PLEASE***
+
 special thanks to all our friends and teammates, from Tel Aviv University MBA:
 - Abby Levi: Growth Marketing
 - Matt Kornowitz - Strategic Finance
