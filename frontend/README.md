@@ -93,6 +93,17 @@ This page will continue to evolve with more advanced personalization and user pr
 
 ## Getting Started
 
-1. **Install Dependencies:**
-   ```bash
-   npm install
+Follow the steps below to set up and run the FreshLens frontend locally.
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v14 or higher recommended)
+- [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/) (your choice of package manager)
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/tomerud/Freshlens.git
+cd frontend
+
+### 2. run the frontend server
+```bash
+npm run dev
