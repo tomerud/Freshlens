@@ -30,8 +30,17 @@
 
 ---
 
-## Page 2
-*Describe the purpose of this page. For example, this page might list all your fridges or provide a detailed view of your fridge inventory.*
+## Page 2: Real-Time View
+
+Stay connected to your fridge from anywhere by viewing live camera feeds. Whether you’re at work or shopping for groceries, you can quickly check what items are inside without opening the fridge door.
+
+### Key Features
+- **Remote Monitoring:** View your fridge’s contents in near real-time from any location.
+- **Item Detection Overlays:** Automatically highlight fruits, vegetables, and other items with bounding boxes for easy identification.
+- **Timestamped Snapshots:** Each image displays the exact time it was captured.
+- **Refetch Image Button:** Retrieve a fresh snapshot on demand. Otherwise, the images you see are the last frames captured from the motion-based video feed.
+![image](https://github.com/user-attachments/assets/d5e7b11b-de3e-4722-a89e-518d41b9386b)
+![image](https://github.com/user-attachments/assets/75154230-3f2c-4fa9-a979-4aca626ba1c8)
 
 ---
 
