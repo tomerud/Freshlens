@@ -47,8 +47,28 @@ Stay connected to your fridge from anywhere by viewing live camera feeds. Whethe
 
 ---
 
-## Page 3
-*Describe the purpose of this page. For example, this page might include advanced analytics or user settings.*
+## Page 3: Detailed Fridge View
+
+Dive deeper into the contents of your fridge by selecting specific categories, products, and individual items. This page provides comprehensive details and AI-powered recipe suggestions to help you make the most of your ingredients before they expire.
+
+### Key Features
+1. **Fridge Selection:** Pick which fridge you want to inspect (e.g., Home or Office).
+2. **Category Browsing:** Filter items by categories such as Dairy, Vegetables, Beverages, Meat, etc.
+3. **Recipe Suggestions:** Ask AI for recipe ideas that incorporate items nearing expiration.
+4. **Product Listings:** View available products in each category.
+5. **Item Details:**
+   - **Expiration Tracking:** See when each item was entered and when it will expire (with alerts if it's already expired).
+   - **Nutritional Facts:** Get essential nutrition data (e.g., calories, protein, fat).
+   - **Storage Tips:** Learn best practices for storing each product.
+   - **Average Price:** Check the typical cost of the product. *(Future plans include integration with your supermarket or manual price entry.)*
+<img src="https://github.com/user-attachments/assets/0bdd614d-49f4-425c-831f-9051ab8a72ba" alt="App Screenshot" width="300" />
+<img src="https://github.com/user-attachments/assets/7463dbda-96fe-42ba-8498-5578081a027b" alt="App Screenshot" width="300" />
+<img src="https://github.com/user-attachments/assets/23f84316-cff1-4e63-aaec-714072b8b5c6" alt="App Screenshot" width="300" />
+<img src="https://github.com/user-attachments/assets/4490030b-125f-40a8-9d70-61b5aa2e44e2" alt="App Screenshot" width="300" />
+<img src="https://github.com/user-attachments/assets/75845c2e-984a-4ba0-b0b0-a33ba7a39395" alt="App Screenshot" width="300" />
+<img src="https://github.com/user-attachments/assets/b0d97cef-959d-4013-9002-5e33c00a83b0" alt="App Screenshot" width="300" />
+<img src="https://github.com/user-attachments/assets/bd206e77-85ed-4c86-a6e3-d01d3a7ce4e3" alt="App Screenshot" width="300" />
+<img src="https://github.com/user-attachments/assets/de415ccc-6a71-4f22-83c6-c95c0790eec5" alt="App Screenshot" width="300" />
 
 ---
 
