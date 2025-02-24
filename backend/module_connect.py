@@ -90,32 +90,16 @@ def handle_send_to_db(data):
     2. Extracts the camera_ip from the first item(all of them share same ip)
     3. Calls handle_camera_update to process valid items.
     """
-    if not isinstance(data, list):
-        print(" Error: Received data must be a list of item dictionaries.")
-        return
-
-    if not data:
-        print(" Warning: Received an empty item list. No action taken.")
-        return
-
-    camera_ip = data[0].get('camera_ip')
-    if not camera_ip:
-        print(" Error: 'camera_ip' is missing in the first item of the list.")
-        return
-
-    print(f" Received {len(data)} items for camera_ip={camera_ip}.")
-
-    # Validate each item and collect only the valid ones
-    valid_items = [item for item in data if validate_item(item)]
-
-    if not valid_items:
-        print(f" Error: No valid items to process for camera_ip={camera_ip}. Aborting.")
-        return
-
-    # Process the valid items
-    handle_camera_update(camera_ip, valid_items)
-    print(f" Database updated successfully for camera_ip={camera_ip} with {len(valid_items)} valid items.")
-
+    camera_ip = data.get('camera_ip')
+    products_data = data.get('products_data')
+    print(f"Received data from camera {camera_ip}")
+    for product in products_data:
+        for info in product:
+            track_id = info[0]
+            class_id = info[1]
+            exp_date= info[2]
+            print(f"Product with track_id {track_id} and class_id {class_id} has expiry date {exp_date}")
+    handle_camera_update(camera_ip, product)
 
     
     

@@ -12,10 +12,10 @@ import threading
 from ultralytics import YOLO
 import socketio
 
-from .detect_and_track import process_video
-from .backend_connect import send_to_db, send_to_mongo, alert_server
-from .pass_obj_to_exp_date import find_exp_date
-from .draw_bb import draw_on_image
+from module.detect_and_track import process_video
+from module.backend_connect import send_to_db, send_to_mongo, alert_server
+from module.pass_obj_to_exp_date import find_exp_date
+from module.draw_bb import draw_on_image
 
 #TODO:
 # 1. **Threading** - think about where / if Thread - GIL , Multiproccess

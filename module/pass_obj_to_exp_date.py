@@ -7,8 +7,8 @@ which will be able to detect the expiration date for the spesific product
 
 from typing import Tuple, List, Union
 from ultralytics import YOLO
-from .products_ocr import products_exp_dates
-from .fruit_veg_freshness import fresh_rotten
+from module.products_ocr import products_exp_dates
+from module.fruit_veg_freshness import fresh_rotten
 from PIL import Image
 
 # TODO:

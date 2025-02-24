@@ -11,40 +11,12 @@ from typing import Tuple
 from prophet import Prophet
 from backend.mysqlDB import db_utils 
 from backend.mysqlDB.products import products_queries
-from prophet.plot import plot_plotly
+import pandas as pd
 
 # TODO:
 # change logic after demo - make it integrated to all the other db parts
 # notice date in user_product_history is in WEEKS!!!!!
 # change continoue in function for more modular!!!!
-
-import plotly.graph_objects as go
-import pandas as pd
-import plotly.graph_objects as go
-import pandas as pd
-
-import plotly.graph_objects as go
-
-def plot_forecast_with_go2(forecast, title="Forecast"):
-    forecast_2025 = forecast[forecast['ds'].dt.year == 2025]
-    cutoff_date = pd.Timestamp("2025-02-10")
-    forecast_2025 = forecast[(forecast['ds'].dt.year == 2025) & (forecast['ds'] >= cutoff_date)]
-    # Create a trace for the forecast
-    trace = go.Scatter(
-        x=forecast_2025['ds'], 
-        y=forecast_2025['yhat'], 
-        mode='lines+markers', 
-        name='Forecast',
-    )
-    # Layout for the plot
-    layout = go.Layout(
-        title=title,
-        xaxis=dict(title="Date"),
-        yaxis=dict(title="Quantity", showticklabels=False),
-        hovermode="closest"
-    )
-    fig = go.Figure(data=[trace], layout=layout)
-    fig.show()
 
 
 def get_user_history(user_id:int) -> pd.DataFrame:
@@ -62,7 +34,6 @@ def get_user_history(user_id:int) -> pd.DataFrame:
         df['purchase_date'] = pd.to_datetime(df['purchase_date'])
     return df
     
-
 
 def process_db(df:pd.DataFrame,product_id:int, user_id:str,
                ) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -97,8 +68,6 @@ def initialize_prophets(df:pd.DataFrame) -> Prophet:
     model.fit(df)
     return model
     
-
-import pandas as pd
 
 def pipeline(user_id: str):
     user_history = get_user_history(user_id)

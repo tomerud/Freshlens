@@ -8,7 +8,7 @@ based on their freshness and confidence scores from YOLO model.
 from datetime import datetime, timedelta
 from ultralytics import YOLO
 from PIL import Image
-from .proccess_img_and_date import resize_with_letterbox
+from module.proccess_img_and_date import resize_with_letterbox
 
 # TODO:
 
