@@ -52,7 +52,8 @@ The system detects and tracks products in the fridge, monitors their freshness (
 - **Streaming Protocol:** RTSP (Real-Time Streaming Protocol).
 - **WebSocket:** For real-time data communication between module and backend.
 
-***SOFIA : please add here / before MAYBE the SLIDE FROM THE PRESENTATION? the "our solution"***
+![image](https://github.com/user-attachments/assets/a3949139-635d-4753-bc09-0d897cea7904)
+
 
 
 ## Project Status
