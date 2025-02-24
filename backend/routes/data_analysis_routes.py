@@ -83,8 +83,8 @@ def get_nutritional_advice():
         return jsonify({"error": "Failed to fetch nutritional advice"}), 500
 
 
-@analysis_bp.route('/get_predictions', methods=['GET'])
-def get_predictions():
+@analysis_bp.route('/get_shopping_cart_recommendations', methods=['GET'])
+def get_shopping_cart_recommendations():
     #for now only inserted history for user_id = 101, can change it by using randomised_history_insert.py
     user_id = request.args.get("user_id")
     if not user_id:
