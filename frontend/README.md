@@ -14,21 +14,15 @@
 
 ## Page 1: Homepage
 
-### Overview
-- **Notifications:** Displays alerts for items about to expire, plus other important app notifications.
-- **Storage Tips:** Provides general storage advice (e.g., from USDA) to help you keep food fresh longer.
-- **Analytics:** Shows key metrics including:
-  - **Fridge Freshness Score:** A percentage-based rating of overall freshness.
-  - **Money Saved Per Week:** Helps you track savings and encourages cost-effective habits.
-- **Shopping Cart Recommendations:** Uses AI to suggest items based on your previous shopping and throwaway habits.
+Experience a centralized view of your fridge's status with real-time notifications, expert storage tips, insightful analytics, and AI-driven shopping recommendations—all at a glance.
 
-### Key Components
-1. **Notifications Banner:** Highlights items at risk of expiring and other critical updates.
-2. **Storage Tip Card:** Displays best practices for storing items (e.g., proper container usage, recommended temperature).
-3. **Analytics Widgets:**
-   - **Fridge Freshness Gauge:** A circular progress bar showing the current freshness score.
-   - **Money Saved Chart:** A bar chart tracking your weekly savings.
-4. **Shopping Cart Button:** Redirects to your AI-driven shopping list with recommended items.
+### Key Features
+- **Notifications:** Receive real-time alerts for items nearing expiration and other critical updates.
+- **Storage Tips:** Get expert advice (including USDA recommendations) to help keep your food fresh longer.
+- **Analytics:** Monitor key metrics, including:
+  - **Fridge Freshness Score:** A percentage-based indicator of overall freshness.
+  - **Money Saved Per Week:** Track your weekly savings and encourage cost-effective habits.
+- **Shopping Cart Recommendations:** Enjoy AI-powered suggestions based on your previous shopping and disposal habits.
 
 <img src="https://github.com/user-attachments/assets/d0cd3a48-56eb-4912-8b85-32657afcac47" alt="App Screenshot" width="300" />
 <img src="https://github.com/user-attachments/assets/4871aff0-2827-4eab-93fe-0f065ffd7145" alt="App Screenshot" width="300" />
@@ -47,7 +41,6 @@ Stay connected to your fridge from anywhere by viewing live camera feeds. Whethe
 - **Item Detection Overlays:** Automatically highlight fruits, vegetables, and other items with bounding boxes for easy identification.
 - **Timestamped Snapshots:** Each image displays the exact time it was captured.
 - **Refetch Image Button:** Retrieve a fresh snapshot on demand. Otherwise, the images you see are the last frames captured from the motion-based video feed.
-
 
 <img src="https://github.com/user-attachments/assets/d5e7b11b-de3e-4722-a89e-518d41b9386b" alt="App Screenshot" width="300" />
 <img src="https://github.com/user-attachments/assets/75154230-3f2c-4fa9-a979-4aca626ba1c8" alt="App Screenshot" width="300" />
@@ -68,6 +61,7 @@ Dive deeper into the contents of your fridge by selecting specific categories, p
    - **Nutritional Facts:** Get essential nutrition data (e.g., calories, protein, fat).
    - **Storage Tips:** Learn best practices for storing each product.
    - **Average Price:** Check the typical cost of the product. *(Future plans include integration with your supermarket or manual price entry.)*
+  
 <img src="https://github.com/user-attachments/assets/0bdd614d-49f4-425c-831f-9051ab8a72ba" alt="App Screenshot" width="300" />
 <img src="https://github.com/user-attachments/assets/7463dbda-96fe-42ba-8498-5578081a027b" alt="App Screenshot" width="300" />
 <img src="https://github.com/user-attachments/assets/23f84316-cff1-4e63-aaec-714072b8b5c6" alt="App Screenshot" width="300" />
