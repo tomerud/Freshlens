@@ -3,6 +3,7 @@ import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import { MoneySaveGraph } from './moneySaveGraph';
 
 import './graphSection.scss';
+import { Link } from 'react-router-dom';
 
 export const GraphSection = () => {
   const [fridgeFreshness, setPridgeFreshness] = useState(0);
@@ -23,15 +24,14 @@ export const GraphSection = () => {
       <div className="cards-container">
         <div className="card-wrapper">
           <p className="card-label">Shopping Cart</p>
-          <div className="card">
+          <Link to={`/shoppingCart/`} className="card">
             <img 
               src='/icons/shopping-cart.png' 
               alt="Shopping Cart" 
               className={`card-icon cart-icon-animated ${shoppingCartVisible ? 'cart-icon-visible' : ''}`} 
             />
-          </div>
+          </Link>
         </div>
-
         <div className="card-wrapper">
           <p className="card-label">Fridge Freshness</p>
           <div className="card">

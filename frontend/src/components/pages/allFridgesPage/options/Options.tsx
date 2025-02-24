@@ -4,8 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../../../loader";
 import { useSearch } from "../hooks/useSearch";
 import { FridgeHeader } from "../fridgeHeader";
-
-import './options.scss'
+import "./options.scss";
 
 interface OptionsProps<T> {
   title: string;
@@ -16,6 +15,7 @@ interface OptionsProps<T> {
   itemKey: (item: T) => string | number;
   itemLabel: (item: T) => string;
   itemLink: (item: T) => string;
+  getItemImage?: (item: T) => string | null;
 }
 
 export const Options = <T,>({
@@ -27,6 +27,7 @@ export const Options = <T,>({
   itemKey,
   itemLabel,
   itemLink,
+  getItemImage,
 }: OptionsProps<T>) => {
   const { data: items = [], isLoading, error } = useQuery<T[], Error>({
     queryKey,
@@ -43,11 +44,15 @@ export const Options = <T,>({
       <FridgeHeader title={title} subtitle={subtitle} onSearch={setSearchQuery} />
       <div className="option-list">
         {filteredResults.length > 0 ? (
-          filteredResults.map((item) => (
-            <Link key={itemKey(item)} to={itemLink(item)} className="option-item">
-              {_.startCase(_.toLower(itemLabel(item)))}
-            </Link>
-          ))
+          filteredResults.map((item) => {
+            const imageSrc = getItemImage ? getItemImage(item) : null;
+            return (
+              <Link key={itemKey(item)} to={itemLink(item)} className="option-item">
+                {imageSrc && <img src={imageSrc} alt={itemLabel(item)} className="option-image" />}
+                <span className="option-text">{_.startCase(_.toLower(itemLabel(item)))}</span>
+              </Link>
+            );
+          })
         ) : (
           <p className="no-options">No matching items found.</p>
         )}
