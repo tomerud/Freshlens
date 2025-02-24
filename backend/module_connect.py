@@ -93,13 +93,13 @@ def handle_send_to_db(data):
     camera_ip = data.get('camera_ip')
     products_data = data.get('products_data')
     print(f"Received data from camera {camera_ip}")
+        
     for product in products_data:
-        for info in product:
-            track_id = info[0]
-            class_id = info[1]
-            exp_date= info[2]
-            print(f"Product with track_id {track_id} and class_id {class_id} has expiry date {exp_date}")
-    handle_camera_update(camera_ip, product)
+        track_id = product[0]
+        class_id = product[1]
+        exp_date= product[2]
+        print(f"Product with track_id {track_id} and class_id {class_id} has expiry date {exp_date}")
+    #handle_camera_update(camera_ip, product)
 
     
     

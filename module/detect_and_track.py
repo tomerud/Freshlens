@@ -12,6 +12,7 @@ of the products in the video stream.
 """
 
 import time
+import os
 from datetime import datetime
 import threading
 from typing import List, Tuple, Dict, Any
@@ -25,6 +26,7 @@ from ultralytics import YOLO
 # - Implement loading and saving of the DeepSort initialization
 #   to restore the last detection tracking ID from the camera.
 # - Ensure all XYXY and XYWH formats are correct and passed as needed.
+
 
 def open_video_stream(rtsp_path: str) -> cv2.VideoCapture:
     """
@@ -46,12 +48,15 @@ def initialize_video_writer(cap: cv2.VideoCapture) -> cv2.VideoWriter:
     initialize the video writer to save the video with the tracking and detection results,
     in case we want to see the tracking and detection results later.
     """
+    output_dir = "output"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)  
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     thread_id = threading.get_ident()
     current_date = datetime.now().strftime("%Y%m%d_%H%M%S")  # Format: YYYYMMDD_HHMMSS
-    output_path = f"output/tracked_vid_{thread_id}_{current_date}.mp4"
+    output_path = f"{output_dir}/tracked_vid_{thread_id}_{current_date}.mp4"
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 
     return cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
@@ -126,6 +131,7 @@ def process_video(
         ret, frame = cap.read()
         if not ret:
             frame = None  # error in reading the frame
+            last_frame_objects = []
             break
         # Initialize a list to store objects for the current frame
         last_frame_objects = []
@@ -165,7 +171,7 @@ def process_video(
         for obj in last_frame_objects:
             print(f"ID: {obj['id']}, Class: {obj['class_id']}")
 
-    if frame is not None:
+    if last_frame is not None:
         last_frame_pil = Image.fromarray(cv2.cvtColor(last_frame, cv2.COLOR_BGR2RGB))
         # add the Last frame, for drawing later the bounding boxes.
         detected_products.append((-1, -1, (-1, -1, -1, -1) , last_frame_pil))
@@ -173,6 +179,9 @@ def process_video(
         for obj in last_frame_objects:
             min_x, min_y, max_x, max_y = obj['bbox']
             cropped_product = last_frame[min_y:max_y, min_x:max_x]  # only a single product
+            if cropped_product.size == 0:
+                print("Warning: cropped_product is empty for object with bbox:", obj['bbox'])
+                continue
             detected_products.append(
             (
                 obj["id"],

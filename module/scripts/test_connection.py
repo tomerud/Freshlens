@@ -30,7 +30,9 @@ port=8554
 tomer camera Ip, port and a list
     [(product_id,class_id,exp date)]
 """
-detections = [[(-1,-1,1)],[(1,2, "2025-02-01")]]
+detections = [(-1,-1,1),(1,2, "2025-02-01"),(4,5, "2025-03-04")]
+send_to_db(socket,camera_ip,port, detections)
+detections = [(-1, -1, (-1, -1, -1, -1), -1)]
 send_to_db(socket,camera_ip,port, detections)
 
 #image = Image.open("assets/shelf.jpg")
