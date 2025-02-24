@@ -32,13 +32,13 @@ product with date box and expiration date
 ```
 📂 project_root/
 │
-│── 📂 assets/                      # for running locally
+│── 📂 assets/                       # for running locally
 │
 │── 📂 model_training/               # scripts used to train the models
 │
 │── 📂 models/                       # Deep Learning models to load
 │
-│── 📂 scripts/                      # Helper scripts
+│── 📂 scripts/                      
 │   ├── 📄 code_formatting.py        # Checks formatting using pylint and flake8
 │   ├── 📄 run_demo.py               # Runs demo and showcases the system
 │
