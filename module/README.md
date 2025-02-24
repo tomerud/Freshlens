@@ -29,6 +29,7 @@ Drawing bb with expiration date
 product with date box and expiration date
 
 ## Module Structure:
+```
 📂 project_root/
 │
 │── 📂 assets/                      # for running locally
@@ -50,7 +51,7 @@ product with date box and expiration date
 │── 📄 pass_obj_to_exp_date.py       # Determines which expiration date function is needed
 │── 📄 products_ocr.py               # Optical character recognition for expiration date detection
 │── 📄 scheduler.py                  # Manages the system
-
+```
 
 ## Main files explanation:
 
