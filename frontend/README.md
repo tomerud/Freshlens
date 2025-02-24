@@ -28,13 +28,6 @@
    - **Money Saved Chart:** A bar chart tracking your weekly savings.
 4. **Shopping Cart Button:** Redirects to your AI-driven shopping list with recommended items.
 
-https://github.com/user-attachments/assets/d0cd3a48-56eb-4912-8b85-32657afcac47
-https://github.com/user-attachments/assets/4871aff0-2827-4eab-93fe-0f065ffd7145
-https://github.com/user-attachments/assets/b915afb0-8bb1-4944-825a-24c8e5cd7451
-https://github.com/user-attachments/assets/f2231efc-4459-4821-899b-20b8985f250d
-https://github.com/user-attachments/assets/6a85e94a-1cb5-40a7-9c65-3ec9e3c3ee3e
-
-
 <img src="https://github.com/user-attachments/assets/d0cd3a48-56eb-4912-8b85-32657afcac47" alt="App Screenshot" width="300" />
 <img src="https://github.com/user-attachments/assets/4871aff0-2827-4eab-93fe-0f065ffd7145" alt="App Screenshot" width="300" />
 <img src="https://github.com/user-attachments/assets/b915afb0-8bb1-4944-825a-24c8e5cd7451" alt="App Screenshot" width="300" />
