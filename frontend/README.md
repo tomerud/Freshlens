@@ -103,7 +103,8 @@ Follow the steps below to set up and run the FreshLens frontend locally.
 ```bash
 git clone https://github.com/tomerud/Freshlens.git
 cd frontend
-
+```
 ### 2. run the frontend server
 ```bash
 npm run dev
+```
