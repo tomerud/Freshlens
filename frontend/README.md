@@ -1,3 +1,4 @@
+<div align="left">
 # FreshLens Frontend
 
 ## Table of Contents
@@ -113,3 +114,4 @@ cd frontend
 ```bash
 npm run dev
 ```
+</div>
