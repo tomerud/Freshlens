@@ -121,7 +121,7 @@ def process_video(
     class_list = [class_name for _, class_name in sorted(model.names.items())]
     tracker = DeepSort(max_age=80, nn_budget=200, max_iou_distance=0.4)
     last_frame = None
-
+    
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
