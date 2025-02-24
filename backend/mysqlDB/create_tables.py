@@ -188,28 +188,19 @@ def insert_demo_data_to_product_table():
         {"product_name": "Cola", "category_name": "Beverages"},
         {"product_name": "Chips", "category_name": "Snacks"},
         # Dairy
-        {"product_name": "Greek Yogurt", "category_name": "Dairy"},
-        {"product_name": "Farmers 14% Sour Cream", "category_name": "Dairy"},
-        {"product_name": "Baxter 2% Cottage Cheese", "category_name": "Dairy"},
-        {"product_name": "Mozzarella Cheese", "category_name": "Dairy"},
-        {"product_name": "Feta Cheese", "category_name": "Dairy"},
-        {"product_name": "Parmesan Cheese", "category_name": "Dairy"},
         {"product_name": "Heavy Cream", "category_name": "Dairy"},
+        {"product_name": "swiss Cheese", "category_name": "Dairy"},
         {"product_name": "Coffee Creamer", "category_name": "Dairy"},
-        {"product_name": "Goat Cheese", "category_name": "Dairy"},
         {"product_name": "Ricotta Cheese", "category_name": "Dairy"},
+        {"product_name": "Yogurt", "category_name": "Dairy"},
         
-        # Vegetables
-        {"product_name": "Lettuce", "category_name": "Vegetables"},
-        {"product_name": "Spinach", "category_name": "Vegetables"},
+        # Vegetables       
+        {"product_name": "ginger", "category_name": "Vegetables"},
+        {"product_name": "eggplant", "category_name": "Vegetables"},
+        {"product_name": "lemon", "category_name": "Vegetables"},
         {"product_name": "Kale", "category_name": "Vegetables"},
         {"product_name": "Tomato", "category_name": "Vegetables"},
         {"product_name": "Cucumber", "category_name": "Vegetables"},
-        {"product_name": "Carrot", "category_name": "Vegetables"},
-        {"product_name": "Celery", "category_name": "Vegetables"},
-        {"product_name": "Bell Pepper", "category_name": "Vegetables"},
-        {"product_name": "Zucchini", "category_name": "Vegetables"},
-        {"product_name": "Broccoli", "category_name": "Vegetables"},
         
         # Fruits
         {"product_name": "Apple", "category_name": "Fruits"},

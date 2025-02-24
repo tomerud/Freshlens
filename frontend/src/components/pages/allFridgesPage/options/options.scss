@@ -4,19 +4,39 @@
 }
 
 .option-item {
-  display: block;
+  display: flex;
+  align-items: center;
   padding: 20px;
   border-bottom: 1px solid lightgray;
   color: #131313;
-  font-feature-settings: 'dlig' on;
+  font-feature-settings: "dlig" on;
   font-family: Inter;
   font-size: 22px;
   font-style: normal;
   font-weight: 200;
   letter-spacing: -0.72px;
   text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s ease-in-out;
 }
 
-.option-item :last-child {
+.option-item:hover {
+  background: #f0f0f0;
+}
+
+.option-item:last-child {
   border-bottom: none;
+}
+
+.option-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 15px;
+}
+
+.option-text {
+  flex-grow: 1;
+  text-align: left;
 }

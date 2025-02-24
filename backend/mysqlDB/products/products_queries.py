@@ -26,7 +26,7 @@ def get_fridge_products_by_category_from_db(fridge_id, category_name):
         list: A list of tuples containing product data.
     """
     return execute_query("""
-        SELECT p.product_id, p.product_name
+        SELECT distinct p.product_id, p.product_name
         FROM categories c
         JOIN product_global_info p ON c.category_id = p.category_id
         JOIN item i ON p.product_id = i.product_id
@@ -162,4 +162,6 @@ def about_to_expire_products(user_id):
         join fridges f ON f.fridge_id = ca.fridge_id
         where DATE_ADD(i.date_entered, INTERVAL (DATEDIFF(i.anticipated_expiry_date, i.date_entered) * 0.8) DAY) < CURDATE()
                 AND f.user_id = %s
+                and p.product_name != 'ginger'
+         limit 3
     """, (user_id, ))

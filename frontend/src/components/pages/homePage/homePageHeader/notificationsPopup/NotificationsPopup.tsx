@@ -32,7 +32,7 @@ export const NotificationsPopup = ({ notifications, isOpen, onClose }: Notificat
       {notifications.length > 0 ? (
         <ul>
           {notifications.map((notif) => (
-            <li key={notif.id}>{_.capitalize(notif.message)}</li>
+            <li key={notif.id}>{notif.message}</li>
           ))}
         </ul>
       ) : (
