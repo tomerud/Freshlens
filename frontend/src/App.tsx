@@ -14,6 +14,7 @@ import { ProductPage } from './components/pages/allFridgesPage/fridgePage/catego
 
 import './App.css'
 import { RecipeSuggestion } from './components/pages/homePage/recipeSuggestion';
+import { ShoppingCart } from './components/pages/homePage/shoppingCart';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/fridges/:fridgeId/:categoryName/:productId" element={<ProductPage />} />
             <Route path="/cameras" element={<CamerasPage />} />
             <Route path="/user/*" element={<UserProfilePage />} />
+            <Route path="/ShoppingCart/" element={<ShoppingCart />} />
           </Route>
         </Routes>
       </Router>

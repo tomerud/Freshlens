@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
 from datetime import date
+from DS.nutrition_idea import get_nutrition_data
+from DS.predict_shopping_waste import pipeline
 from mysqlDB.products.products_queries import about_to_expire_products
-from ..DS.predict_shopping_waste import pipeline
-from .. DS.nutrition_idea import get_nutrition_data
 
 analysis_bp = Blueprint('analysis_bp', __name__)
 
@@ -15,31 +15,31 @@ def get_fridge_name():
     try:
         products_to_notify = about_to_expire_products(user_id)
         
-
         today = date.today()
         notifications = []
 
         for product in products_to_notify:
             exp_date = product["anticipated_expiry_date"]
-            
             days_left = (exp_date - today).days
+
+            product_name = product['product_name'].title()
 
             if days_left < 1:
                 notifications.append({
                     "id": f"urgent-{product['product_id']}",
-                    "message": f"🚨 {product['product_name']} expires today!",
+                    "message": f"🚨 {product_name} expires today!",
                     "timestamp": today.isoformat()
                 })
             elif days_left <= 3:
                 notifications.append({
                     "id": f"warning-{product['product_id']}",
-                    "message": f"⚠️ {product['product_name']} will expire in {days_left} days.",
+                    "message": f"⚠️ {product_name} will expire in {days_left} days.",
                     "timestamp": today.isoformat()
                 })
             elif days_left <= 7:
                 notifications.append({
                     "id": f"reminder-{product['product_id']}",
-                    "message": f"ℹ️ {product['product_name']} is getting old. Consider using it soon.",
+                    "message": f"ℹ️ {product_name} is getting old. Consider using it soon.",
                     "timestamp": today.isoformat()
                 })
 
@@ -51,15 +51,16 @@ def get_fridge_name():
 
         notifications.append({
             "id": "savings-1",
-            "message": "💰Reminder to check your smart cart!",
+            "message": "💰Reminder to check your cart!",
             "timestamp": today.isoformat()
         })
 
         notifications.append({
-            "id": "savings-1",
+            "id": "recipe-1",
             "message": "🔔 We have new recipes for you!",
             "timestamp": today.isoformat()
         })
+
         return jsonify(notifications)
 
     except Exception as e:
