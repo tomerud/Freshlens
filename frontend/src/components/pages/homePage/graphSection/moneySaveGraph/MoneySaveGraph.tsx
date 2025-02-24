@@ -1,21 +1,8 @@
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Cell } from 'recharts';
-
-import './moneySaveGraph.scss';
 import { Loader } from '../../../../loader';
 import { useQuery } from '@tanstack/react-query';
 
-// const data = [
-//   { week: "Jan", value: 125 },
-//   { week: "Feb", value: 100 },
-//   { week: "Mar", value: 60 },
-//   { week: "Apr", value: 90 },
-//   { week: "May", value: 30 },
-//   { week: "Jun", value: 150 },
-//   { week: "Jul", value: 80 },
-//   { week: "Aug", value: 60 },
-//   { week: "Sep", value: 130 },
-//   { week: "Oct", value: 100 }
-// ];
+import './moneySaveGraph.scss';
 
 interface MoneySaveData {
   week: string;
