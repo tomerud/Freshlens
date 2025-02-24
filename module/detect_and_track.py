@@ -27,7 +27,6 @@ from ultralytics import YOLO
 #   to restore the last detection tracking ID from the camera.
 # - Ensure all XYXY and XYWH formats are correct and passed as needed.
 
-
 def open_video_stream(rtsp_path: str) -> cv2.VideoCapture:
     """
     Open an RTSP video stream and return the capture object.
@@ -131,7 +130,7 @@ def process_video(
         ret, frame = cap.read()
         if not ret:
             frame = None  # error in reading the frame
-            last_frame_objects = []
+            
             break
         # Initialize a list to store objects for the current frame
         last_frame_objects = []

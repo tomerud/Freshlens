@@ -48,12 +48,13 @@ MODEL_PATH = "../models/object_detect_v8.pt"
 detection_model = YOLO(MODEL_PATH)
 class_list = [class_name for _, class_name in sorted(detection_model.names.items())]
 PATH=["../assets/add.MP4","../assets/remove.MP4"]
-for i in range(2):
-    
-    detections = process_video(PATH[i],detection_model,True,False)
-    print("-----------------------------------")
-    print(i)
-    print(detections)
+#for i in range(2):
+print("PATH[0]")
+detections = process_video(PATH[0],detection_model,True,False)
+print("-----------------------------------")
+#print(i)
+print(len(detections))
+print(detections)
 
 
 # can change to any video path

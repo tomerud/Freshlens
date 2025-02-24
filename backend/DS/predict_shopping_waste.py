@@ -9,8 +9,8 @@ import plotly.graph_objects as go
 import pandas as pd
 from typing import Tuple
 from prophet import Prophet
-from mysqlDB import db_utils 
-from mysqlDB.products import products_queries
+from backend.mysqlDB import db_utils 
+from backend.mysqlDB.products import products_queries
 
 # TODO:
 # change logic after demo - make it integrated to all the other db parts
@@ -104,13 +104,13 @@ def pipeline(user_id: str):
 
             # Predict purchases for the next 2 weeks
             model_purchase = initialize_prophets(df_purchase)
-            future_purchase = model_purchase.make_future_dataframe(periods=2, freq='W-MON')
-            forecast_purchase = model_purchase.predict(future_purchase).tail(2)
+            future_purchase = model_purchase.make_future_dataframe(periods=1, freq='W-MON')
+            forecast_purchase = model_purchase.predict(future_purchase).tail(1)
 
             # Predict waste for the next 2 weeks
             model_thrown = initialize_prophets(df_thrown)
-            future_thrown = model_thrown.make_future_dataframe(periods=2, freq='W-MON')
-            forecast_thrown = model_thrown.predict(future_thrown).tail(2)
+            future_thrown = model_thrown.make_future_dataframe(periods=1, freq='W-MON')
+            forecast_thrown = model_thrown.predict(future_thrown).tail(1)
 
             forecast_combined = pd.DataFrame({
                 'ds': forecast_purchase['ds'],
@@ -134,7 +134,8 @@ def pipeline(user_id: str):
 
 if __name__ == "__main__":
     res = pipeline('101')
-    print(type(res))
+    print(res)
+    
     
 
 

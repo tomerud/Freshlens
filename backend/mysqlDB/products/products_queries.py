@@ -112,6 +112,22 @@ def get_product_name_from_db(product_id):
         WHERE p.product_id = %s
     """, (product_id,))
 
+def get_product_id_from_db(product_name):
+    """
+    Retrieves product id based on the product name.
+
+    Returns:
+        int or None: The product ID, or None if not found.
+    """
+    result= execute_query("""
+        SELECT p.product_id
+        FROM product_global_info p
+        WHERE p.product_name = %s
+    """, (product_name,))
+    if result:
+        return result[0]['product_id'] if 'product_id' in result[0] else None
+    else:
+        return None
 
 def get_fridge_products_with_expiry_dates(fridge_id):
     """
