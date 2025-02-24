@@ -96,20 +96,18 @@ def create_tables():
                     is_specific_product_tip BOOLEAN
                 )
             """,
-        "user_product_history": """
-        CREATE TABLE IF NOT EXISTS user_product_history (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id VARCHAR(28),
-            product_id INT,
-            purchase_date DATE,
-            quantity_purchased INT,
-            quantity_consumed INT,
-            quantity_thrown_out INT
-        );
+         "user_product_history": """
+            CREATE TABLE IF NOT EXISTS user_product_history (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id VARCHAR(28) NOT NULL,
+                product_id INT NOT NULL,
+                is_thrown BOOLEAN NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(user_id),
+                FOREIGN KEY (product_id) REFERENCES product_global_info(product_id)
+            );
         """
-            
-    }       #user_product_history - need to add FOREIGN KEY (user_id) REFERENCES users(id),
-            #user_product_history - need to add FOREIGN KEY (product_id) REFERENCES products(id)
+    }
+
 
     for table_name, table_sql in tables.items():
         execute_query(table_sql)

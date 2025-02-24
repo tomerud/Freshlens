@@ -10,7 +10,9 @@ import os
 from datetime import datetime
 #from Non_Rel_DB.store_pic import decode_and_store_image
 import ssl
-from mysqlDB.items.insert_new_item_to_db import sync_items_for_camera
+from mongo.store_image import decode_and_store_image
+from mysqlDB.items.handle_item_update import handle_camera_update
+
 
 
 app = Flask(__name__)
@@ -20,33 +22,119 @@ client = MongoClient("mongodb://localhost:27017/")
 db = client["image_database"]
 fs = gridfs.GridFS(db)
 
+# data is a list of dics in this format. is inserted_by_user = 0 always. items with missing fields will be ignore for now.
+REQUIRED_FIELDS = [
+    "item_id",
+    "is_inserted_by_user",
+    "product_id",
+    "camera_ip",
+    "date_entered",
+    "anticipated_expiry_date",
+    "remove_from_fridge_date",
+    "is_rotten"
+]
+
+def validate_item(item):
+    """ Ensures all required fields are present."""
+    missing_fields = [field for field in REQUIRED_FIELDS if field not in item]
+    
+    if missing_fields:
+        print(f" Warning: Item {item.get('item_id', 'UNKNOWN')} is missing fields: {missing_fields}")
+        return False
+
+    if not isinstance(item['item_id'], int):
+        print(f"Error: 'item_id' must be an integer. Found: {type(item['item_id'])}")
+        return False
+    
+    if not isinstance(item['is_inserted_by_user'], int):
+        print(f"Error: 'is_inserted_by_user' must be an integer (0 or 1). Found: {type(item['is_inserted_by_user'])}")
+        return False
+
+    if not isinstance(item['product_id'], int):
+        print(f"Error: 'product_id' must be an integer. Found: {type(item['product_id'])}")
+        return False
+
+    if not isinstance(item['camera_ip'], str):
+        print(f"Error: 'camera_ip' must be a string. Found: {type(item['camera_ip'])}")
+        return False
+
+    if not isinstance(item['date_entered'], str):
+        print(f"Error: 'date_entered' must be a string in 'YYYY-MM-DD' format.")
+        return False
+
+    if not isinstance(item['anticipated_expiry_date'], str):
+        print(f"Error: 'anticipated_expiry_date' must be a string in 'YYYY-MM-DD' format.")
+        return False
+
+    if item['remove_from_fridge_date'] is not None and not isinstance(item['remove_from_fridge_date'], str):
+        print(f"Error: 'remove_from_fridge_date' must be a string in 'YYYY-MM-DD' format or None.")
+        return False
+
+    if not isinstance(item['is_rotten'], int):
+        print(f"Error: 'is_rotten' must be an integer (0 or 1). Found: {type(item['is_rotten'])}")
+        return False
+
+    return True
+
+
 @socketio.on("connect")
 def handle_connect():
-    print("Client connected")
+    print("Client connected.")
 
 
 @socketio.on("send_to_db")
 def handle_send_to_db(data):
-    """ you get camera Ip, port and a list
-    [(product_id,class_id,exp date)]
-    format of exp date  
     """
-    ip=data['camera_ip']
-    print(type(data))
-    sync_items_for_camera(ip,data)
-    # Handle the data 
-    print("Received data for DB:", data)
+    Handles incoming data and updates the MySQL database:
+    1. checks each item has required fields.
+    2. Extracts the camera_ip from the first item(all of them share same ip)
+    3. Calls handle_camera_update to process valid items.
+    """
+    if not isinstance(data, list):
+        print(" Error: Received data must be a list of item dictionaries.")
+        return
+
+    if not data:
+        print(" Warning: Received an empty item list. No action taken.")
+        return
+
+    camera_ip = data[0].get('camera_ip')
+    if not camera_ip:
+        print(" Error: 'camera_ip' is missing in the first item of the list.")
+        return
+
+    print(f" Received {len(data)} items for camera_ip={camera_ip}.")
+
+    # Validate each item and collect only the valid ones
+    valid_items = [item for item in data if validate_item(item)]
+
+    if not valid_items:
+        print(f" Error: No valid items to process for camera_ip={camera_ip}. Aborting.")
+        return
+
+    # Process the valid items
+    handle_camera_update(camera_ip, valid_items)
+    print(f" Database updated successfully for camera_ip={camera_ip} with {len(valid_items)} valid items.")
+
+
     
     
 @socketio.on("send_to_mongo")
 def handle_send_to_mongo(data):
-    """ you get camera Ip, port and an image
-    decide how you want the data to be encoded / sent - image_base64, image_Binary, nparray etc
+    """ Handles image storage in MongoDB:
+    Expects data with fields: 'image_base64', 'user_id', 'camera_ip', and the time the pic was taken.
+    timestamp is reccomended but will work without it as well.
     """
-    user_id=1 #test
-    #decode_and_store_image(data["image"], user_id, data["camera_ip"])
-    # Handle the data
-    return
+    image_base64 = data.get('image_base64')
+    user_id = data.get('user_id')
+    camera_ip = data.get('camera_ip')
+    timestamp = data.get('timestamp')
+    if not image_base64 or not user_id or not camera_ip:
+        print("Error: Missing required fields 'image_base64', 'user_id', or 'camera_ip'.")
+        return
+
+    decode_and_store_image(image_base64, user_id, camera_ip, timestamp)
+
 
 @socketio.on("error_in_module")
 def stream_error(data):
