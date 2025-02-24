@@ -5,8 +5,8 @@ import { Options } from '../options';
 import './FridgePage.scss';
 
 interface Category {
-    category_id: number;
-    category_name: string;
+    categoryId: number;
+    categoryName: string;
   }
   
   const fetchCategories = async (fridgeId: string): Promise<Category[]> => {
@@ -27,10 +27,10 @@ interface Category {
         subtitle="Choose a category"
         queryKey={["categories", fridgeId]}
         queryFn={() => fetchCategories(fridgeId!)}
-        filterFn={(category, query) => category.category_name.toLowerCase().includes(query)}
-        itemKey={(category) => category.category_id}
-        itemLabel={(category) => category.category_name}
-        itemLink={(category) => `${category.category_name}`}
+        filterFn={(category, query) => category.categoryName.toLowerCase().includes(query)}
+        itemKey={(category) => category.categoryId}
+        itemLabel={(category) => category.categoryName}
+        itemLink={(category) => `${category.categoryName}`}
         />
         <button className="recipe-button">
           <Link key={fridgeId} to={`/fridges/recipes/${fridgeId}`}>

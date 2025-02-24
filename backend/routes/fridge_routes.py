@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from mysqlDB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
-from mysqlDB.products.products_queries import get_all_categories_from_db, get_fridge_product_items_from_db, get_fridge_products_by_category_from_db, get_general_tips_from_db, get_product_name_from_db, get_product_nutrient_data, get_product_price_from_db, get_specific_product_tips_from_db
+from mysqlDB.products.products_queries import get_all_categories_from_db, get_freshness_score_from_db, get_fridge_product_items_from_db, get_fridge_products_by_category_from_db, get_general_tips_from_db, get_product_name_from_db, get_product_nutrient_data, get_product_price_from_db, get_specific_product_tips_from_db
 from mysqlDB.fridge.get_fridges import get_fridge_name_from_db, get_fridges_from_db
 
 
@@ -100,7 +100,6 @@ def get_all_product_items():
     return jsonify(items), 200
 
 
-
 @fridge_bp.route('/get_product_nutrient', methods=['GET'])
 def get_product_nutrient():
     """
@@ -196,3 +195,28 @@ def get_product_name():
     product_name = get_product_name_from_db(product_id)
 
     return jsonify(product_name[0]), 200
+
+
+@fridge_bp.route('/get_freshness_score', methods=['GET'])
+def get_freshness_score():
+    """
+    Get the avg freshness of the items in all user's fridges.
+    We calculate the freshness of item like that:
+    100% - until 4 days before expiration
+    80% - 3 days before expiration
+    60% - 2 days before expiration
+    40% - 1 day before expiration
+    20% - the day of expiration
+    0% - if the expiration day already passed
+
+   We want to encorage the user to eat the products instead of over tagging them as rotten.
+    """
+    user_id = request.args.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "user_id query parameter is required."}), 400
+
+    freshness_score = get_freshness_score_from_db(user_id)
+    # print(freshness_score['avg_freshness_score'])
+    
+    return jsonify(freshness_score), 200
