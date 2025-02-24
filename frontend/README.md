@@ -1,4 +1,5 @@
-<div align="left">
+'''<div align="left">
+  
 # FreshLens Frontend
 
 ## Table of Contents
@@ -115,3 +116,4 @@ cd frontend
 npm run dev
 ```
 </div>
+'''
