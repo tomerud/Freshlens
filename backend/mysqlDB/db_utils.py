@@ -48,8 +48,10 @@ def execute_query(query, params=None, fetch_all=True, fetch_one=False, commit=Tr
 
         if params is None:
             params = ()
-
-        cursor.execute(query, params)
+        if isinstance(params, list):
+            cursor.executemany(query, params)
+        else:
+            cursor.execute(query, params)
 
         if fetch_one:
             result = cursor.fetchone()

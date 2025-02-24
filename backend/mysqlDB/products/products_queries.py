@@ -162,6 +162,4 @@ def about_to_expire_products(user_id):
         join fridges f ON f.fridge_id = ca.fridge_id
         where DATE_ADD(i.date_entered, INTERVAL (DATEDIFF(i.anticipated_expiry_date, i.date_entered) * 0.8) DAY) < CURDATE()
                 AND f.user_id = %s
-                and p.product_name != 'ginger'
-         limit 3
     """, (user_id, ))

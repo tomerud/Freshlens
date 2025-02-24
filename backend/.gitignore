@@ -49,3 +49,9 @@ pip-wheel-metadata/
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# Ignore all JSON files
+*.json
+
+# Ignore all runtime JavaScript files
+*.runtime.js
