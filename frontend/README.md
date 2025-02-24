@@ -39,8 +39,11 @@ Stay connected to your fridge from anywhere by viewing live camera feeds. Whethe
 - **Item Detection Overlays:** Automatically highlight fruits, vegetables, and other items with bounding boxes for easy identification.
 - **Timestamped Snapshots:** Each image displays the exact time it was captured.
 - **Refetch Image Button:** Retrieve a fresh snapshot on demand. Otherwise, the images you see are the last frames captured from the motion-based video feed.
-![image](https://github.com/user-attachments/assets/d5e7b11b-de3e-4722-a89e-518d41b9386b)
-![image](https://github.com/user-attachments/assets/75154230-3f2c-4fa9-a979-4aca626ba1c8)
+
+
+<img src="https://github.com/user-attachments/assets/d5e7b11b-de3e-4722-a89e-518d41b9386b" alt="App Screenshot" width="400" />
+
+<img src="https://github.com/user-attachments/assets/75154230-3f2c-4fa9-a979-4aca626ba1c8" alt="App Screenshot" width="400" />
 
 ---
 
