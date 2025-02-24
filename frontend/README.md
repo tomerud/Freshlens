@@ -72,8 +72,22 @@ Dive deeper into the contents of your fridge by selecting specific categories, p
 
 ---
 
-## Page 4
-*Describe the purpose of this page. For example, this page might offer detailed item management or reporting tools.*
+## Page 4: Account & Settings
+
+Manage your personal information, subscription plan, and fridge configurations all in one place. This page also provides an option to log out, ensuring secure access to your account.
+
+### Key Features
+1. **Subscription Management:** View and update your plan (Free, Plus, or Premium).
+2. **Add/Remove Fridges:** Easily create new fridge profiles or remove old ones.
+3. **Future Customizations:**
+   - **Groceries & Shopping Preferences:** Specify where you typically shop to tailor price and availability information.
+   - **Notification Frequency:** Choose how often you want to receive alerts about expiring items or other updates.
+   - **Camera Configurations:** Customize camera settings, motion detection sensitivity, and more.
+4. **Logout:** Securely end your session when you’re done.
+
+This page will continue to evolve with more advanced personalization and user preferences. 
+
+<img src="https://github.com/user-attachments/assets/a37edf5c-0154-455f-afbf-ea5ba73e3eb5" alt="App Screenshot" width="300" />
 
 ---
 
