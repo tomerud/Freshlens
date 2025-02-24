@@ -15,7 +15,7 @@ from PIL import Image
 from ultralytics import YOLO
 from typing import List, Tuple
 
-from .proccess_img_and_date import (
+from module.proccess_img_and_date import (
     resize_with_letterbox,
     adjust_boxes,
     best_candidate_date,

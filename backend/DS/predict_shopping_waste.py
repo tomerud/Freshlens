@@ -55,7 +55,6 @@ def get_user_history(user_id:int) -> pd.DataFrame:
     return df
     
 
-
 def process_db(df:pd.DataFrame,product_id:int, user_id:str,
                ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     df['user_id'] = df['user_id'].astype(str)
