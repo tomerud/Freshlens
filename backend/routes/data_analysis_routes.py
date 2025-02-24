@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
 from datetime import date
+from DS.nutrition_idea import get_nutrition_data
+from DS.predict_shopping_waste import pipeline
 from mysqlDB.products.products_queries import about_to_expire_products
-from ..DS.predict_shopping_waste import pipeline
-from .. DS.nutrition_idea import get_nutrition_data
 
 analysis_bp = Blueprint('analysis_bp', __name__)
 

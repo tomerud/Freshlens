@@ -9,21 +9,13 @@ import plotly.graph_objects as go
 import pandas as pd
 from typing import Tuple
 from prophet import Prophet
-from backend.mysqlDB import db_utils 
-from backend.mysqlDB.products import products_queries
-from prophet.plot import plot_plotly
+from mysqlDB import db_utils 
+from mysqlDB.products import products_queries
 
 # TODO:
 # change logic after demo - make it integrated to all the other db parts
 # notice date in user_product_history is in WEEKS!!!!!
 # change continoue in function for more modular!!!!
-
-import plotly.graph_objects as go
-import pandas as pd
-import plotly.graph_objects as go
-import pandas as pd
-
-import plotly.graph_objects as go
 
 def plot_forecast_with_go2(forecast, title="Forecast"):
     forecast_2025 = forecast[forecast['ds'].dt.year == 2025]
@@ -97,9 +89,6 @@ def initialize_prophets(df:pd.DataFrame) -> Prophet:
     model.fit(df)
     return model
     
-
-import pandas as pd
-
 def pipeline(user_id: str):
     user_history = get_user_history(user_id)
     
