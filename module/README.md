@@ -29,15 +29,16 @@ Drawing bb with expiration date
 product with date box and expiration date
 
 ## Module Structure:
+```
 📂 project_root/
 │
-│── 📂 assets/                      # for running locally
+│── 📂 assets/                       # for running locally
 │
 │── 📂 model_training/               # scripts used to train the models
 │
 │── 📂 models/                       # Deep Learning models to load
 │
-│── 📂 scripts/                      # Helper scripts
+│── 📂 scripts/                      
 │   ├── 📄 code_formatting.py        # Checks formatting using pylint and flake8
 │   ├── 📄 run_demo.py               # Runs demo and showcases the system
 │
@@ -50,7 +51,7 @@ product with date box and expiration date
 │── 📄 pass_obj_to_exp_date.py       # Determines which expiration date function is needed
 │── 📄 products_ocr.py               # Optical character recognition for expiration date detection
 │── 📄 scheduler.py                  # Manages the system
-
+```
 
 ## Main files explanation:
 
