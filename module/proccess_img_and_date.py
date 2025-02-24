@@ -12,12 +12,10 @@ from datetime import datetime
 import re
 from typing import List, Tuple
 import numpy as np
+import cv2
 from PIL import Image
 from ultralytics.engine.results import Boxes  # for type hinting
 
-# TODO:
-# 1. Should add a rotation of date boxes here or at ClosedProductsOCR
-# 2. Check about xyxy and xywh
 
 def resize_with_letterbox(image: Image, target_size: int = 768) -> Tuple[Image.Image, float, int, int]:
     """
@@ -44,6 +42,7 @@ def resize_with_letterbox(image: Image, target_size: int = 768) -> Tuple[Image.I
         pad_top,
     )
 
+
 def adjust_boxes(boxes: List[Boxes], scale: float, pad_left: int, pad_top: int) -> List[Tuple[float, float, float, float]]:
     """
     Adjust bounding boxes from letterboxed image to original image coordinates.
@@ -59,6 +58,7 @@ def adjust_boxes(boxes: List[Boxes], scale: float, pad_left: int, pad_top: int) 
             (y_max - pad_top) / scale
         ))
     return adjusted_boxes
+
 
 def intersection_area(box1: Boxes, box2: Boxes) -> float:
     """
@@ -77,12 +77,14 @@ def intersection_area(box1: Boxes, box2: Boxes) -> float:
         return (inter_x_max - inter_x_min) * (inter_y_max - inter_y_min)
     return 0.0
 
+
 def calculate_center(box: Boxes) -> Tuple[float, float]:
     """
     Calculate the center of a bounding box.
     Returns: (center_x, center_y)
     """
     return tuple(box.xywh[0].tolist()[:2])
+
 
 def euclidean_distance(center1: Tuple[float, float], center2: Tuple[float, float]) -> float:
     """
@@ -96,6 +98,7 @@ def euclidean_distance(center1: Tuple[float, float], center2: Tuple[float, float
         float: Euclidean distance.
     """
     return np.sqrt((center1[0] - center2[0])**2 + (center1[1] - center2[1])**2)
+
 
 def best_candidate_date(date_boxes: List[Boxes], due_boxes: List[Boxes]) -> List[Boxes]:
     """
@@ -130,7 +133,27 @@ def best_candidate_date(date_boxes: List[Boxes], due_boxes: List[Boxes]) -> List
 
     return best_matches
 
+def preprocess_image(cropped_img: Image) -> Image:
+    """Convert cropped image to grayscale and apply morphological operations."""
+    cropped_img_gray = np.array(cropped_img.convert('L'))
+    kernel = np.ones((3, 3), np.uint8)  # (2,2) dosent work as good
+    morph_img = cv2.morphologyEx(cropped_img_gray, cv2.MORPH_CLOSE, kernel)
+    return Image.fromarray(morph_img)
+
+
 def parse_expiration_date(ocr_text):
+    """
+    Parses an expiration date from OCR-extracted text
+    
+    formats:
+    - YYYY-MM-DD (returns as-is)
+    - DD MM (assumes current year)
+    - MM YYYY (assumes 1st day of the month)
+    - two digit years assume correct century
+        
+    Returns:
+    The parsed expiration date in 'YYYY-MM-DD' format, or None if invalid.
+    """
     current_year = datetime.now().year
     min_year = current_year % 100  # Last two digits of the current year
     full_century = current_year - min_year  # Century base (e.g., 2000)
@@ -149,7 +172,7 @@ def parse_expiration_date(ocr_text):
             try:
                 return datetime(current_year, month, day).strftime("%Y-%m-%d")
             except ValueError:
-                return None # Invalid date
+                return None  # Invalid date
 
     if len(numbers) == 2 and numbers[1] >= 1000:  # Case: "4 2026"
         month, year = numbers
@@ -157,7 +180,7 @@ def parse_expiration_date(ocr_text):
             try:
                 return datetime(year, month, 1).strftime("%Y-%m-%d")
             except ValueError:
-                return None # Invalid date
+                return None  # Invalid date
 
     if len(numbers) < 3:
         return None  # Not enough numbers to form a valid full date
@@ -203,7 +226,13 @@ def parse_expiration_date(ocr_text):
     except ValueError:
         return None  # Invalid date
 
+
 def select_best_expiration_date(ocr_candidates):
+    """
+    Selects the best expiration date from multiple candidates.
+    Returns:
+    The best-matching expiration date in 'YYYY-MM-DD' format, or None if none are valid.
+    """
     parsed_dates = {}
     modification_scores = {}
 
@@ -231,6 +260,7 @@ def select_best_expiration_date(ocr_candidates):
     # If there are multiple valid results, pick the one with the least modifications
     return min(top_candidates, key=lambda date: modification_scores[date])
 
+
 def compute_modification_score(original_text, parsed_date):
     """Calculates modification severity from OCR output to final parsed date."""
     original_numbers = re.findall(r'\d+', original_text)
@@ -240,7 +270,7 @@ def compute_modification_score(original_text, parsed_date):
     if "".join(original_numbers) == "".join(parsed_numbers):
         return 0
 
-    score = 0
+    score = 0  # pentaly to return the best date
     i, j = 0, 0
     original_year = datetime.now().year
     parsed_year = None
@@ -255,15 +285,14 @@ def compute_modification_score(original_text, parsed_date):
 
         # Minor separator change (e.g., "3/1/2025" -> "2025-01-03")
         if len(orig) == len(parsed):
-            score += 1  # Small penalty for format change
+            score += 1 
 
         # Two-digit year expanded (e.g., "25" -> "2025")
         elif len(orig) == 2 and parsed.startswith(orig):
-            score += 5  # Moderate penalty for year assumption
+            score += 5
 
-        # Larger transformations (e.g., missing digits, swapped order)
         else:
-            score += 3  # Bigger penalty
+            score += 3
 
         # Capture the years to calculate the closest one later
         if len(orig) == 4 and orig.isdigit():
@@ -277,11 +306,8 @@ def compute_modification_score(original_text, parsed_date):
     # Handle year difference: Prefer the **closest** year
     if original_year and parsed_year and original_year != parsed_year:
         year_diff = abs(original_year - parsed_year)
+        score += year_diff * 2  # bigger gaps= lager penalty
 
-        # Small penalty for a 1-year difference, but a larger penalty for bigger gaps
-        score += year_diff * 2
-
-    # Additional numbers in the original or parsed result
-    score += abs(len(original_numbers) - len(parsed_numbers)) * 2  # Moderate penalty per extra/missing number
+    score += abs(len(original_numbers) - len(parsed_numbers)) * 2  # penalty per extra/missing number
 
     return score

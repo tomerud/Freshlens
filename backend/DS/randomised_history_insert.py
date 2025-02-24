@@ -25,8 +25,8 @@ def insert_shopping_cycle_user_history(user_id: int,
         offset=random.choice([2,3])
         for product_id in product_ids:
             if week_offset % offset in [0, 1]:  
-                quantity_purchased = random.randint(4, 7)  # Bulk purchase week
-                thrown_fraction = random.uniform(0.28, 0.4)
+                quantity_purchased = random.randint(5, 8)  # Bulk purchase week
+                thrown_fraction = random.uniform(0.4, 0.8)
 
             else:
                 quantity_purchased = random.randint(1, 3)   # Low purchase week
@@ -63,4 +63,4 @@ def insert_shopping_cycle_user_history(user_id: int,
 
 
 if __name__ == "__main__":
-    insert_shopping_cycle_user_history(101,260,[5])
+    insert_shopping_cycle_user_history(101,260,[1,4,6,9,10])
