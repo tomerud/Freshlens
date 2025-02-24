@@ -16,8 +16,6 @@ const fetchProducts = async (fridgeId: string, categoryName: string): Promise<Pr
 
 const getProductImage = (product: Product) => {
   const imageMap: Record<string, string> = {
-    // "cheddar cheese": "/products/cheddar.png",
-    // "soy milk": "/products/soy-milk.png",
     "kale": "/products/kale.jpg",
     "cucumber": "/products/cucumber.png",
     "eggplant": "/products/eggplant.webp",
