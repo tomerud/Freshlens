@@ -179,3 +179,24 @@ def about_to_expire_products(user_id):
         where DATE_ADD(i.date_entered, INTERVAL (DATEDIFF(i.anticipated_expiry_date, i.date_entered) * 0.8) DAY) < CURDATE()
                 AND f.user_id = %s
     """, (user_id, ))
+
+
+def get_freshness_score_from_db(user_id):
+    return execute_query("""
+    SELECT round(AVG(CASE 
+    WHEN days_till_expiry_date < 0 THEN 0 
+    WHEN days_till_expiry_date = 0 THEN 20 
+    WHEN days_till_expiry_date = 1 THEN 40
+    WHEN days_till_expiry_date = 2 THEN 60
+    WHEN days_till_expiry_date = 3 THEN 80
+    WHEN days_till_expiry_date > 3 THEN 100
+    END)) as avg_freshness_score
+    FROM (
+        SELECT DATEDIFF(i.anticipated_expiry_date, CURDATE()) AS days_till_expiry_date, i.anticipated_expiry_date, CURDATE()
+        FROM product_global_info p
+        JOIN item i ON p.product_id = i.product_id
+        JOIN camera ca ON i.camera_ip = ca.camera_ip
+        JOIN fridges f ON f.fridge_id = ca.fridge_id
+        where f.user_id = %s
+    ) AS sub
+    """, (user_id, ),fetch_one=True)
