@@ -1,0 +1,1 @@
+export { FridgeFreshness } from './FridgeFreshness';

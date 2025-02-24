@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import { FridgeHeader } from "../../allFridgesPage/fridgeHeader";
+import { useQuery } from "@tanstack/react-query";
+import { Loader } from "../../../loader";
+
 import "./shoppingCart.scss";
 
 interface ShoppingItem {
@@ -8,21 +12,32 @@ interface ShoppingItem {
   checked: boolean;
 }
 
+interface ShoppingCartResponse {
+  items: ShoppingItem[];
+}
+
+const fetchShoppingCartRecommendations = async (userId: string): Promise<ShoppingCartResponse> => {
+  const response = await fetch(`/api/get_shopping_cart_recommendations?user_id=${userId}`);
+  if (!response.ok) throw new Error("Failed to fetch shopping cart recommendations");
+  return response.json();
+};
+
 export const ShoppingCart = () => {
-  const [shoppingCart, setShoppingCart] = useState<ShoppingItem[]>([
-    { id: 1, name: "Cheddar Cheese", checked: false },
-    { id: 2, name: "Soy Milk", checked: false },
-    { id: 3, name: "Tomatoes (2)", checked: false },
-    { id: 4, name: "Whole Wheat Bread", checked: false },
-    { id: 5, name: "Eggs (12-pack)", checked: false },
-    { id: 6, name: "Carrots (5)", checked: false },
-    { id: 7, name: "Red Onions (2)", checked: false },
-    { id: 8, name: "Bell Peppers (3)", checked: false },
-    { id: 9, name: "Romaine Lettuce", checked: false },
-    { id: 10, name: "Bananas (6)", checked: false },
-    { id: 11, name: "Ground Coffee", checked: false },
-    { id: 12, name: "Olive Oil", checked: false }
-  ]);
+  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
+
+  const { data, isLoading, error } = useQuery<ShoppingCartResponse, Error>({
+    queryKey: userId ? ["ShoppingCart", userId] : ["ShoppingCart"],
+    queryFn: () => fetchShoppingCartRecommendations(userId),
+    enabled: !!userId,
+  });
+
+  const [shoppingCart, setShoppingCart] = useState<ShoppingItem[]>([]);
+
+  useEffect(() => {
+    if (data && data.items) {
+      setShoppingCart(data.items);
+    }
+  }, [data]);
 
   const toggleChecked = (id: number) => {
     setShoppingCart((prevCart) =>
@@ -35,6 +50,9 @@ export const ShoppingCart = () => {
   const handleSubmit = () => {
     setShoppingCart((prevCart) => prevCart.filter((item) => !item.checked));
   };
+
+  if (isLoading) return <Loader />;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>
