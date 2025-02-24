@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../../../loader";
 import { useSearch } from "../hooks/useSearch";
 import { FridgeHeader } from "../fridgeHeader";
+
 import "./options.scss";
 
 interface OptionsProps<T> {
