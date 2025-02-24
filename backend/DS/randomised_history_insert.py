@@ -63,8 +63,4 @@ def insert_shopping_cycle_user_history(user_id: int,
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     insert_shopping_cycle_user_history(101,260,[1,4,6,9,10])
-=======
-    insert_shopping_cycle_user_history(101,260,[5])
->>>>>>> origin/main
