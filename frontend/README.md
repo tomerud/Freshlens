@@ -28,6 +28,11 @@
    - **Money Saved Chart:** A bar chart tracking your weekly savings.
 4. **Shopping Cart Button:** Redirects to your AI-driven shopping list with recommended items.
 
+
+
+
+<img src="https://github.com/user-attachments/assets/bcebeb4b-3f3e-4c71-8abd-8459cb957f33" alt="App Screenshot" width="300" />
+<img src="https://github.com/user-attachments/assets/04b6e507-7c33-4afe-a742-b3f6b384df32" alt="App Screenshot" width="300" />
 ---
 
 ## Page 2: Real-Time View
@@ -42,7 +47,6 @@ Stay connected to your fridge from anywhere by viewing live camera feeds. Whethe
 
 
 <img src="https://github.com/user-attachments/assets/d5e7b11b-de3e-4722-a89e-518d41b9386b" alt="App Screenshot" width="300" />
-
 <img src="https://github.com/user-attachments/assets/75154230-3f2c-4fa9-a979-4aca626ba1c8" alt="App Screenshot" width="300" />
 
 ---
