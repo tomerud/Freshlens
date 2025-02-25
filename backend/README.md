@@ -1,126 +1,48 @@
 # FreshLens backend
 
 ## Table of Contents
-- [Overview](#overview)
-- [Backend Structure](#module-structure)
+- [Backend Overview](#backend-overview)
+- [Backend Directory Structure (main files)](#backend-directory-structure-main-files)
 - [Main Files Explanation](#main-files-explanation)
+
   
 
-## Overview  
+## Backend Overview   
 The backend uses a MySQL database to accurately record updates from cameras—keeping track of item entries and changes in real time. At the same time, it stores fridge images in MongoDB, providing visual records of the fridge contents. The backend also performs waste analysis to identify patterns in discarded items, which helps in generating practical recommendations for better customer habits. Additionally, by integrating ChatGPT, it offers recipe suggestions based on foods that are nearing expiration, with the goal of minimizing waste.
 
 
 
-## backend Structure:
+## Backend Directory Structure (main files)
 ```
 📂 backend/
-├── 📄 __init__.py
-├── 📂 DS/ 
-│   ├── 📄 ideas.txt
-│   ├── 📄 nutrition_idea.py
-│   ├── 📄 nutrition_output.txt
-│   ├── 📄 predict_shopping_waste.py #in progress
-│   └── 📄 randomised_history_insert.py
-├── 📂 mongo/
-│   ├── 📄 __init__.py
-│   ├── 📂 __pycache__/
-│   │   ├── 📄 __init__.cpython-311.pyc
-│   │   ├── 📄 mongo_utils.cpython-311.pyc
-│   │   └── 📄 store_image.cpython-311.pyc
-│   ├── 📄 create_DB.py              # Enables live pics from fridge
-│   ├── 📂 demo-images/              # Sample images for testing
-│   │   ├── 📄 one.jpg
-│   │   ├── 📄 three.jpg
-│   │   └── 📄 two.jpg
-│   ├── 📄 mongo_utils.py
-│   └── 📄 store_image.py
-├── 📂 mysqlDB/
-│   ├── 📄 __init__.py
-│   ├── 📂 __pycache__/
-│   │   ├── 📄 __init__.cpython-311.pyc
-│   │   ├── 📄 create_tables.cpython-311.pyc
-│   │   └── 📄 db_utils.cpython-311.pyc
-│   ├── 📂 camera/
-│   │   ├── 📄 __init__.py
-│   │   ├── 📂 __pycache__/
-│   │   │   ├── 📄 __init__.cpython-311.pyc
-│   │   │   ├── 📄 get_items.cpython-311.pyc
-│   │   │   └── 📄 insert_camera_to_db.cpython-311.pyc
-│   │   ├── 📄 get_items.py
-│   │   └── 📄 insert_camera_to_db.py
-│   ├── 📄 create_tables.py         # Creates all MySQL tables and demo data
-│   ├── 📄 db_utils.py              # Utility functions for SQL queries
-│   ├── 📂 fridge/
-│   │   ├── 📄 __init__.py
-│   │   ├── 📂 __pycache__/
-│   │   │   ├── 📄 __init__.cpython-311.pyc
-│   │   │   ├── 📄 get_fridges.cpython-311.pyc
-│   │   │   └── 📄 insert_fridge_to_db.cpython-311.pyc
-│   │   ├── 📄 get_fridges.py
-│   │   └── 📄 insert_fridge_to_db.py
-│   ├── 📄 insert_data_test_user.py  # For testing purposes
-│   ├── 📂 items/
-│   │   ├── 📄 __init__.py
-│   │   ├── 📂 __pycache__/
-│   │   │   ├── 📄 __init__.cpython-311.pyc
-│   │   │   ├── 📄 handle_item_update.cpython-311.pyc
-│   │   │   ├── 📄 insert_all_items_to_history_by_camera.cpython-311.pyc
-│   │   │   ├── 📄 insert_new_item_to_db.cpython-311.pyc
-│   │   │   └── 📄 insert_to_history.cpython-311.pyc
-│   │   ├── 📄 handle_item_update.py
-│   │   ├── 📄 insert_all_items_to_history_by_camera.py
-│   │   ├── 📄 insert_new_item_to_db.py
-│   │   └── 📄 insert_to_history.py
-│   ├── 📂 products/
-│   │   ├── 📄 __init__.py
-│   │   ├── 📂 __pycache__/
-│   │   │   ├── 📄 __init__.cpython-311.pyc
-│   │   │   ├── 📄 insert_new_products_to_db.cpython-311.pyc
-│   │   │   └── 📄 products_queries.cpython-311.pyc
-│   │   ├── 📄 insert_new_products_to_db.py
-│   │   └── 📄 products_queries.py
-│   ├── 📄 tables_info.py           # Schema and table details
-│   └── 📂 user/
-│       ├── 📂 __pycache__/
-│       │   ├── 📄 insert_user_to_db.cpython-311.pyc
-│       │   └── 📄 user_queries.cpython-311.pyc
-│       ├── 📄 insert_user_to_db.py
-│       └── 📄 user_queries.py
-├── 📄 module_connect.py            # Updates the DB based on camera updates
-├── 📂 python_chatgpt/
-│   ├── 📄 __init__.py
-│   ├── 📂 __pycache__/
-│   │   ├── 📄 __init__.cpython-311.pyc
-│   │   └── 📄 chat.cpython-311.pyc
-│   ├── 📄 chat.py                  # ChatGPT integration functions
-│   └── 📄 install.txt              # ChatGPT installation instructions
-├── 📄 README.md                    # Module documentation
-├── 📄 requirements.txt             # Python dependencies
-├── 📄 server.cert                  # SSL certificate
-├── 📄 server.csr                   # Certificate signing request
-├── 📄 server.key                   # SSL key
-├── 📄 server.py                    # Main server file (Flask/SocketIO)
-├── 📂 routes/
-│   ├── 📄 __init__.py
-│   ├── 📂 __pycache__/
-│   │   ├── 📄 __init__.cpython-311.pyc
-│   │   ├── 📄 camera_routes.cpython-311.pyc
-│   │   ├── 📄 data_analysis_routes.cpython-311.pyc
-│   │   ├── 📄 images_routes.cpython-311.pyc
-│   │   ├── 📄 recipe_routes.cpython-311.pyc
-│   │   ├── 📄 item_routes.cpython-311.pyc
-│   │   └── 📄 user_routes.cpython-311.pyc
-│   ├── 📄 camera_routes.py         # API endpoints for camera operations
-│   ├── 📄 data_analysis_routes.py  # API endpoints for data analytics
-│   ├── 📄 fridge_routes.py         # API endpoints for fridge operations
-│   ├── 📄 images_routes.py         # API endpoints for image handling
-│   ├── 📄 item_routes.py           # API endpoints for item management
-│   ├── 📄 recipe_routes.py         # API endpoints for recipes
-│   └── 📄 user_routes.py           # API endpoints for user management
-└── 📂 src/
-    ├── 📄 foodkeeper-food-safety-tips.json
-    └── 📄 PriceFull7290027600007-001-202502080300.xml
-
+├── 📂 DS/                # Data science & analytics scripts
+│   ├── nutrition_idea.py
+│   └── predict_shopping_waste.py   # (In progress)
+├── 📂 mongo/             # MongoDB modules for image storage
+│   ├── create_DB.py      # Sets up the MongoDB database
+│   └── store_image.py    # Handles storing fridge images
+├── 📂 mysqlDB/           # MySQL database modules
+│   ├── create_tables.py  # Creates all tables and demo data
+│   ├── camera/           # Camera operations (insert, get items)
+│   ├── fridge/           # Fridge operations (insert, get fridges)
+│   ├── items/            # Item management (insertion, updates, history)
+│   ├── products/         # Product queries and insertions
+│   └── user/             # User operations (insert, query)
+├── 📄 module_connect.py  # Processes camera updates and synchronizes the DB
+├── 📂 python_chatgpt/    # ChatGPT integration functions (recipe generation, etc.)
+│   ├── chat.py
+│   └── install.txt
+├── 📂 routes/            # REST API endpoints for various domains:
+│   ├── camera_routes.py         # Camera management endpoints
+│   ├── data_analysis_routes.py  # Analytics and notifications endpoints
+│   ├── fridge_routes.py         # Fridge-related endpoints
+│   ├── images_routes.py         # Image retrieval endpoints
+│   ├── item_routes.py           # Item insertion/updates endpoints
+│   ├── recipe_routes.py         # Recipe suggestion endpoints
+│   └── user_routes.py           # User management endpoints
+├── 📄 server.py          # Main server file (Flask/SocketIO with SSL)
+├── 📄 requirements.txt   # Project dependencies
+└── 📄 README.md          # Documentation
 ```
 
 ## Main files explanation:
