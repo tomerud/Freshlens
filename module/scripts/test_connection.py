@@ -5,7 +5,13 @@ import base64
 import io
 import time
 # Setup SocketIO client (using SSL verification disabled for testing)
-socket = socketio.Client(ssl_verify=False)
+socket= socketio.Client(
+    reconnection=True,
+    reconnection_attempts=10,
+    reconnection_delay=1,
+    reconnection_delay_max=30,
+    ssl_verify=False
+) 
 
 @socket.event
 def connect():

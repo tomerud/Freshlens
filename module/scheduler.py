@@ -40,26 +40,35 @@ socket_client = socketio.Client(
 
 @socket_client.event
 def connect():
-    """Handle connection to the SocketIO server."""
     print("Connected to SocketIO server.")
 
 @socket_client.event
 def disconnect():
-    """Handle disconnection from the SocketIO server."""
     print("Disconnected from SocketIO server.")
+
+def connect_to_socket():
+    try:
+        socket_client.connect("wss://127.0.0.1:5000", transports=["websocket"])
+        print("SocketIO connected.")
+    except Exception as e:
+        print(f"Error connecting to SocketIO server: {e}")
+
+# Connect before sending any data
+connect_to_socket()
+
+stop_event = threading.Event()
+
+def handle_signal(_sig, _frame):
+    """Handle termination signals."""
+    print("Received termination signal. Stopping all threads")
+    stop_event.set()  # Signal all threads to stop.
+
+# Set up signal handler for termination.
+signal.signal(signal.SIGINT, handle_signal)
+signal.signal(signal.SIGTERM, handle_signal) # had problem with just ctrl+c
 
 def event_listen(client, cam_ip: str, cam_port: int, demo: bool, video_stream: str = "stream") -> None:
     """Listen for events from a camera and process video streams."""
-    stop_event = threading.Event()  # Signal to stop all threads.
-
-    def handle_signal(_sig, _frame):
-        """Handle termination signals."""
-        stop_event.set()  # Set the stop event to signal termination.
-        print(f"Stopping event listener for camera {cam_ip}:{cam_port}")
-
-    # Set up signal handler for graceful termination.
-    signal.signal(signal.SIGINT, handle_signal)
-
     # Load the YOLO model and class list
     model, class_list = load_model()
 
@@ -114,9 +123,6 @@ def get_event_from_camera(_cam_ip: str, _cam_port: int, demo: bool) -> str:
         return "light_detected"
     return "no_light_detected"
 
-# Connect to the server.
-socket_client.connect("http://127.0.0.1:5000",transports=["websocket"])
-
 # Start listener for each camera.
 camera_info = [("10.0.0.1", 8554, "concatenated-sample")]
 threads = []
@@ -127,7 +133,18 @@ for ip, port, stream in camera_info:
         daemon=False
     )
     threads.append(thread)
+    print(f"starting thread for camera:{ip}, port:{port}") 
     thread.start()
+
+try:
+    # Keep the main thread alive, but allow SIGINT to stop it
+    while not stop_event.is_set():
+        pass  # Do nothing, just wait for SIGINT
+except KeyboardInterrupt:
+    print("KeyboardInterrupt received - CTRL+C pressed. Stopping all threads.")
+    stop_event.set()
 
 for thread in threads:
     thread.join()  # Block the main thread until all threads are done.
+
+print("All threads stopped. Exiting.")
