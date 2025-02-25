@@ -72,6 +72,7 @@ While we have developt quite a bit, there are still things to expand this projec
 git clone https://github.com/tomerud/Freshlens.git
 cd Freshlens
 pip install requirements.txt
+pip install -e .
 
 cd ../frontend
 npm install
@@ -92,10 +93,10 @@ and from Shenker design school:
 - Shay Zipori - Product Designer
 
 special thanks to the university E-commerce Workshop stafff: 
-Slava Novgorodov - our computer science lecturer
-Yuval Ran-Milo - our computer science TA
-Tamar Many - Design Thinking Lecturer
-Nir Tober - Product Designer
+- Slava Novgorodov - our computer science lecturer
+- Yuval Ran-Milo - our computer science TA
+- Tamar Many - Design Thinking Lecturer
+- Nir Tober - Product Designer
 
 For providing the platform and guidance for this project.
 

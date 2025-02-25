@@ -94,15 +94,17 @@ def handle_light_detected(cam_ip: str, cam_port: int, video_stream: str, model, 
     rtsp_path = f"rtsp://{cam_ip}:{cam_port}/{video_stream}"
 
     try:
+        # Process the video stream -> get detections -> find expiration date -> draw on image -> send to DB and MongoDB
         detections = process_video(rtsp_path, model)
         if detections in (-1, None):
             alert_server(client, cam_ip, cam_port, "Error: Unable to open video stream.")
             return
-
         exp_date = find_exp_date(detections, class_list)
         fimg = draw_on_image(exp_date)
         send_to_db(client, cam_ip, cam_port, exp_date)
         send_to_mongo(client, cam_ip, cam_port, fimg)
+
+    # error handling
     except IOError:
         print("I/O error occurred while processing video.")
         alert_server(client, cam_ip, cam_port, "I/O error occurred while processing video.")
