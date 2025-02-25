@@ -46,7 +46,7 @@ def estimate_expiration(fruit: str, freshness_label: str, confidence: float
 
         expiration_date = datetime.today() - timedelta(days=days_past)
     else:
-        base_life = shelf_life.get(fruit)
+        base_life = shelf_life.get(fruit,7)
         if confidence >= 0.9:
             multiplier = 1.0
         elif confidence >= 0.8:
@@ -61,24 +61,13 @@ def estimate_expiration(fruit: str, freshness_label: str, confidence: float
 
     return expiration_date
 
-def fresh_rotten(model: YOLO, produce: Image.Image, identifier_type: str):
+def fresh_rotten(identifier_type:str, label: str, conf: float
+) -> datetime:
     """
     Detect whether a produce item is fresh or rotten.
     Return:The estimated expiration date or -1 if detection fails.
     """
-    # Preprocess the image
-    resized_img, _, _, _ = resize_with_letterbox(produce, target_size=768)
+    
+    expiration_date = estimate_expiration(identifier_type, label, conf)
+    return expiration_date
 
-    results = model.predict(resized_img)
-
-    if results and results[0].boxes:
-        box = results[0].boxes[0]
-        cls = int(box.cls[0])   # Class ID (0 for Fresh, 1 for Rotten)
-        conf = float(box.conf[0])
-
-        label = "Fresh" if cls == 0 else "Rotten"
-
-        expiration_date = estimate_expiration(identifier_type, label, conf)
-
-        return expiration_date
-    return None  # Error: detection failed

@@ -96,7 +96,7 @@ def update_tracker(
 
         last_frame_objects.append({
                 "id": track.track_id,
-                "class_id": name,
+                "class_id": class_id,
                 "bbox": (min_x, min_y, max_x, max_y)
             })
 

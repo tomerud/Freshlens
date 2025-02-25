@@ -7,7 +7,7 @@ import ssl
 from datetime import datetime, timedelta
 from backend.mysqlDB.items.insert_new_item_to_db import insert_item_to_db
 from backend.mysqlDB.items.handle_item_update import handle_camera_update
-
+from backend.mongo.store_image import decode_and_store_image
 import os
 
 app = Flask(__name__)
@@ -51,7 +51,7 @@ def handle_send_to_db(data):
     
     item_list = []
     for product in products_data:
-        track_id, class_id, exp_date = product
+        track_id, class_id,_, exp_date = product
         current_date = datetime.today().date()
 
         # Determine anticipated expiry date and compute is_rotten
@@ -82,14 +82,24 @@ def handle_send_to_db(data):
 
 @socketio.on("send_to_mongo")
 def handle_send_to_mongo(data):
-    image_base64 = data.get('image_base64')
-    user_id = data.get('user_id')
+    image_base64 = data.get('image')
+    #user_id = data.get('user_id')
+    user_id="101"
     camera_ip = data.get('camera_ip')
     timestamp = data.get('timestamp')
     
-    if not image_base64 or not user_id or not camera_ip:
-        print("Error: Missing required fields 'image_base64', 'user_id', or 'camera_ip'.")
+    missing_fields = []
+    if not image_base64:
+        missing_fields.append("image_base64")
+    # if not user_id:
+    #     missing_fields.append("user_id")
+    if not camera_ip:
+        missing_fields.append("camera_ip")
+
+    if missing_fields:
+        print(f"Error: Missing required fields: {', '.join(missing_fields)}")
         return
+
 
     # Make sure to import decode_and_store_image if needed.
     decode_and_store_image(image_base64, user_id, camera_ip, timestamp)

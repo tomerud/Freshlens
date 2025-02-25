@@ -91,5 +91,4 @@ def products_exp_dates(model: YOLO, product: Image.Image) -> str:
 
     ocr_results = extract_text_from_boxes(product, adjusted_boxes)
     date = select_best_expiration_date(ocr_results) # format dates and return best canidate
-
     return date
