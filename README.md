@@ -103,7 +103,7 @@ For providing the platform and guidance for this project.
 **Sofia Panchenko:** FullStack Developer - Built the responsive user interface using React.js, TypeScript, and Vite, and played a key role in integrating backend functionalities with the Flask REST API,
 developed the app's authentication system, integrating secure Google login for user access.
 
-**Tomer Rudnitzky:**  ackend Developer and DBA – Designed and managed the database architecture using MySQL for relational data and MongoDB for image storage, ensuring efficient fridge inventory management. Developed optimized SQL schemas, implemented REST API endpoints, and set up secure real-time updates with Flask-SocketIO.
+**Tomer Rudnitzky:**  Backend Developer and DBA – Designed and managed the database architecture using MySQL for relational data and MongoDB for image storage, ensuring efficient fridge inventory management. Developed optimized SQL schemas, implemented REST API endpoints, and set up secure real-time updates with Flask-SocketIO.
 
 **Elya Avital:** Deep learning Engineer - Worked on building the largest possible database for deep learning models within the given time constraints. Trained the neural network for freshness classification, validated OCR results, and integrated the OpenAI API for recipe generation.
 
