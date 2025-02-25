@@ -1,2 +1,0 @@
-Train YOLOv8 Again!
-results on Date not very good.

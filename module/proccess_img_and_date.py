@@ -138,7 +138,7 @@ def preprocess_image(cropped_img: Image) -> Image:
     cropped_img_gray = np.array(cropped_img.convert('L'))
     kernel = np.ones((3, 3), np.uint8)  # (2,2) dosent work as good
     morph_img = cv2.morphologyEx(cropped_img_gray, cv2.MORPH_CLOSE, kernel)
-    return Image.fromarray(morph_img)
+    return morph_img
 
 
 def parse_expiration_date(ocr_text):

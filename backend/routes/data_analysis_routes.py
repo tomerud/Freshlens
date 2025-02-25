@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from datetime import date
-from DS.nutrition_idea import get_nutrition_data
+from module.draft.nutrition_idea import get_nutrition_data
 from DS.predict_shopping_waste import pipeline
 from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db, get_top_three_thrown_products
 from mysqlDB.products.products_queries import get_waste_summary_by_week
@@ -69,19 +69,7 @@ def get_fridge_name():
         return jsonify({"error": "Failed to fetch notifications"}), 500
     
     
-@analysis_bp.route('/get_nutritional_advice', methods=['GET'])
-def get_nutritional_advice():
-    user_id = request.args.get("user_id")
-    if not user_id:
-        return jsonify({"error": "user_id query parameter is required."}), 400
 
-    try:
-        nutritional_values = get_nutrition_data(user_id)
-        return jsonify(nutritional_values) #need to format
-        #maybe chain to another LLM to get ?
-    except Exception as e:
-        print("Error fetching nutritional advice:", str(e))
-        return jsonify({"error": "Failed to fetch nutritional advice"}), 500
 
 
 @analysis_bp.route('/get_shopping_cart_recommendations', methods=['GET'])

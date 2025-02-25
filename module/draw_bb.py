@@ -28,19 +28,24 @@ def draw_on_image(
     today = datetime.today()
 
     for detection in detections[1:]:
+        print(detection)
+        for det in detection:
+            print(det)
         x_min, y_min, x_max, y_max = detection[2]
         exp_date = detection[3]
-
-        exp_date = datetime.strptime(exp_date, "%Y-%m-%d")
-        days_diff = (exp_date - today).days
-
-        # Set box color based on expiration
-        if days_diff < 0:
-            color = (255, 0, 0)  # Expired (Red)
-        elif 0 <= days_diff <= 3:
-            color = (255, 180, 0)  # Expiring soon (Orange)
+        if exp_date == None: # No expiration date found
+            color = (128, 128, 128)
         else:
-            color = (0, 255, 0)  # Fresh (Green)
+            exp_date = datetime.strptime(exp_date, "%Y-%m-%d")
+            days_diff = (exp_date - today).days
+
+            # Set box color based on expiration - RGB!
+            if days_diff < 0:
+                color = (255, 0, 0)  # Expired (Red)
+            elif 0 <= days_diff <= 3:
+                color = (255, 180, 0)  # Expiring soon (Orange)
+            else:
+                color = (0, 255, 0)  # Fresh (Green)
 
         cv2.rectangle(
             image, (x_min, y_min), (x_max, y_max), color, 2
