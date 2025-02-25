@@ -1,17 +1,18 @@
 # FreshLens backend
 
 ## Table of Contents
-- [Overview](#overview)
-- [Backend Structure](#module-structure)
+- [Backend Overview](#backend-overview)
+- [Backend Directory Structure (main files)](#backend-directory-structure-main-files)
 - [Main Files Explanation](#main-files-explanation)
+
   
 
-## Overview  
+## Backend Overview   
 The backend uses a MySQL database to accurately record updates from cameras—keeping track of item entries and changes in real time. At the same time, it stores fridge images in MongoDB, providing visual records of the fridge contents. The backend also performs waste analysis to identify patterns in discarded items, which helps in generating practical recommendations for better customer habits. Additionally, by integrating ChatGPT, it offers recipe suggestions based on foods that are nearing expiration, with the goal of minimizing waste.
 
 
 
-## Main Backend Files Overview:
+## Backend Directory Structure (main files)
 ```
 📂 backend/
 ├── 📂 DS/                # Data science & analytics scripts
@@ -42,7 +43,7 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
 ├── 📄 server.py          # Main server file (Flask/SocketIO with SSL)
 ├── 📄 requirements.txt   # Project dependencies
 └── 📄 README.md          # Documentation
-
+```
 
 ## Main files explanation:
 
