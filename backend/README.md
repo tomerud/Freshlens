@@ -15,11 +15,11 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
 ```
 📂 backend/
 ├── 📄 __init__.py
-├── 📂 DS/  # In progress
+├── 📂 DS/ 
 │   ├── 📄 ideas.txt
 │   ├── 📄 nutrition_idea.py
 │   ├── 📄 nutrition_output.txt
-│   ├── 📄 predict_shopping_waste.py
+│   ├── 📄 predict_shopping_waste.py #in progress
 │   └── 📄 randomised_history_insert.py
 ├── 📂 mongo/
 │   ├── 📄 __init__.py
