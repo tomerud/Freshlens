@@ -247,6 +247,28 @@ def get_waste_summary_by_week(user_id):
     
     return summary
 
+def get_top_three_thrown_products():
+    """
+    Retrieves the top 3 products that have been thrown away most frequently.
+    Returns a list of dictionaries with each product's name and the number of times it was thrown.
+    """
+    return execute_query("""
+        SELECT p.product_name, COUNT(*) as thrown_count
+        FROM user_product_history uph
+        JOIN product_global_info p ON uph.product_id = p.product_id
+        WHERE uph.is_thrown = 1
+        GROUP BY p.product_name
+        ORDER BY thrown_count DESC
+        LIMIT 3
+    """, (), fetch_all=True)
+
+if __name__ == '__main__':
+    
+    # Test top thrown products function
+    top_thrown = get_top_three_thrown_products()
+    print("Top Thrown Products:")
+    print(top_thrown)
+
 #for testing
 # if __name__ == '__main__':
 #     user_id = "0NNRFLhbXJRFk3ER2_iTr8VulFm4"

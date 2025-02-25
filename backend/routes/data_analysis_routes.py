@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from datetime import date
 from DS.nutrition_idea import get_nutrition_data
 from DS.predict_shopping_waste import pipeline
-from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db
+from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db, get_top_three_thrown_products
 from mysqlDB.products.products_queries import get_waste_summary_by_week
 
 analysis_bp = Blueprint('analysis_bp', __name__)
@@ -122,6 +122,15 @@ def get_waste_summary():
     except Exception as e:
         print("Error fetching waste summary:", str(e))
         return jsonify({"error": "Failed to fetch waste summary"}), 500
+
+@analysis_bp.route('/get_top_thrown_products', methods=['GET'])
+def get_top_thrown_products():
+    try:
+        top_products = get_top_three_thrown_products()
+        return jsonify(top_products)
+    except Exception as e:
+        print("Error fetching top thrown products:", str(e))
+        return jsonify({"error": "Failed to fetch top thrown products"}), 500
 
     """
     [{'product_id': 1, 'product': 'Milk', 'amount_buy': 5.0, 'amount_will_throw': 3.0, 'recommendation': 2.0}, 
