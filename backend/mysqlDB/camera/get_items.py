@@ -1,4 +1,4 @@
-from ..db_utils import execute_query
+from backend.mysqlDB.db_utils import execute_query
 
 def get_items_by_camera_ip(camera_ip):
     items = execute_query("""

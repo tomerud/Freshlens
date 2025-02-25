@@ -2,7 +2,7 @@ import os
 import re
 from flask import json
 import requests
-from ..db_utils import execute_query
+from backend.mysqlDB.db_utils import execute_query
 
 import kagglehub
 import pandas as pd

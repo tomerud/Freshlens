@@ -24,6 +24,7 @@ def send_data(socket, event: str, data: dict) -> None:
     for attempt in range(MAX_RETRIES):
         try:
             with lock:
+                time.sleep(1)  # without this, the server sometimes misses the data if send multiple request at once
                 socket.emit(event, data)
             print(f"Data sent successfully for event '{event}': {data}")
             return

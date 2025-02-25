@@ -39,21 +39,5 @@ time.sleep(1)
 detections = [(-1, -1, (-1, -1, -1, -1), -1)]
 send_to_db(socket,camera_ip,port, detections)
 
-
-
-# """
-# Example data format:
-#   A list of products where each product is a list of tuples.
-#   Each tuple contains (track_id, class_id, exp_date)
-# """
-# detections = [
-#     [(-1, -1, 1)],
-#     [ (3, 2, "2026-02-01"), (4, 2, "2026-02-01"), (5, 2, "2026-02-01")]
-# ]
-
-# # Emit data to the server using send_to_db function.
-# send_to_db(socket, camera_ip, port, detections)
-
-# Uncomment below to send an image via MongoDB
 # image = Image.open("assets/shelf.jpg")
 # send_to_mongo(socket, camera_ip, port, image)
