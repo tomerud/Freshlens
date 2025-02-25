@@ -101,6 +101,7 @@ def create_tables():
                 user_id VARCHAR(28) NOT NULL,
                 product_id INT NOT NULL,
                 is_thrown BOOLEAN NOT NULL,
+                date_entered DATE NOT NULL,
                 FOREIGN KEY (user_id) REFERENCES users(user_id),
                 FOREIGN KEY (product_id) REFERENCES product_global_info(product_id)
             );

@@ -3,6 +3,7 @@ from datetime import date
 from DS.nutrition_idea import get_nutrition_data
 from DS.predict_shopping_waste import pipeline
 from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db
+from mysqlDB.products.products_queries import get_waste_summary_by_week
 
 analysis_bp = Blueprint('analysis_bp', __name__)
 
@@ -108,6 +109,19 @@ def get_shopping_cart_recommendations():
     except Exception as e:
         print("Error fetching user prediciton:", str(e))
         return jsonify({"error": "Failed to fetch user prediciton"}), 500
+    
+@analysis_bp.route('/get_waste_summary', methods=['GET'])
+def get_waste_summary():
+    user_id = request.args.get("user_id")
+    if not user_id:
+        return jsonify({"error": "user_id query parameter is required."}), 400
+
+    try:
+        summary = get_waste_summary_by_week(user_id)
+        return jsonify(summary)
+    except Exception as e:
+        print("Error fetching waste summary:", str(e))
+        return jsonify({"error": "Failed to fetch waste summary"}), 500
 
     """
     [{'product_id': 1, 'product': 'Milk', 'amount_buy': 5.0, 'amount_will_throw': 3.0, 'recommendation': 2.0}, 
