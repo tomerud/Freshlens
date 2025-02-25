@@ -1,4 +1,4 @@
-from mysqlDB.db_utils import execute_query
+from backend.mysqlDB.db_utils import execute_query
 
 def insert_camera_to_db(camera_ip, fridge_id):
     execute_query("""
