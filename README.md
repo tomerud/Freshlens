@@ -103,9 +103,9 @@ For providing the platform and guidance for this project.
 **Sofia Panchenko:** FullStack Developer - Built the responsive user interface using React.js, TypeScript, and Vite, and played a key role in integrating backend functionalities with the Flask REST API,
 developed the app's authentication system, integrating secure Google login for user access.
 
-Tomer Rudnitzky: DBA - Designed and managed the database architecture using MySQL for reational database and MongoDB for non reational (images), ensuring efficient storage and retrieval of fridge inventory data. 
+**Tomer Rudnitzky:**  Backend Developer and DBA – Designed and managed the database architecture using MySQL for relational data and MongoDB for non-relational image storage, ensuring efficient storage and retrieval of fridge inventory data. Developed optimized SQL schemas with proper constraints, implemented REST API endpoints for backend integration, and configured secure real-time updates using Flask-SocketIO.
 
-Elya Avital: Deep learning Engineer - Worked on building the largest possible database for deep learning models within the given time constraints. Trained the neural network for freshness classification, validated OCR results, and integrated the OpenAI API for recipe generation.
+**Elya Avital:** Deep learning Engineer - Worked on building the largest possible database for deep learning models within the given time constraints. Trained the neural network for freshness classification, validated OCR results, and integrated the OpenAI API for recipe generation.
 
-Elad Shaba: Deep learning and Computer vision Engineer  - Responsible for the development of object detection and tracking algorithms using YOLO and DeepSORT. Tasks include integrating deep learning models, designing the module logic and functions to achieve detection, tracking, and expiry date estimation (using neural networks and OCR), and setting up the WebSocket connection.
+**Elad Shaba:** Deep learning and Computer vision Engineer  - Responsible for the development of object detection and tracking algorithms using YOLO and DeepSORT. Tasks include integrating deep learning models, designing the module logic and functions to achieve detection, tracking, and expiry date estimation (using neural networks and OCR), and setting up the WebSocket connection.
 For a detailed overview of the responsibilities and functionality of the module, please read the README file located in the module folder.
