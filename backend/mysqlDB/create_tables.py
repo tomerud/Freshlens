@@ -64,7 +64,8 @@ def create_tables():
                 fridge_id INT,
                 FOREIGN KEY (fridge_id) REFERENCES fridges(fridge_id)
             )
-        """,
+        """, # for now remove_from_fridge_date = anticipated_expiry_date but in future version we intend of giving a more precise time estimation
+            #instead of rotten vs not rotten.
             "item": """
                 CREATE TABLE IF NOT EXISTS item (
                     item_id INT NOT NULL UNIQUE PRIMARY KEY,

@@ -1,6 +1,6 @@
 from db_utils import execute_query
 
-
+## helpful for debbuging, gives a nice summary of the DB.
 def describe_tables(database_name):
     query = f"""
     SELECT
