@@ -72,7 +72,7 @@ def handle_send_to_db(data):
             "camera_ip": camera_ip,
             "date_entered": datetime.today().strftime("%Y-%m-%d"),
             "anticipated_expiry_date": anticipated_expiry_date,
-            "remove_from_fridge_date": None,
+            "remove_from_fridge_date": anticipated_expiry_date,
             "is_rotten": is_rotten
         }
         item_list.append(item)

@@ -92,7 +92,7 @@ def handle_camera_update(camera_ip, item_list):
             camera_ip=item['camera_ip'],
             date_entered=date_entered,
             anticipated_expiry_date=item['anticipated_expiry_date'],
-            remove_from_fridge_date=item.get('remove_from_fridge_date'),
+            remove_from_fridge_date= item['anticipated_expiry_date'], # for now, improvements in the next generation.
             is_rotten=is_rotten
         )
         print(f"Inserted item_id={item['item_id']} into the database with is_rotten={is_rotten} and date_entered={date_entered}.")
