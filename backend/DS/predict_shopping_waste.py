@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 import pandas as pd
 from typing import Tuple
 from prophet import Prophet
-from mysqlDB import db_utils 
+from mysqlDB.db_utils import execute_query 
 from mysqlDB.products import products_queries
 
 # TODO:
