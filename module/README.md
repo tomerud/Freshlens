@@ -202,4 +202,8 @@ then from freshlens folder run the following code:
 ```
 python -m module.run_demo
 ```
+or
 
+```
+python -m module.scheduler
+```
