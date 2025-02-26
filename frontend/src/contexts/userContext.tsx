@@ -7,6 +7,8 @@ interface AuthContextType {
   loading: boolean;
 }
 
+const DEMO_FAKE_USER_ID = '0NNRFLhbXJRFk3ER2_iTr8VulFm4'; //Demo user with pre-inserted data in tables (so app will have data to show for every user)
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -15,9 +17,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      if (currentUser) {
+        const customUser = { ...currentUser, uid: DEMO_FAKE_USER_ID }; 
+        setUser(customUser);
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
+  
 
     return () => unsubscribe();
   }, []);

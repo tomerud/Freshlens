@@ -11,7 +11,7 @@ interface FrifgeFreshness {
   avg_freshness_score: number;
 }
 
-const fetchFrifgeFreshness = async (userId: string): Promise<FrifgeFreshness> => {
+const fetchFrifgeFreshness = async (userId: string | undefined): Promise<FrifgeFreshness> => {
   const response = await fetch(`/api/get_freshness_score?user_id=${userId}`);  
   if (!response.ok) throw new Error("Failed to fetch frifge freshness");
 
@@ -19,16 +19,13 @@ const fetchFrifgeFreshness = async (userId: string): Promise<FrifgeFreshness> =>
 };
 
 export const FridgeFreshness = () => {
-  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
-  // const {user} = useAuth()
-  // const userId =user?.uid;
-
   const [fridgeFreshness, setFridgeFreshness] = useState(0);
+  const {user} = useAuth();
 
   const { data, error } = useQuery<FrifgeFreshness, Error>({
-    queryKey: userId ? ["FreshnessScore", userId] : ["FreshnessScore"],
-    queryFn: () => fetchFrifgeFreshness(userId),
-    enabled: !!userId,
+    queryKey: user?.uid ? ["FreshnessScore", user?.uid] : ["FreshnessScore"],
+    queryFn: () => fetchFrifgeFreshness(user?.uid),
+    enabled: !!user?.uid,
   });
 
   if (error) return <div>Error: {error.message}</div>;

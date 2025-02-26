@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FridgeHeader } from "../../allFridgesPage/fridgeHeader";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../../../loader";
+import { useAuth } from "../../../../contexts/userContext";
 
 import "./shoppingCart.scss";
 
@@ -15,19 +16,19 @@ interface ShoppingItem {
   checked: boolean;
 }
 
-const fetchShoppingCartRecommendations = async (userId: string): Promise<ShoppingItem[]> => {
+const fetchShoppingCartRecommendations = async (userId: string | undefined): Promise<ShoppingItem[]> => {
   const response = await fetch(`/api/get_shopping_cart_recommendations?user_id=${userId}`);
   if (!response.ok) throw new Error("Failed to fetch shopping cart recommendations");
   return response.json();
 };
 
 export const ShoppingCart = () => {
-  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
-
+  const {user} = useAuth();
+  
   const { data, isLoading, error } = useQuery<ShoppingItem[], Error>({
-    queryKey: userId ? ["ShoppingCart", userId] : ["ShoppingCart"],
-    queryFn: () => fetchShoppingCartRecommendations(userId),
-    enabled: !!userId,
+    queryKey: user?.uid ? ["ShoppingCart", user?.uid] : ["ShoppingCart"],
+    queryFn: () => fetchShoppingCartRecommendations(user?.uid),
+    enabled: !!user?.uid,
   });
 
   const [shoppingCart, setShoppingCart] = useState<ShoppingItem[]>([]);
