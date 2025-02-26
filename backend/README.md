@@ -119,6 +119,12 @@ So, we ended up using this dataset: https://www.kaggle.com/datasets/joelmills2/c
   - `freeze_tips` (TEXT) – Tips for freezing.
   - `is_specific_product_tip` (BOOLEAN) – Indicates if tip is specific.
 
+- **Spesific Food Storage Tips & Foodkeeper Integration:**
+We offer two types of food storage tips.
+
+1. The general tips: manually curated for our HomePage (can be improved over time..)
+
+2. Product specific tips (for example, "don't freeze cucumber") are extracted from a JSON file sourced from the Foodkeeper dataset: https://catalog.data.gov/dataset/fsis-foodkeeper-data/resource/2128aebe-b3dd-4b4d-8315-e88d106bd741?inner_span=True.
 ---
 
 ### **user_product_history**
