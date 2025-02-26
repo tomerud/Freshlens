@@ -78,7 +78,7 @@ npm run dev
 ```
 
 in freshlens/backend/mysqlDB, put a .env file in this format:
-```
+```bash
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=  # fill your password
@@ -92,33 +92,38 @@ KAGGLE_FILE_PATH=atlantic_superstore.csv
 
 
 ## Usage
-Set up backend server (for communicating between front and back),from backend:
-```
+Set up backend server (for communicating between front and back):
+```bash
+cd backend
 python server.py
 ```
 
-Set up websocket server between module and backend, From the Backend folder:
-```
+Set up websocket server between module and backend:
+```bash
+cd backend
 python -m module_connect
 ```
-To open the App:
+
+```bash
+cd frontend
+npm run dev
 ```
-///
-```
+
 To run a video file:
 - First change the settings in the run_demo: Ip, Port and path to the video you want to run
 (for now there is a "defult" setting that do work if you want to run as is)
 then
 from freshlens folder run the following code:
 
-```
+``` bash
+cd freshlens
 python -m module.run_demo
 ```
 
 - Another option, set up RTSP server on the computer, change the settings in scheduler file and run
 from freshlens folder
 
-```
+``` bash
 python -m module.scheduler
 ```
 
