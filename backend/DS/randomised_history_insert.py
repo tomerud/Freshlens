@@ -1,8 +1,7 @@
 import random
 from datetime import date, timedelta
-from ..mysqlDB import db_utils
 from typing import List, Optional
-import math
+from mysqlDB import db_utils
 
 def insert_shopping_cycle_user_history(user_id: int, 
                                        num_weeks: int = 260, 
