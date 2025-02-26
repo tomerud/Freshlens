@@ -10,13 +10,6 @@ from ultralytics import YOLO
 from PIL import Image
 from module.proccess_img_and_date import resize_with_letterbox
 
-# TODO:
-
-# 2. **calculating the exp date based on scale**
-#    - expand the number of fruits and veg
-#    - fix the base shelf life of the products
-#    - cls = int(box.cls[0])  Class ID (0 for Fresh, 1 for Rotten)
-
 
 def estimate_expiration(fruit: str, freshness_label: str, confidence: float
 ) -> datetime:
@@ -61,6 +54,7 @@ def estimate_expiration(fruit: str, freshness_label: str, confidence: float
 
     return expiration_date
 
+
 def fresh_rotten(identifier_type:str, label: str, conf: float
 ) -> datetime:
     """
@@ -73,4 +67,3 @@ def fresh_rotten(identifier_type:str, label: str, conf: float
 
     expiration_date = estimate_expiration(identifier_type, label, conf)
     return expiration_date
-

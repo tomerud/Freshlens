@@ -15,10 +15,6 @@ from module.fruit_veg_freshness import fresh_rotten
 from PIL import Image
 
 
-# TODO:
-# 1. **class in detection**
-#    - Take from Elya.
-
 def get_transform():
     """
     Returns the image transformation pipeline for preprocessing the input image.
@@ -29,6 +25,7 @@ def get_transform():
         transforms.ToTensor(),  # Convert the image to a tensor
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])  # Normalize to ImageNet stats
     ])
+
 
 def find_exp_date(
     detections: List[Tuple[int,int,Tuple[int, int, int, int], Image.Image]], class_list: List[str]

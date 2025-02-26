@@ -11,8 +11,6 @@ import threading
 from typing import List, Tuple
 from PIL import Image
 
-# TODO:
-# 1. Create Readme file
 
 lock = threading.Lock()
 MAX_RETRIES = 10  # Max attempts before giving up
