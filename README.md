@@ -72,10 +72,9 @@ While we have developt quite a bit, there are still things to expand this projec
 git clone https://github.com/tomerud/Freshlens.git
 cd Freshlens
 pip install requirements.txt
-pip install -e .
 
 cd ../frontend
-npm install
+npm run dev
 ```
 
 ## Usage
