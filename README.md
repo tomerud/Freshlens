@@ -36,7 +36,7 @@ The system detects and tracks products in the fridge, monitors their freshness (
 
 ## Technologies Used
 - **Frontend:** React.js , TypeScript, Vite.
-- **Backend:** Rest API using Flask (Python), prophet (for data science).
+- **Backend:** Rest API using Flask (Python).
 - **Database:** MySQL, MongoDB.
 - **Deep learning:** Pytourch, YOLO, DeepSORT.
 - **OCR:** EasyOCR.
