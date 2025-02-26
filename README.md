@@ -4,11 +4,8 @@
 
 ## About
 
-FreshLens is a innovative project developed during our university E-commerce workshop.
+FreshLens is a innovative project developed during our university E-commerce workshop (0368-3557).
 in the workshop we have worked with MBA and design students, in order to develop our own project.
-
-IMAGE FROM PRESENTATION
-IMAGE FROM PRESENTATION
 
 FreshLens aims to transforms any standard refrigerator into a smart fridge by combining affordable cameras and machine learning tech.  
 The system detects and tracks products in the fridge, monitors their freshness (by leveraging DL module), provides alerts, purchase recommendations, and recipe suggestions to reduce food waste and improve consumer habits.
@@ -82,7 +79,37 @@ npm install
 ```
 
 ## Usage
-***add Usage instructions***
+Set up backend server (for communicating between front and back):
+```
+Tomer
+```
+
+Set up websocket server between module and backend, From the Backend folder:
+```
+python -m module_connect
+```
+To open the App:
+```
+///
+```
+To run a video file:
+- First change the settings in the run_demo: Ip, Port and path to the video you want to run
+(for now there is a "defult" setting that do work if you want to run as is)
+then
+from freshlens folder run the following code:
+
+```
+python -m module.run_demo
+```
+
+- Another option, set up RTSP server on the computer, change the settings in scheduler file and run
+from freshlens folder
+
+```
+python -m module.scheduler
+```
+
+for the updates from the module to be shown at the app, the Ip camera that is inserted must be connected to the user_id is on the app.
 
 ## Acknowledgements
 
