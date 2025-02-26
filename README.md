@@ -54,9 +54,9 @@ The system detects and tracks products in the fridge, monitors their freshness (
 - **WebSocket:** For real-time data communication between module and backend.
 
 for a more detailed documentation, we have a more comprehensive readme in each of the folders
-[FrontEnd documentation][https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/frontend/README.md]
-[BackEnd documentation][https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/backend/README.md]
-[Module Documentation][https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/module/README.md]
+[FrontEnd documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/frontend/README.md)
+[BackEnd documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/backend/README.md)
+[Module Documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/module/README.md)
 
 
 ![image](https://github.com/user-attachments/assets/a3949139-635d-4753-bc09-0d897cea7904)
