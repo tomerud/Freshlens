@@ -92,11 +92,18 @@ KAGGLE_FILE_PATH=atlantic_superstore.csv
 we have used OpenAI api key for generating recipes, to have that option working, you will need to replace it with your own.
 
 ## Usage
-Go to freshlens-> backend and run the create table script:
+If its your first time, make sure you Go to freshlens-> backend and run the create table script:
 ```bash
 cd backend
 python -m mysqlDB.create_tables
 ```
+
+and then also create the mongodb:
+```bash
+cd backend
+python -m mongo.create_db
+```
+
 Set up backend server (for communicating between front and back):
 ```bash
 cd backend
