@@ -120,7 +120,8 @@ cd freshlens
 python -m module.run_demo
 ```
 
-- Another option, set up RTSP server on the computer, change the settings in scheduler file and run
+
+- Another option, [set up RTSP server on the computer](https://github.com/insight-platform/Fake-RTSP-Stream), change the settings in scheduler file and run
 from freshlens folder
 
 ``` bash
