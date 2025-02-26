@@ -2,7 +2,7 @@
 
 ## Table of Contents
 - [Backend Overview](#backend-overview)
-- [Backend Directory Structure (main files)](#backend-directory-structure-main-files)
+- [MySQL Database ER Scheme](#mysql-database-er-scheme)
 - [Main Files Explanation](#main-files-explanation)
 
   
@@ -12,37 +12,10 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
 
 
 
-## Backend Directory Structure (main files)
+## MySQL Database ER Scheme
 ```
-📂 backend/
-├── 📂 DS/                # Data science & analytics scripts
-│   ├── nutrition_idea.py
-│   └── predict_shopping_waste.py   # (In progress)
-├── 📂 mongo/             # MongoDB modules for image storage
-│   ├── create_DB.py      # Sets up the MongoDB database
-│   └── store_image.py    # Handles storing fridge images
-├── 📂 mysqlDB/           # MySQL database modules
-│   ├── create_tables.py  # Creates all tables and demo data
-│   ├── camera/           # Camera operations (insert, get items)
-│   ├── fridge/           # Fridge operations (insert, get fridges)
-│   ├── items/            # Item management (insertion, updates, history)
-│   ├── products/         # Product queries and insertions
-│   └── user/             # User operations (insert, query)
-├── 📄 module_connect.py  # Processes camera updates and synchronizes the DB
-├── 📂 python_chatgpt/    # ChatGPT integration functions (recipe generation, etc.)
-│   ├── chat.py
-│   └── install.txt
-├── 📂 routes/            # REST API endpoints for various domains:
-│   ├── camera_routes.py         # Camera management endpoints
-│   ├── data_analysis_routes.py  # Analytics and notifications endpoints
-│   ├── fridge_routes.py         # Fridge-related endpoints
-│   ├── images_routes.py         # Image retrieval endpoints
-│   ├── item_routes.py           # Item insertion/updates endpoints
-│   ├── recipe_routes.py         # Recipe suggestion endpoints
-│   └── user_routes.py           # User management endpoints
-├── 📄 server.py          # Main server file (Flask/SocketIO with SSL)
-├── 📄 requirements.txt   # Project dependencies
-└── 📄 README.md          # Documentation
+![ER Diagram](ER diagram.png)
+
 ```
 
 ## Main files explanation:
