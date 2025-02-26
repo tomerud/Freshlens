@@ -48,7 +48,7 @@ def handle_send_to_db(data):
     camera_ip = data.get('camera_ip')
     products_data = data.get('products_data')
     print(f"Received data from camera {camera_ip}")
-
+    yolo_mapping={0:19,1:28,2:3,3:20,4:17,5:17}
     item_list = []
     for product in products_data:
         track_id, class_id, _, exp_date = product
@@ -62,7 +62,7 @@ def handle_send_to_db(data):
         item = {
             "item_id": track_id,
             "is_inserted_by_user": 0,
-            "product_id": class_id,
+            "product_id": yolo_mapping[int(class_id)],
             "camera_ip": camera_ip,
             "date_entered": datetime.today().strftime("%Y-%m-%d"),
             "anticipated_expiry_date": exp_date,
