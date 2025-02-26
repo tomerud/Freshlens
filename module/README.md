@@ -183,8 +183,22 @@ To run the code there are two possible ways:
 - use run_demo file -> upload the video you want to scan, change the ip:port so it will fit an existing user in the DB (if not, it will not know to connect the data), change the PATH to your video, choose to either connect to the backend before hand (so you will see results in the db updated - if yes, please look at the FreshLens Readme.md)
 or # the connection lines and run without backend.
 
-- [download RTSP server on the computer][https://github.com/insight-platform/Fake-RTSP-Stream],upload the files to stream using RTSP from the server,  and change the ip:port so it will fit an existing user in the DB then connect to the backend as instructed in FreshLens\README.md,
+``` bash
+cd freshlens
+python -m module.run_demo
+```
+it will save the output video (tracking and detections in freshlens/output)
+
+
+- [download RTSP server on the computer](https://github.com/insight-platform/Fake-RTSP-Stream),upload the files to stream using RTSP from the server,  and change the ip:port so it will fit an existing user in the DB then connect to the backend as instructed in FreshLens\README.md,
 please notice you will need to "break" the listening loop by using crtl+c
+
+```bash
+python -m module.scheduler
+```
+the video (with the settings right now) wont be saved (this can be modified)
+
+
 
 To run the one of those codes, please install the requirements from the root folder (FRESHLENS),
 then from freshlens folder run the following code:
