@@ -47,14 +47,14 @@ def estimate_expiration(fruit: str, freshness_label: str, confidence: float
         expiration_date = datetime.today() - timedelta(days=days_past)
     else:
         base_life = shelf_life.get(fruit,7)
-        if confidence >= 0.9:
+        if confidence >= 0.95:
             multiplier = 1.0
-        elif confidence >= 0.8:
-            multiplier = 0.9
-        elif confidence >= 0.7:
+        elif confidence >= 0.85:
             multiplier = 0.8
-        else:
+        elif confidence >= 0.75:
             multiplier = 0.7
+        else:
+            multiplier = 0.6
 
         estimated_days = int(base_life * multiplier)
         expiration_date = datetime.today() + timedelta(days=estimated_days)

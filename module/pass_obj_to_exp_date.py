@@ -80,17 +80,14 @@ def find_exp_date(
             class_names = ['Fresh', 'Rotten']
             # Disable gradient calculations since we are not training
             with torch.no_grad():
-                output = model_freshness_detect(image)  # Forward pass through the model
+                output = model_freshness_detect(image)
 
                 # Apply softmax to get probabilities (confidence levels)
                 probabilities = F.softmax(output, dim=1)
-
-                # Get the predicted class (index with the highest probability)
                 _, predicted_class = torch.max(probabilities, 1)
-
-                # Get the confidence level of the predicted class
                 confidence = probabilities[0][predicted_class.item()]
                 predicted_class_name = class_names[predicted_class.item()]
+            
             exp_date = fresh_rotten(identifier, detections[i][3], confidence)
         if None != exp_date:
             exp_date = exp_date.strftime("%Y-%m-%d")

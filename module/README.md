@@ -39,6 +39,11 @@ Black - the output of the ocr
 
 ![Picture of cheese, that using detection and ocr we got the exp date](assets/cheese_ocr.png)
 
+After objects are detected and we are estimating exp date for each products, we will send this data to the server (using the websocket) and will draw according bounding boxes, where the color (red, orange, green) will represent how close the product is to expire.
+since we are using OCR to read exp date off products cover, if the camera is too low res, we will not be able to read the expiration date, in that case we will just treat it as None (will draw black bounding box), and ask the user to correct the date in the app.
+this photo is also sent to the backend, to be inserted into mongoDB, and displayed on the app
+![Example of drawing](assets/BB_drawing.png)
+
 ## Module Structure:
 ```
 📂 project_root/
@@ -167,17 +172,18 @@ Due disclosure - This file was generated with the help of ChatGPT,
 this code was only run in effort to improve the formating of the code in the diffrenet files.
 I have used its output (the pylint and flake8 notes) in order to practice better code writing practices,
 the changes to the code in the file themself was done manually.
-
+I aimed in general to get score of around at least 7 with pylint
 
 ## Future work:
 - Expand the dataSet to support more items.
 - Improve object detection accuracy.
 - Imporve Tracker abilities and fine tune it on the dataset.
+- Train REID - in order to both improve the tracking accuracy, and to allow us to load tracker states (something that simple deepsort dosent allow) in order to preserve the tracking id of products between streams.
 - Switch RTSP to a more secure protocol.
-- Have an actual IP camera to understand the necessary configurations
+- Have an actual IP camera to understand the necessary configurations.
 - Finetune OCR / CRNN in effort to imporve the results and recognition of expiration dates (hard to read font).
 - While there is no publicly available dataset for fruit/vegetable expiration dates, there are several proposed methods to approximate the expiration date using traditional CV techniques. Unfortunately, most of the papers focus on the commercial stage (before the produce arrives at the store), but it should be possible to create similar tests to learn techniques and data that can be adapted for our usage case.
-- We want to expand the TLS connection into mTLS or nginx (reverse proxy etc...)
+- We want to expand the TLS connection into mTLS or nginx (reverse proxy etc...).
 - Learn more about Asyncio and multiprocessing as a possible alternative to threading.
 
 
@@ -185,10 +191,15 @@ the changes to the code in the file themself was done manually.
 To run the code there are two possible ways:
 
 - use run_demo file -> upload the video you want to scan, change the ip:port so it will fit an existing user in the DB (if not, it will not know to connect the data), change the PATH to your video, choose to either connect to the backend before hand (so you will see results in the db updated - if yes, please look at the FreshLens Readme.md)
-or # the connection lines and run without.
+or # the connection lines and run without backend.
 
-- download RTSP server on the computer,upload the files to stream using RTSP from the server,  and change the ip:port so it will fit an existing user in the DB then connect to the backend as instructed in FreshLens\README.md,
+- [download RTSP server on the computer][https://github.com/insight-platform/Fake-RTSP-Stream],upload the files to stream using RTSP from the server,  and change the ip:port so it will fit an existing user in the DB then connect to the backend as instructed in FreshLens\README.md,
 please notice you will need to "break" the listening loop by using crtl+c
 
+To run the one of those codes, please install the requirements from the root folder (FRESHLENS),
+then from freshlens folder run the following code:
 
-Due disclosure - ChatGPT was used in this README.md file in the Module Structure part to insert the icons: 📂, 📜, 📄
+```
+python -m module.run_demo
+```
+

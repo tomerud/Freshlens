@@ -55,11 +55,12 @@ PATH="module/assets/IMG_0758.MP4"
 #dont change - this is the pipeline
 #if want to see the tracking video, change the False to True
 detections = process_video(PATH,detection_model,True)
+print(detections)
 if detections in (-1, None):
     alert_server(socket, cam_ip, cam_port, "Error: Unable to open video stream.")
 else:    
     exp_date = find_exp_date(detections, class_list)
     fimg = draw_on_image(exp_date)
-    #send_to_db(socket, cam_ip, cam_port, exp_date)
-    #send_to_mongo(socket, cam_ip, cam_port, fimg)
+    send_to_db(socket, cam_ip, cam_port, exp_date)
+    send_to_mongo(socket, cam_ip, cam_port, fimg)
 print(detections)
