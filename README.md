@@ -34,7 +34,7 @@ The system detects and tracks products in the fridge, monitors their freshness (
 <img src="https://github.com/user-attachments/assets/d0cd3a48-56eb-4912-8b85-32657afcac47" alt="App Screenshot" width="300" />
 
 
-## Core Technologies Used
+## Technologies Used
 - **Frontend:** React.js , TypeScript, Vite.
 - **Backend:** Rest API using Flask (Python), prophet (for data science).
 - **Database:** MySQL, MongoDB.
@@ -51,9 +51,9 @@ The system detects and tracks products in the fridge, monitors their freshness (
 for a more detailed documentation about the feature and implementation, we have a more comprehensive readme in the folders for each of the app components
 
 
-[FrontEnd documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/frontend/README.md), 
-[BackEnd documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/backend/README.md) and
-[Module Documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/module/README.md)
+[Frontend documentation](https://github.com/tomerud/Freshlens/blob/main/frontend/README.md), 
+[Backend documentation](https://github.com/tomerud/Freshlens/blob/main/backend/README.md) and
+[Module Documentation](https://github.com/tomerud/Freshlens/blob/main/module/README.md)
 
 
 ## Project Status
@@ -89,9 +89,21 @@ KAGGLE_FILE_PATH=atlantic_superstore.csv
 ```
 
 [you can get a USDA_API_KEY here](https://www.ers.usda.gov/developer/data-apis)
-
+we have used OpenAI api key for generating recipes, to have that option working, you will need to replace it with your own.
 
 ## Usage
+If its your first time, make sure you Go to freshlens-> backend and run the create table script:
+```bash
+cd backend
+python -m mysqlDB.create_tables
+```
+
+and then also create the mongodb:
+```bash
+cd backend
+python -m mongo.create_db
+```
+
 Set up backend server (for communicating between front and back):
 ```bash
 cd backend
@@ -104,6 +116,7 @@ cd backend
 python -m module_connect
 ```
 
+Start the app
 ```bash
 cd frontend
 npm run dev

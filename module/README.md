@@ -109,6 +109,7 @@ so the tracking capabilities can be imporved
 
 ### `pass_obj_to_exp_date.py`
 This script get the detected objects (from detect_and_track), and by its category (fruits and veg or closed products), will call upon each object the right function to estimate the expiration date.
+will be passed to products_ocr or fruit_veg_freshness.py.
 
 ### `products_ocr.py`
 This script gets a photo of a closed product, and will try to find and read the expiration date,
@@ -139,6 +140,7 @@ Script for freshness detection using classification.
 #### Assumptions/limitations:
 - There is no available dataset for actual expiry date detection for fruit/veg,
 while there are some similar dataset (mainly categorical), they are intended for the growing the fruit/veg phase, and not for the storing in the consumer fridge. - more on that in the future work
+- So we have classified the fruit/veg as fresh/rotten using resNet, and then using the basic shelf life from USDA and the confidance of the neural network in the fact that the object is fresh/rotten, we calculate an estimation of the expiry date, in future we will want to either build a fitting database, or mix it with feature extraction and classical cv techniques for getting better estimation.
 
 ### `draw_bb.py`
 This script take the image of the shelf (last frame from the camera stream), and draw bounding boxes on it, each product according to its expiration date (red, orange, green), this image will be passed to the app, this way we are able to display to the user its fridge content visually.
