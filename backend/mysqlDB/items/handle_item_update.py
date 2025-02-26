@@ -30,12 +30,11 @@ def handle_camera_update(camera_ip, item_list):
         camera_ip (str): The IP address of the camera.
         item_list (list): List of dictionaries representing new items to insert.
     """
-    # Step 1: Retrieve current DB items for this camera and build a lookup dictionary.
     current_items = get_items_by_camera_ip(camera_ip)
     existing_map = {item['item_id']: item for item in current_items if 'item_id' in item}
     new_item_ids = {item['item_id'] for item in item_list if 'item_id' in item}
     is_rotten = 0
-    # Step 2: Process current items in DB.
+
     for current_item in current_items:
         current_id = current_item.get('item_id')
         if current_id not in new_item_ids:
@@ -47,7 +46,6 @@ def handle_camera_update(camera_ip, item_list):
             print(f"Deleting item_id={current_id} from DB to update with previous date_entered.")
             delete_item_by_camera_and_item_id(camera_ip, current_id)
 
-    # Step 3: Insert items from the new list.
     if not item_list:
         print(f"No new items to insert for camera_ip={camera_ip}.")
         return
@@ -82,7 +80,6 @@ def handle_camera_update(camera_ip, item_list):
         else:
             anticipated_date_obj = anticipated_date
         if anticipated_date_obj:
-        # Determine if the item is rotten based on the current date.
             is_rotten = 1 if now > anticipated_date_obj else 0
 
         insert_item_to_db(
