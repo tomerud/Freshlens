@@ -84,7 +84,7 @@ def load_model():
     Load the YOLO model
     return: model and class list.
     """
-    model_path = "models/ProductDetection.pt"
+    model_path = "module/models/ProductDetection.pt"
     model = YOLO(model_path)
     class_list = [class_name for _, class_name in sorted(model.names.items())]
     return model, class_list
@@ -92,7 +92,7 @@ def load_model():
 def handle_light_detected(cam_ip: str, cam_port: int, video_stream: str, model, class_list, client):
     """Handles light detection by processing the video stream."""
     rtsp_path = f"rtsp://{cam_ip}:{cam_port}/{video_stream}"
-
+    print("here")
     try:
         # Process the video stream -> get detections -> find expiration date -> draw on image -> send to DB and MongoDB
         detections = process_video(rtsp_path, model)

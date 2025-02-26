@@ -44,8 +44,6 @@ export const FridgeFreshness = () => {
     };
   }, [data]);
 
-  console.log(fridgeFreshness)
-
   return (
     <div>
       <p className="card-label">Fridge Freshness</p>

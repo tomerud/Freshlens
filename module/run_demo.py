@@ -44,13 +44,13 @@ cam_ip = "192.168.1.100"
 cam_port = 8554
 
 # dont change this:
-MODEL_PATH = "models/object_detect_v8.pt" 
+MODEL_PATH = "module/models/object_detect_v8.pt" 
 detection_model = YOLO(MODEL_PATH)
 class_list = [class_name for _, class_name in sorted(detection_model.names.items())]
 #can change to any video path
 #PATH="assets/freshlens3.MP4"
 
-PATH="assets/IMG_0758.MP4"
+PATH="module/assets/IMG_0758.MP4"
 
 #dont change - this is the pipeline
 #if want to see the tracking video, change the False to True
