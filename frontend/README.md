@@ -3,7 +3,7 @@
 # FreshLens Frontend
 
 ## Table of Contents
-- [Connection](#connection)
+- [Login-page](#login-page)
 - [Homepage](#page-1-homepage)
 - [Real-Time View](#page-2-real-time-view)
 - [Detailed Fridge View](#page-3-detailed-fridge-view)
@@ -12,7 +12,7 @@
 - [Contributing](#contributing)
 
 ---
-## connection
+## Login-page
 Our frontend is protected by Firebase with Google sign-in. 
 You must be authenticated to view any page. otherwise, the app remains inaccessible. 
 Once logged in, your details are stored in a global context for seamless navigation.
