@@ -34,7 +34,7 @@ The system detects and tracks products in the fridge, monitors their freshness (
 <img src="https://github.com/user-attachments/assets/d0cd3a48-56eb-4912-8b85-32657afcac47" alt="App Screenshot" width="300" />
 
 
-## Core Technologies Used
+## Technologies Used
 - **Frontend:** React.js , TypeScript, Vite.
 - **Backend:** Rest API using Flask (Python), prophet (for data science).
 - **Database:** MySQL, MongoDB.
