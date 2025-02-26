@@ -24,7 +24,7 @@ interface CameraImagesResponse {
   fridges: FridgeImages[];
 }
 
-const fetchImages = async (userId: string | undefined): Promise<CameraImagesResponse> => {
+const fetchImages = async (userId: string): Promise<CameraImagesResponse> => {
   const response = await fetch(`/api/get_image?user_id=${userId}`);
   if (!response.ok) throw new Error("Failed to fetch images");
   return response.json();
@@ -32,11 +32,14 @@ const fetchImages = async (userId: string | undefined): Promise<CameraImagesResp
 
 export const CamerasPage = () => {
   const { user } = useAuth();
+  if (!user){
+    return <div className="error">Error: no userId</div>
+  }
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["cameraImages", user?.uid],
-    queryFn: () => fetchImages(user?.uid),
-    enabled: !!user?.uid,
+    queryKey: ["cameraImages", user.uid],
+    queryFn: () => fetchImages(user.uid),
+    enabled: !!user.uid,
     refetchOnWindowFocus: false,
   });
 

@@ -16,7 +16,7 @@ interface ShoppingItem {
   checked: boolean;
 }
 
-const fetchShoppingCartRecommendations = async (userId: string | undefined): Promise<ShoppingItem[]> => {
+const fetchShoppingCartRecommendations = async (userId: string): Promise<ShoppingItem[]> => {
   const response = await fetch(`/api/get_shopping_cart_recommendations?user_id=${userId}`);
   if (!response.ok) throw new Error("Failed to fetch shopping cart recommendations");
   return response.json();
@@ -24,11 +24,14 @@ const fetchShoppingCartRecommendations = async (userId: string | undefined): Pro
 
 export const ShoppingCart = () => {
   const {user} = useAuth();
+  if (!user){
+    return <div className="error">Error: no userId</div>
+  }
   
   const { data, isLoading, error } = useQuery<ShoppingItem[], Error>({
-    queryKey: user?.uid ? ["ShoppingCart", user?.uid] : ["ShoppingCart"],
-    queryFn: () => fetchShoppingCartRecommendations(user?.uid),
-    enabled: !!user?.uid,
+    queryKey: user.uid ? ["ShoppingCart", user.uid] : ["ShoppingCart"],
+    queryFn: () => fetchShoppingCartRecommendations(user.uid),
+    enabled: !!user.uid,
   });
 
   const [shoppingCart, setShoppingCart] = useState<ShoppingItem[]>([]);

@@ -7,11 +7,11 @@ import { useAuth } from '../../../../../contexts/userContext';
 import './moneyWastedGraph.scss';
 
 interface MoneyWastedData {
-  month: string; // Format: "YYYY-MM"
+  month: string;
   value: number;
 }
 
-const fetchMoneyWastedData = async (userId: string | undefined): Promise<MoneyWastedData[]> => {
+const fetchMoneyWastedData = async (userId: string): Promise<MoneyWastedData[]> => {
   const response = await fetch(`/api/get_waste_summary?user_id=${userId}`);
   if (!response.ok) throw new Error("Failed to fetch money saving data");
   return response.json();
@@ -30,12 +30,16 @@ const formatMonth = (monthStr: string) => {
 };
 
 export const MoneyWastedGraph = () => {
-  const {user} = useAuth();
+  const { user } = useAuth();
+
+  if (!user){
+    return <div className="error">Error: no userId</div>
+  }
 
   const { data, isLoading, error } = useQuery<MoneyWastedData[], Error>({
-    queryKey: user?.uid ? ["MoneyWastedData", user?.uid] : ["MoneyWastedData"],
-    queryFn: () => fetchMoneyWastedData(user?.uid),
-    enabled: !!user?.uid,
+    queryKey: user.uid ? ["MoneyWastedData", user.uid] : ["MoneyWastedData"],
+    queryFn: () => fetchMoneyWastedData(user.uid),
+    enabled: !!user.uid,
   });
 
   if (isLoading) return <Loader />;
