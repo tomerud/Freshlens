@@ -1,12 +1,12 @@
 from datetime import date, timedelta
 import random
 
-from backend.mysqlDB.camera.insert_camera_to_db import insert_camera_to_db
-from backend.mysqlDB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
-from backend.mysqlDB.items.insert_new_item_to_db import get_all_products_from_db, insert_item_to_db
-from backend.mysqlDB.products.insert_new_products_to_db import insert_new_category_to_db, insert_new_product_to_db, load_canadian_prices_from_kaggle, load_storage_tips
-from backend.mysqlDB.user.insert_user_to_db import insert_new_user
-from backend.mysqlDB.db_utils import execute_query
+from mysqlDB.camera.insert_camera_to_db import insert_camera_to_db
+from mysqlDB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
+from mysqlDB.items.insert_new_item_to_db import get_all_products_from_db, insert_item_to_db
+from mysqlDB.products.insert_new_products_to_db import insert_new_category_to_db, insert_new_product_to_db, load_canadian_prices_from_kaggle, load_storage_tips
+from mysqlDB.user.insert_user_to_db import insert_new_user
+from mysqlDB.db_utils import execute_query
 
 def create_tables():
     tables = {

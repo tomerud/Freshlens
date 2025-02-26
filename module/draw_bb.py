@@ -28,9 +28,6 @@ def draw_on_image(
     today = datetime.today()
 
     for detection in detections[1:]:
-        print(detection)
-        for det in detection:
-            print(det)
         x_min, y_min, x_max, y_max = detection[2]
         exp_date = detection[3]
         if exp_date == None: # No expiration date found

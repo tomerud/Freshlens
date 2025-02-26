@@ -48,7 +48,9 @@ MODEL_PATH = "models/object_detect_v8.pt"
 detection_model = YOLO(MODEL_PATH)
 class_list = [class_name for _, class_name in sorted(detection_model.names.items())]
 #can change to any video path
-PATH="assets/freshlens3.MP4"
+#PATH="assets/freshlens3.MP4"
+
+PATH="assets/IMG_0758.MP4"
 
 #dont change - this is the pipeline
 #if want to see the tracking video, change the False to True
@@ -58,6 +60,6 @@ if detections in (-1, None):
 else:    
     exp_date = find_exp_date(detections, class_list)
     fimg = draw_on_image(exp_date)
-    send_to_db(socket, cam_ip, cam_port, exp_date)
-    send_to_mongo(socket, cam_ip, cam_port, fimg)
+    #send_to_db(socket, cam_ip, cam_port, exp_date)
+    #send_to_mongo(socket, cam_ip, cam_port, fimg)
 print(detections)
