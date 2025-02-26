@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FridgeHeader } from "../../allFridgesPage/fridgeHeader";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../../../loader";
+import { useAuth } from "../../../../contexts/userContext";
 
 import "./shoppingCart.scss";
 
@@ -22,12 +23,15 @@ const fetchShoppingCartRecommendations = async (userId: string): Promise<Shoppin
 };
 
 export const ShoppingCart = () => {
-  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
-
+  const {user} = useAuth();
+  if (!user){
+    return <div className="error">Error: no userId</div>
+  }
+  
   const { data, isLoading, error } = useQuery<ShoppingItem[], Error>({
-    queryKey: userId ? ["ShoppingCart", userId] : ["ShoppingCart"],
-    queryFn: () => fetchShoppingCartRecommendations(userId),
-    enabled: !!userId,
+    queryKey: user.uid ? ["ShoppingCart", user.uid] : ["ShoppingCart"],
+    queryFn: () => fetchShoppingCartRecommendations(user.uid),
+    enabled: !!user.uid,
   });
 
   const [shoppingCart, setShoppingCart] = useState<ShoppingItem[]>([]);

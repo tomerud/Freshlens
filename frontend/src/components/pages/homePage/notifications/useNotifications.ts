@@ -12,13 +12,12 @@ export const useNotifications = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
-  const user_id = '0NNRFLhbXJRFk3ER2_iTr8VulFm4';
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`/api/get_notifications?user_id=${user_id}`);
+        const response = await fetch(`/api/get_notifications?user_id=${user?.uid}`);
         if (!response.ok) {
           throw new Error("Failed to fetch notifications");
         }
@@ -37,7 +36,7 @@ export const useNotifications = () => {
   const refreshNotifications = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/get_notifications?user_id=${user_id}`);
+      const response = await fetch(`/api/get_notifications?user_id=${user?.uid}`);
       if (!response.ok) {
         throw new Error("Failed to refresh notifications");
       }

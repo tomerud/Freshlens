@@ -19,16 +19,17 @@ const fetchFrifgeFreshness = async (userId: string): Promise<FrifgeFreshness> =>
 };
 
 export const FridgeFreshness = () => {
-  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
-  // const {user} = useAuth()
-  // const userId =user?.uid;
-
   const [fridgeFreshness, setFridgeFreshness] = useState(0);
+  
+  const { user } = useAuth();
+  if (!user){
+    return <div className="error">Error: no userId</div>
+  }
 
   const { data, error } = useQuery<FrifgeFreshness, Error>({
-    queryKey: userId ? ["FreshnessScore", userId] : ["FreshnessScore"],
-    queryFn: () => fetchFrifgeFreshness(userId),
-    enabled: !!userId,
+    queryKey: user.uid ? ["FreshnessScore", user.uid] : ["FreshnessScore"],
+    queryFn: () => fetchFrifgeFreshness(user.uid),
+    enabled: !!user.uid,
   });
 
   if (error) return <div>Error: {error.message}</div>;

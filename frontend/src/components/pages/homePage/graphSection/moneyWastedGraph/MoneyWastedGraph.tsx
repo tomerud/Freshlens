@@ -1,11 +1,13 @@
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Cell } from 'recharts';
 import { Loader } from '../../../../loader';
+
 import { useQuery } from '@tanstack/react-query';
+import { useAuth } from '../../../../../contexts/userContext';
 
 import './moneyWastedGraph.scss';
 
 interface MoneyWastedData {
-  month: string; // Format: "YYYY-MM"
+  month: string;
   value: number;
 }
 
@@ -28,12 +30,16 @@ const formatMonth = (monthStr: string) => {
 };
 
 export const MoneyWastedGraph = () => {
-  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
+  const { user } = useAuth();
+
+  if (!user){
+    return <div className="error">Error: no userId</div>
+  }
 
   const { data, isLoading, error } = useQuery<MoneyWastedData[], Error>({
-    queryKey: userId ? ["MoneyWastedData", userId] : ["MoneyWastedData"],
-    queryFn: () => fetchMoneyWastedData(userId),
-    enabled: !!userId,
+    queryKey: user.uid ? ["MoneyWastedData", user.uid] : ["MoneyWastedData"],
+    queryFn: () => fetchMoneyWastedData(user.uid),
+    enabled: !!user.uid,
   });
 
   if (isLoading) return <Loader />;
