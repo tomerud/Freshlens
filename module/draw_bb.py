@@ -31,7 +31,7 @@ def draw_on_image(
         x_min, y_min, x_max, y_max = detection[2]
         exp_date = detection[3]
         if exp_date == None: # No expiration date found
-            color = (128, 128, 128)
+            color = (0, 0, 0)  # black
         else:
             exp_date = datetime.strptime(exp_date, "%Y-%m-%d")
             days_diff = (exp_date - today).days
@@ -47,5 +47,4 @@ def draw_on_image(
         cv2.rectangle(
             image, (x_min, y_min), (x_max, y_max), color, 2
         )
-
     return Image.fromarray(image)

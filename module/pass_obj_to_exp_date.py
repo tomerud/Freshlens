@@ -42,7 +42,7 @@ def find_exp_date(
     """
     if len(detections) == 1:  # No objects detected, only shelf
         return detections
-    
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     transform=get_transform()
 
@@ -68,7 +68,7 @@ def find_exp_date(
     model_freshness_detect.to(device).eval()
     for i in range(1, len(detections)):  # Skip first detection (fridge frame)
         # for now, cheese is the only closed product we have in dataset
-        if  detections[i][1] == 5:  
+        if  detections[i][1] == 5:
             product_img=detections[i][3]
             exp_date = products_exp_dates(model_date_detect, product_img)
         else:
@@ -80,17 +80,14 @@ def find_exp_date(
             class_names = ['Fresh', 'Rotten']
             # Disable gradient calculations since we are not training
             with torch.no_grad():
-                output = model_freshness_detect(image)  # Forward pass through the model
+                output = model_freshness_detect(image)
 
                 # Apply softmax to get probabilities (confidence levels)
                 probabilities = F.softmax(output, dim=1)
-
-                # Get the predicted class (index with the highest probability)
                 _, predicted_class = torch.max(probabilities, 1)
-
-                # Get the confidence level of the predicted class
                 confidence = probabilities[0][predicted_class.item()]
                 predicted_class_name = class_names[predicted_class.item()]
+
             exp_date = fresh_rotten(identifier, detections[i][3], confidence)
         if None != exp_date:
             exp_date = exp_date.strftime("%Y-%m-%d")

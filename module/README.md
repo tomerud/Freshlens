@@ -39,6 +39,11 @@ Black - the output of the ocr
 
 ![Picture of cheese, that using detection and ocr we got the exp date](assets/cheese_ocr.png)
 
+After objects are detected and we are estimating exp date for each products, we will send this data to the server (using the websocket) and will draw according bounding boxes, where the color (red, orange, green) will represent how close the product is to expire.
+since we are using OCR to read exp date off products cover, if the camera is too low res, we will not be able to read the expiration date, in that case we will just treat it as None (will draw black bounding box), and ask the user to correct the date in the app.
+this photo is also sent to the backend, to be inserted into mongoDB, and displayed on the app
+![Example of drawing](assets/BB_drawing.PNG)
+
 ## Module Structure:
 ```
 📂 project_root/
@@ -88,7 +93,6 @@ Also, we should configurate the cameras to manually stream for a couple of secon
 we "hard-coded" the camera IP and port to listen to - based on the fake RTSP server, so we only listen to this specific combination. 
 We will need to switch with call to server to get the list of IP and ports that is respobsible to listen to.
 
-
 ### `detect_and_track.py`
 This script uses YOLOv8 and DeepSORT to detect the objects in the stream and track them as they are moved.
 
@@ -103,10 +107,8 @@ this occurence, limited our time to finetune the DeepSORT, since preparing the d
 we dont have enough time to train deepsort / Siamese neural network on our custom dataset,
 so the tracking capabilities can be imporved 
 
-
 ### `pass_obj_to_exp_date.py`
 This script get the detected objects (from detect_and_track), and by its category (fruits and veg or closed products), will call upon each object the right function to estimate the expiration date.
-
 
 ### `products_ocr.py`
 This script gets a photo of a closed product, and will try to find and read the expiration date,
@@ -128,7 +130,6 @@ they are considerably limited and small in comparison to reccomendations we saw 
 - ideally, the object detecion and expiration date detection will be implemented in the same NN by adding heads.
 - filtering based on conf level (detail=1) is problematic because of the printing format of digits on exp dates.
 
-
 ### `fruit_veg_freshness.py`
 Script for freshness detection using classification.
 
@@ -139,10 +140,9 @@ Script for freshness detection using classification.
 - There is no available dataset for actual expiry date detection for fruit/veg,
 while there are some similar dataset (mainly categorical), they are intended for the growing the fruit/veg phase, and not for the storing in the consumer fridge. - more on that in the future work
 
-
 ### `draw_bb.py`
 This script take the image of the shelf (last frame from the camera stream), and draw bounding boxes on it, each product according to its expiration date (red, orange, green), this image will be passed to the app, this way we are able to display to the user its fridge content visually.
-
+if no expiration date detected, will be drawing in black
 
 ### `backend_connect.py`
 This script define the functions that send data to the backend using the websocket
@@ -161,34 +161,37 @@ since that is the design we have chosen,we use a single shared socket for all ca
 - Potential throughput bottleneck, since we have one socket and multiple cameras can wait to acquire the lock,
 there is a need to research more about this type of problems
 
-
-### `code_formatting.py`
-Due disclosure - This file was generated with the help of ChatGPT,
-this code was only run in effort to improve the formating of the code in the diffrenet files.
-I have used its output (the pylint and flake8 notes) in order to practice better code writing practices,
-the changes to the code in the file themself was done manually.
-
+I have used pylint and flake8 in order to fit pep8 standarts.
 
 ## Future work:
 - Expand the dataSet to support more items.
 - Improve object detection accuracy.
 - Imporve Tracker abilities and fine tune it on the dataset.
+- Train REID - in order to both improve the tracking accuracy, and to allow us to load tracker states (something that simple deepsort dosent allow) in order to preserve the tracking id of products between streams.
 - Switch RTSP to a more secure protocol.
-- Have an actual IP camera to understand the necessary configurations
+- Have an actual IP camera to understand the necessary configurations.
 - Finetune OCR / CRNN in effort to imporve the results and recognition of expiration dates (hard to read font).
 - While there is no publicly available dataset for fruit/vegetable expiration dates, there are several proposed methods to approximate the expiration date using traditional CV techniques. Unfortunately, most of the papers focus on the commercial stage (before the produce arrives at the store), but it should be possible to create similar tests to learn techniques and data that can be adapted for our usage case.
-- We want to expand the TLS connection into mTLS or nginx (reverse proxy etc...)
+- We want to expand the TLS connection into mTLS or nginx (reverse proxy etc...).
 - Learn more about Asyncio and multiprocessing as a possible alternative to threading.
-
 
 ## Configuration
 To run the code there are two possible ways:
 
 - use run_demo file -> upload the video you want to scan, change the ip:port so it will fit an existing user in the DB (if not, it will not know to connect the data), change the PATH to your video, choose to either connect to the backend before hand (so you will see results in the db updated - if yes, please look at the FreshLens Readme.md)
-or # the connection lines and run without.
+or # the connection lines and run without backend.
 
-- download RTSP server on the computer,upload the files to stream using RTSP from the server,  and change the ip:port so it will fit an existing user in the DB then connect to the backend as instructed in FreshLens\README.md,
+- [download RTSP server on the computer][https://github.com/insight-platform/Fake-RTSP-Stream],upload the files to stream using RTSP from the server,  and change the ip:port so it will fit an existing user in the DB then connect to the backend as instructed in FreshLens\README.md,
 please notice you will need to "break" the listening loop by using crtl+c
 
+To run the one of those codes, please install the requirements from the root folder (FRESHLENS),
+then from freshlens folder run the following code:
 
-Due disclosure - ChatGPT was used in this README.md file in the Module Structure part to insert the icons: 📂, 📜, 📄
+```
+python -m module.run_demo
+```
+or
+
+```
+python -m module.scheduler
+```
