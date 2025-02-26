@@ -104,6 +104,7 @@ cd backend
 python -m module_connect
 ```
 
+Start the app
 ```bash
 cd frontend
 npm run dev
