@@ -1,5 +1,5 @@
 from datetime import date
-from mysqlDB.db_utils import execute_query
+from ..db_utils import execute_query
 
 def insert_to_history(item_id):
     """

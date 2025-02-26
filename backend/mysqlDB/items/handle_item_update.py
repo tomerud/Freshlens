@@ -1,8 +1,8 @@
 from datetime import datetime
-from mysqlDB.camera.get_items import get_items_by_camera_ip
-from mysqlDB.items.insert_to_history import insert_to_history
-from mysqlDB.items.insert_new_item_to_db import insert_item_to_db  
-from mysqlDB.db_utils import execute_query 
+from ..camera.get_items import get_items_by_camera_ip
+from ..items.insert_to_history import insert_to_history
+from ..items.insert_new_item_to_db import insert_item_to_db  
+from ..db_utils import execute_query 
 
 
 def delete_item_by_camera_and_item_id(camera_ip, item_id):

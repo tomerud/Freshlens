@@ -1,10 +1,10 @@
 import random
 from datetime import date, timedelta
-from ..mysqlDB import db_utils
+from mysqlDB.db_utils import execute_query
 from typing import List, Optional
 import math
 
-def insert_shopping_cycle_user_history(user_id: int, 
+def insert_shopping_cycle_user_history(user_id: str, 
                                        num_weeks: int = 260, 
                                        product_ids: Optional[List[int]] = None) -> None:
     """
@@ -49,14 +49,13 @@ def insert_shopping_cycle_user_history(user_id: int,
                 quantity_consumed,
                 quantity_thrown_out
             ))
-    
     query = """
         INSERT INTO user_product_history 
         (user_id, product_id, purchase_date, quantity_purchased, quantity_consumed, quantity_thrown_out)
         VALUES (%s, %s, %s, %s, %s, %s)
     """
     
-    db_utils.execute_query(query, params=rows, commit=True)
+    execute_query(query, params=rows, commit=True)
 
 
 

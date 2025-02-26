@@ -46,11 +46,11 @@ def find_exp_date(
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     transform=get_transform()
 
-    model_date_path = "models/DateDetection.pt"
+    model_date_path = "module/models/DateDetection.pt"
     model_date_detect = YOLO(model_date_path)
     model_date_detect.eval()
 
-    model_freshness_path = "models/freshness_detection.pth"
+    model_freshness_path = "module/models/freshness_detection.pth"
     model = models.resnet18(pretrained=True)
     model.fc = nn.Linear(model.fc.in_features, 1000)  # Adjust to match the original model's output units
     model.load_state_dict(torch.load(model_freshness_path, map_location=device))
@@ -69,13 +69,8 @@ def find_exp_date(
     for i in range(1, len(detections)):  # Skip first detection (fridge frame)
         # for now, cheese is the only closed product we have in dataset
         if  detections[i][1] == 5:  
-            print("--------------------")
-            print("cheese")
-            print("--------------------")
             product_img=detections[i][3]
             exp_date = products_exp_dates(model_date_detect, product_img)
-            print(f"Cheese expiration date: {exp_date}")
-            print("--------------------")
         else:
             class_id = detections[i][1]
             identifier = class_list[class_id]
