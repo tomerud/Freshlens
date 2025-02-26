@@ -20,13 +20,15 @@
 This module manage the whole CV part of the app, the main tech is:
 RTSP - real time streaming protocol, to get the stream from the camera in the fridge.
 Object detection and tracking - using YOLO + DeepSORT
-Expiration estimation - using OCR and YOLO
+Expiration estimation - using OCR, YOLO and resNet
 Websocket - to send data to the backend (encrypted)
 
 ## Example
 Here we can see a video of the object detection and tracker in action,
 this video was presented as part of the pitch in the workshop competition
-![video of YOLO+DeepSort](assets/tracked_vid.MP4)
+
+![video of YOLO+DeepSort](assets/tracked_vid.gif)
+
 
 Here we can see cheese, that was analysed with this module, first we detected the dates on the produt cover,
 then we have cleaned the image of the date using cv techniques and used OCR to extract the text
