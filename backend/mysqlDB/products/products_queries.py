@@ -201,51 +201,27 @@ def get_freshness_score_from_db(user_id):
     ) AS sub
     """, (user_id, ),fetch_one=True)
 
-def get_waste_summary_by_week(user_id):
+
+def get_waste_summary_by_month(user_id):
     """
     Retrieves wasted items (is_thrown=1) for the given user,
-    joins with product info and Canadian prices, groups them by week,
-    and returns a dictionary mapping each week to a list of wasted items and the total price.
-    
-    The returned dictionary has keys in the form "YYYY-Www" (ISO year-week) and values like:
-    {
-        "waste_items": [ { "product_id": ..., "product_name": ..., "price": ..., "date_entered": ... }, ... ],
-        "total_price": <sum of prices>
-    }
+    joins with product info and Canadian prices, groups them by month,
+    and returns a list of objects where each object contains:
+      - "month": a string in the format "YYYY-MM"
+      - "value": the total price wasted in that month.
     """
     query = """
-        SELECT uph.date_entered, pg.product_id, pg.product_name, cpp.price
+        SELECT DATE_FORMAT(uph.date_entered, '%Y-%m') AS month, SUM(cpp.price) AS value
         FROM user_product_history uph
         JOIN product_global_info pg ON uph.product_id = pg.product_id
         JOIN canadian_products_prices cpp ON pg.product_name = cpp.name
         WHERE uph.user_id = %s AND uph.is_thrown = 1
+                AND uph.date_entered >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+        GROUP BY month
+        ORDER BY month ASC
     """
-    results = execute_query(query, (user_id,), fetch_all=True)
-    
-    summary = {}
-    for row in results:
-        # Ensure date_entered is a date object.
-        date_entered = row['date_entered']
-        if isinstance(date_entered, str):
-            date_entered = datetime.datetime.strptime(date_entered, "%Y-%m-%d").date()
-        
-        # Group by ISO year and week number.
-        iso_year, iso_week, _ = date_entered.isocalendar()
-        week_key = f"{iso_year}-W{iso_week:02d}"
-        
-        if week_key not in summary:
-            summary[week_key] = {"waste_items": [], "total_price": 0.0}
-        
-        item_details = {
-            "product_id": row["product_id"],
-            "product_name": row["product_name"],
-            "price": float(row["price"]),
-            "date_entered": date_entered.isoformat()
-        }
-        summary[week_key]["waste_items"].append(item_details)
-        summary[week_key]["total_price"] += float(row["price"])
-    
-    return summary
+    return execute_query(query, (user_id,), fetch_all=True)
+
 
 def get_top_three_thrown_products():
     """

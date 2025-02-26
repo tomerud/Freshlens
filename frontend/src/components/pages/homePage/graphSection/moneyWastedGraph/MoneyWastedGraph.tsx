@@ -2,15 +2,15 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Cell } from 
 import { Loader } from '../../../../loader';
 import { useQuery } from '@tanstack/react-query';
 
-import './moneySaveGraph.scss';
+import './moneyWastedGraph.scss';
 
-interface MoneySaveData {
-  week: string;
+interface MoneyWastedData {
+  month: string;
   value: number;
 }
 
-const fetchMoneySaveData = async (userId: string): Promise<MoneySaveData[]> => {
-  const response = await fetch(`/api/get_money_save_data?user_id=${userId}`);
+const fetchMoneyWastedData = async (userId: string): Promise<MoneyWastedData[]> => {
+  const response = await fetch(`/api/get_waste_summary?user_id=${userId}`);
   if (!response.ok) throw new Error("Failed to fetch money saving data");
   return response.json();
 };
@@ -21,12 +21,18 @@ const getBarColor = (value: number) => {
   return "#D66B4A";
 };
 
-export const MoneySaveGraph = () => {
+const formatMonth = (monthStr: string) => {
+  const [year, month] = monthStr.split("-");
+  const date = new Date(parseInt(year), parseInt(month) - 1, 1);
+  return date.toLocaleString('default', { month: 'short', year: 'numeric' });
+};
+
+export const MoneyWastedGraph = () => {
   const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
 
-  const { data, isLoading, error } = useQuery<MoneySaveData[], Error>({
-    queryKey: userId ? ["MoneySaveData", userId] : ["MoneySaveData"],
-    queryFn: () => fetchMoneySaveData(userId),
+  const { data, isLoading, error } = useQuery<MoneyWastedData[], Error>({
+    queryKey: userId ? ["MoneyWastedData", userId] : ["MoneyWastedData"],
+    queryFn: () => fetchMoneyWastedData(userId),
     enabled: !!userId,
   });
 
@@ -36,11 +42,11 @@ export const MoneySaveGraph = () => {
   
   return (
     <div className="graph-section">
-      <p className="card-label">Saving Money</p>
+      <p className="card-label">Wasted Money</p>
       <div className="graph-container">
         <ResponsiveContainer width="100%" height={150}>
           <BarChart data={data} barSize={20}>
-            <XAxis dataKey="week" axisLine={false} tickLine={false} />
+            <XAxis dataKey="month" tickFormatter={formatMonth} axisLine={false} tickLine={false} />
             <YAxis hide />
             <Tooltip />
             <Bar dataKey="value" radius={[4, 4, 0, 0]}>
