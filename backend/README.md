@@ -58,6 +58,9 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
 
 ### **product_global_info**
 - **Purpose:** Stores detailed product information.
+  
+  In our system, a "product" (like an apple) represents a generic food product, while an "item" is a specific instance of that product - such as the particular apple in your fridge. with many users able to have multiple items of the same product.
+  
 - **Key Columns:**
   - `product_id` (INT, AUTO_INCREMENT, PRIMARY KEY) – Unique product ID.
   - `product_name` (VARCHAR(255), NOT NULL) – Product name.
