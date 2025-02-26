@@ -4,10 +4,14 @@
 - [Backend Overview](#backend-overview)
 - [MySQL Database ER Scheme](#mysql-database-er-scheme)
 - [MySQL Database explanation](#mysql-database-explanation)
-- [Main Files](#main-files)
+- [API endpoints](#api-endpoints)
 
 ## Backend Overview   
-The backend uses a MySQL database to accurately record updates from cameras—keeping track of item entries and changes in real time. At the same time, it stores fridge images in MongoDB, providing visual records of the fridge contents. The backend also performs waste analysis to identify patterns in discarded items, which helps in generating practical recommendations for better customer habits. Additionally, by integrating ChatGPT, it offers recipe suggestions based on foods that are nearing expiration, with the goal of minimizing waste.
+The backend uses a MySQL database to accurately record updates from cameras—keeping track of item entries and changes in real time. 
+
+At the same time, it stores fridge images in MongoDB, providing visual records of the fridge contents. The backend also performs waste analysis to identify patterns in discarded items, which helps in generating practical recommendations for better customer habits. 
+
+Additionally, by integrating ChatGPT, it offers recipe suggestions based on foods that are nearing expiration, with the goal of minimizing waste.
 
 
 
@@ -23,7 +27,7 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
   - `subscription_id` (INT, AUTO_INCREMENT, PRIMARY KEY) – Unique identifier for each subscription.
   - `subscription_name` (VARCHAR(255)) – Name (e.g., free, plus, premium).
   - `monthly_cost` (DECIMAL(10,2)) – Monthly price.
-
+- we will implement different features based on the type of the user subscription - future work
 ---
 
 ### **users**
@@ -137,16 +141,14 @@ We offer two types of food storage tips.
   - `date_entered` (DATE, NOT NULL) – Date when the record was created.
  
 
-## Main Files
+## API endpoints
 
 ### `module_connect.py`
-Listens for camera updates and applies changes to the database—adding new items, removing items, or updating item properties (like refined expiry dates) as needed.
-
-### `handle_item_update.py`
-This script is invoked by `module_connect.py` to process camera updates. It implements the logic for inserting, updating, or archiving items based on the camera’s new data by comparing current database items with the incoming update.
+This file establish the websocket connection with the CV module, and applies changes to the database accordingly - adding items, removing or updating (the expiration date) as necessary based on the information from the cameras.
 
 ### `chat.py`
 Uses OpenAI’s API to generate two recipes based on the given inventory, emphasizing ingredients nearing expiration. It loads the API key from environment variables using dotenv, constructs a detailed prompt (including the current date and inventory data), and calls the GPT‑3.5‑turbo model to generate and return the recipes.
+Since we have used OpenAI api, you will need to replace it with your own api key.
 
 ### `camera_routes.py`
 Provides an endpoint (`/add_camera`) to add a new camera record. It validates the input and inserts the camera data into the database.
@@ -154,7 +156,6 @@ Provides an endpoint (`/add_camera`) to add a new camera record. It validates th
 ### `data_analysis_routes.py`
 Offers several endpoints for data analysis:
 - **/get_notifications** – Generates expiry notifications for items nearing expiration.
-- **/get_nutritional_advice** – Retrieves nutritional data for a user.
 - **/get_shopping_cart_recommendations** – Returns product recommendations based on predicted waste.
 - **/get_waste_summary** and **/get_top_thrown_products** – Provide waste analysis data grouped by week and the top three most discarded products, respectively.
 
