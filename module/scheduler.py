@@ -92,7 +92,6 @@ def load_model():
 def handle_light_detected(cam_ip: str, cam_port: int, video_stream: str, model, class_list, client):
     """Handles light detection by processing the video stream."""
     rtsp_path = f"rtsp://{cam_ip}:{cam_port}/{video_stream}"
-    print("here")
     try:
         # Process the video stream -> get detections -> find expiration date -> draw on image -> send to DB and MongoDB
         detections = process_video(rtsp_path, model)

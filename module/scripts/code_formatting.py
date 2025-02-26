@@ -37,11 +37,11 @@ def run_linters_on_files(directory, output_file_path):
 
                     # Run Pylint and capture its output
                     try:
-                        lint.Run([file_path], do_exit=False)  # No return_std here
-                        pylint_output_str = sys.stdout.getvalue()  # Capture everything printed to stdout
+                        lint.Run([file_path], do_exit=False)
+                        pylint_output_str = sys.stdout.getvalue()
                         if not pylint_output_str.strip():
                             pylint_output_str = "No issues found by Pylint."
-                    except Exception as error:  # Catch specific exceptions if possible
+                    except Exception as error:
                         pylint_output_str = f"Error running Pylint on {file_path}: {error}"
 
                     # Restore original stdout
@@ -58,32 +58,27 @@ def run_linters_on_files(directory, output_file_path):
                     except subprocess.CalledProcessError as error:
                         flake8_results = error.output
 
-                    # Write output to file with improved formatting
                     output_file_handle.write(f"\n{'=' * 80}\n")
                     output_file_handle.write(f"FILE: {file_path}\n")
                     output_file_handle.write(f"{'=' * 80}\n\n")
 
-                    # Pylint Results
                     output_file_handle.write("PYLINT RESULTS:\n")
                     output_file_handle.write(f"{'-' * 40}\n")
                     output_file_handle.write(pylint_output_str.strip() + "\n\n")
 
-                    # Flake8 Results
                     output_file_handle.write("FLAKE8 RESULTS:\n")
                     output_file_handle.write(f"{'-' * 40}\n")
                     output_file_handle.write(flake8_results.strip() + "\n\n")
 
-                    output_file_handle.write(f"{'*' * 80}\n\n")  # End of file section
-
-    except Exception as error:  # Catch specific exceptions if possible
+                    output_file_handle.write(f"{'*' * 80}\n\n")
+    except Exception as error:
         print(f"An error occurred: {error}")
 
 
-# Get the parent directory of the script's location
-SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))  # module/scripts
-PARENT_DIRECTORY = os.path.dirname(SCRIPT_DIRECTORY)  # module
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+PARENT_DIRECTORY = os.path.dirname(SCRIPT_DIRECTORY)
 
-# Run linters on all Python files in the parent directory
+
 OUTPUT_FILE = os.path.join(SCRIPT_DIRECTORY, "lint_results.txt")
 run_linters_on_files(PARENT_DIRECTORY, OUTPUT_FILE)
 

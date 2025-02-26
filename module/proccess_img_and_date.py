@@ -144,13 +144,13 @@ def preprocess_image(cropped_img: Image) -> Image:
 def parse_expiration_date(ocr_text):
     """
     Parses an expiration date from OCR-extracted text
-    
+
     formats:
     - YYYY-MM-DD (returns as-is)
     - DD MM (assumes current year)
     - MM YYYY (assumes 1st day of the month)
     - two digit years assume correct century
-        
+
     Returns:
     The parsed expiration date in 'YYYY-MM-DD' format, or None if invalid.
     """
@@ -285,7 +285,7 @@ def compute_modification_score(original_text, parsed_date):
 
         # Minor separator change (e.g., "3/1/2025" -> "2025-01-03")
         if len(orig) == len(parsed):
-            score += 1 
+            score += 1
 
         # Two-digit year expanded (e.g., "25" -> "2025")
         elif len(orig) == 2 and parsed.startswith(orig):

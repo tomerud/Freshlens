@@ -49,7 +49,7 @@ def initialize_video_writer(cap: cv2.VideoCapture) -> cv2.VideoWriter:
     """
     output_dir = "output"
     if not os.path.exists(output_dir):
-        os.makedirs(output_dir)  
+        os.makedirs(output_dir)
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = int(cap.get(cv2.CAP_PROP_FPS))
@@ -125,12 +125,12 @@ def process_video(
     class_list = [class_name for _, class_name in sorted(model.names.items())]
     tracker = DeepSort(max_age=80, nn_budget=200, max_iou_distance=0.4)
     last_frame = None
-    
+
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             frame = None  # error in reading the frame
-            
+
             break
         # Initialize a list to store objects for the current frame
         last_frame_objects = []
