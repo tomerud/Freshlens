@@ -14,8 +14,10 @@
 ---
 ## connection
 Our frontend is protected by Firebase with Google sign-in. 
-You must be authenticated to view any page; otherwise, the app remains inaccessible. 
+You must be authenticated to view any page. otherwise, the app remains inaccessible. 
 Once logged in, your details are stored in a global context for seamless navigation.
+
+Private routing protection implemented in App.tsx.
 
 <img src="https://github.com/user-attachments/assets/faa66122-5a85-4f62-a2f3-2a9408d45286" alt="App Screenshot" width="300" />
 
