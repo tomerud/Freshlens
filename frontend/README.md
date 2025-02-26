@@ -3,12 +3,20 @@
 # FreshLens Frontend
 
 ## Table of Contents
+- [Connection](#connection)
 - [Homepage](#page-1-homepage)
 - [Real-Time View](#page-2-real-time-view)
 - [Detailed Fridge View](#page-3-detailed-fridge-view)
 - [Account & Settings](#page-4-account--settings)
 - [Getting Started](#getting-started)
 - [Contributing](#contributing)
+
+---
+## connection
+Important:
+Our frontend is protected by Firebase with Google sign-in. You must be authenticated to view any page; otherwise, the app remains inaccessible. Once logged in, your details are stored in a global context for seamless navigation.
+
+<img src="https://github.com/user-attachments/assets/faa66122-5a85-4f62-a2f3-2a9408d45286" alt="App Screenshot" width="300" />
 
 ---
 
