@@ -3,7 +3,7 @@ from datetime import date, timedelta
 from ..mysqlDB import db_utils
 from typing import List, Optional
 
-def insert_shopping_cycle_user_history(user_id: int, 
+def insert_shopping_cycle_user_history(user_id: str, 
                                        num_weeks: int = 260, 
                                        product_ids: Optional[List[int]] = None) -> None:
     """
@@ -15,7 +15,6 @@ def insert_shopping_cycle_user_history(user_id: int,
     then splits them into thrown and consumed events. Each unit is inserted as a separate row in the new table:
     (user_id, product_id, is_thrown, date_entered).
     """
-    print("hey")
     if product_ids is None:
         product_ids = list(range(36))
     today = date.today()
@@ -47,14 +46,14 @@ def insert_shopping_cycle_user_history(user_id: int,
             # For each unit, insert a row indicating whether it was thrown or not.
             for _ in range(quantity_thrown_out):
                 rows.append((
-                    str(user_id),   # user_id as string per new schema
+                    user_id,   # user_id as string per new schema
                     product_id,
                     True,           # is_thrown
                     purchase_date.strftime('%Y-%m-%d')
                 ))
             for _ in range(quantity_consumed):
                 rows.append((
-                    str(user_id),
+                    user_id,
                     product_id,
                     False,          # not thrown means it was consumed
                     purchase_date.strftime('%Y-%m-%d')
@@ -70,5 +69,5 @@ def insert_shopping_cycle_user_history(user_id: int,
 
 
 if __name__ == "__main__":
-    print("dd")
-    insert_shopping_cycle_user_history(101, 260, [1, 4, 6, 9, 10])
+
+    insert_shopping_cycle_user_history("0NNRFLhbXJRFk3ER2_iTr8VulFm4", 260, [1, 4, 6, 9, 10])
