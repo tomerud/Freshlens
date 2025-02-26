@@ -66,7 +66,7 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
 
 - **Product Nutritional Values & USDA API Integration:**
   When we add a new product, we query the USDA API using the product's name to grab its nutritional info.
-  It then extracts key nutrients—like energy, protein, fats, carbs, sugars, fiber, and sodium—and adjusts the values to a per-100g basis using the provided serving size.   
+  It then extracts key nutrients (like energy, protein, fats, carbs, sugars, fiber, and sodium) and adjusts the values to a per-100g basis using the provided serving size.   
   If the API doesnt returns an error we store the standardized nutritional data in product_global_info table.
 
 ---
