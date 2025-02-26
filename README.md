@@ -19,7 +19,7 @@ The system detects and tracks products in the fridge, monitors their freshness (
 - [Installation](#installation)
 - [Usage](#usage)
 - [Acknowledgements](#acknowledgements)
-
+- [Contributors](#Contributors)
 
 ## Main Features
 - **Item Detection and Tracking**: Automatically identifies and monitors items placed in the refrigerator using YOLO and DeepSORT algorithms.
