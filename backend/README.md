@@ -35,9 +35,7 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
   - `date_subscribed` (DATE) – Date of subscription.
   - `subscription_id` (INT) – Foreign key linking to `subscription`.
 
-  **important note:**
-  
-  ***Global User Context & Firebase Integration:***
+- **Global User Context & Firebase Integration:**
   We have implemented Firebase authentication using Google as our identity provider. Upon successfully connecting to Firebase, we verify whether the user already exists in   our system. If the user is new, we add them to our users table—this process is handled in our "firebas.ts" file. Once authenticated, the user's information is stored in     a global context, making it accessible throughout the entire application.
 ---
 
@@ -66,9 +64,7 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
   - `category_id` (INT, NOT NULL) – Foreign key from `categories`.
   - Other columns (nullable): `serving_size`, `energy_kcal`, `protein_g`, `fat_g`, `saturated_fat_g`, `carbs_g`, `sugars_g`, `fiber_g`, `sodium_mg`.
 
-  **important note:**
-  
-  **Product Nutritional Values & USDA API Integration:**
+  - **Product Nutritional Values & USDA API Integration:**
   When we add a new product, we query the USDA API using the product's name to grab its nutritional info.
   It then extracts key nutrients—like energy, protein, fats, carbs, sugars, fiber, and sodium—and adjusts the values to a per-100g basis using the provided serving size.   
   If the API doesnt returns an error we store the standardized nutritional data in product_global_info table.
