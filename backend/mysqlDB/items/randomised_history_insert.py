@@ -45,16 +45,16 @@ def insert_shopping_cycle_user_history(user_id: str,
             # For each unit, insert a row indicating whether it was thrown or not.
             for _ in range(quantity_thrown_out):
                 rows.append((
-                    str(user_id),   # user_id as string per new schema
+                    str(user_id),
                     product_id,
-                    True,           # is_thrown
+                    True,
                     purchase_date.strftime('%Y-%m-%d')
                 ))
             for _ in range(quantity_consumed):
                 rows.append((
                     str(user_id),
                     product_id,
-                    False,          # not thrown means it was consumed
+                    False,
                     purchase_date.strftime('%Y-%m-%d')
                 ))
     

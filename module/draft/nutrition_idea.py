@@ -64,7 +64,6 @@ def LLM_nutrition_prompt(nutrition_data, api_key):
     # Get detailed insights
     detailed_insights = nutrition_chain.invoke(nutrition_data)
 
-    # Step 2: Summarize Insights for User
     summary_prompt = PromptTemplate(
         input_variables=["detailed_insights"],
         template="""
@@ -100,12 +99,10 @@ def LLM_nutrition_prompt(nutrition_data, api_key):
 
 
 def print_nutrition_report(report):
-    # Print Detailed Insights
     print("=== Detailed Insights ===")
     print(report['detailed_insights'].content)
     print("\n")
 
-    # Print Summary
     print("=== Summary Action Plan ===")
     print(report['summary'].content)
 

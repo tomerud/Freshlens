@@ -173,7 +173,7 @@ def parse_expiration_date(ocr_text):
             try:
                 return datetime(current_year, month, day).strftime("%Y-%m-%d")
             except ValueError:
-                return None  # Invalid date
+                return None
 
     if len(numbers) == 2 and numbers[1] >= 1000:  # Case: "4 2026"
         month, year = numbers
@@ -181,7 +181,7 @@ def parse_expiration_date(ocr_text):
             try:
                 return datetime(year, month, 1).strftime("%Y-%m-%d")
             except ValueError:
-                return None  # Invalid date
+                return None
 
     if len(numbers) < 3:
         return None  # Not enough numbers to form a valid full date
@@ -199,11 +199,9 @@ def parse_expiration_date(ocr_text):
         year, year_idx = sorted(candidates, key=lambda x: x[1])[-1]
         numbers.pop(year_idx)
     else:
-        # If no valid year found, assume the last number is the year
         year = full_century + numbers.pop() if numbers[-1] < 100 else numbers.pop()
         year_idx = len(numbers)  # Treat as if it was at the last position
 
-    # If fewer than two numbers remain, return None
     if len(numbers) < 2:
         return None
 
@@ -216,16 +214,16 @@ def parse_expiration_date(ocr_text):
         day_idx = min(range(len(numbers)), key=lambda i: abs(i - month_idx))
         day = numbers.pop(day_idx)
     else:
-        return None  # Not enough numbers for a valid date
+        return None
 
     if not (1 <= month <= 12 and 1 <= day <= 31):
-        return None  # Invalid date
+        return None
 
     # Reject impossible dates like "30 2"
     try:
         return datetime(year, month, day).strftime("%Y-%m-%d")
     except ValueError:
-        return None  # Invalid date
+        return None 
 
 
 def select_best_expiration_date(ocr_candidates):
@@ -248,7 +246,7 @@ def select_best_expiration_date(ocr_candidates):
             modification_scores[parsed] = modification_scores.get(parsed, 0) + compute_modification_score(ocr_text, parsed)
 
     if not parsed_dates:
-        return None  # No valid dates
+        return None
 
     # Select the most frequent valid date
     most_common = Counter(parsed_dates).most_common()
@@ -304,7 +302,7 @@ def compute_modification_score(original_text, parsed_date):
         i += 1
         j += 1
 
-    # Handle year difference: Prefer the **closest** year
+    # Handle year difference: Prefer the closest year
     if original_year and parsed_year and original_year != parsed_year:
         year_diff = abs(original_year - parsed_year)
         score += year_diff * 2  # bigger gaps= lager penalty
