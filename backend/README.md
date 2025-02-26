@@ -104,7 +104,9 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
   - `price` (DECIMAL(10,2), NOT NULL) – Price.
 
 - **Product Prices & Kaggle Integration:**
-
+We load data from the Canadian Grocery Store Prices dataset on Kaggle.
+We tried hard to find an Israeli dataset, but they were either not free or required Hebrew translation which turned out to be a hassle ("Belpeper" translation weren’t great..).
+So, we ended up using this dataset: https://www.kaggle.com/datasets/joelmills2/canadian-grocery-store-prices?select=atlantic_superstore.csv
 
 ---
 
