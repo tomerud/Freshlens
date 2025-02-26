@@ -42,7 +42,7 @@ Black - the output of the ocr
 After objects are detected and we are estimating exp date for each products, we will send this data to the server (using the websocket) and will draw according bounding boxes, where the color (red, orange, green) will represent how close the product is to expire.
 since we are using OCR to read exp date off products cover, if the camera is too low res, we will not be able to read the expiration date, in that case we will just treat it as None (will draw black bounding box), and ask the user to correct the date in the app.
 this photo is also sent to the backend, to be inserted into mongoDB, and displayed on the app
-![Example of drawing](assets/BB_drawing.png)
+![Example of drawing](assets/BB_drawing.PNG)
 
 ## Module Structure:
 ```
