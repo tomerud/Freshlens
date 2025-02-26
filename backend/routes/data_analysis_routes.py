@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
 from datetime import date
 from DS.predict_shopping_waste import pipeline
-from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db, get_top_three_thrown_products
-from mysqlDB.products.products_queries import get_waste_summary_by_week
+
+from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db, get_top_three_thrown_products, get_waste_summary_by_month
+from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db, get_recommendations_for_each_item, get_top_three_thrown_products
 
 analysis_bp = Blueprint('analysis_bp', __name__)
 
@@ -67,9 +68,6 @@ def get_fridge_name():
         print("Error fetching notifications:", str(e))
         return jsonify({"error": "Failed to fetch notifications"}), 500
     
-    
-
-
 
 @analysis_bp.route('/get_shopping_cart_recommendations', methods=['GET'])
 def get_shopping_cart_recommendations():
@@ -105,11 +103,12 @@ def get_waste_summary():
         return jsonify({"error": "user_id query parameter is required."}), 400
 
     try:
-        summary = get_waste_summary_by_week(user_id)
+        summary = get_waste_summary_by_month(user_id)
         return jsonify(summary)
     except Exception as e:
         print("Error fetching waste summary:", str(e))
         return jsonify({"error": "Failed to fetch waste summary"}), 500
+
 
 @analysis_bp.route('/get_top_thrown_products', methods=['GET'])
 def get_top_thrown_products():
@@ -119,6 +118,33 @@ def get_top_thrown_products():
     except Exception as e:
         print("Error fetching top thrown products:", str(e))
         return jsonify({"error": "Failed to fetch top thrown products"}), 500
+    
+
+def get_reccomandations():
+    # Extract user_id from query parameters.
+    user_id = request.args.get("user_id")
+    if not user_id:
+        raise Exception("User ID not provided")
+    # Get recommendations based on current fridge products vs. historical weekly averages.
+    return get_recommendations_for_each_item(user_id)
+
+@analysis_bp.route('/get_shoping_reccomendations', methods=['GET'])
+def get_shoping_reccomendations():
+    try:
+        reccomendations = get_reccomandations()
+        return jsonify(reccomendations)
+    except Exception as e:
+        print("Error fetching reccomendations:", str(e))
+        return jsonify({"error": "Failed to fetch reccomendations"}), 500
+
+    
+
+    
+
+
+    
+
+
 
     """
     [{'product_id': 1, 'product': 'Milk', 'amount_buy': 5.0, 'amount_will_throw': 3.0, 'recommendation': 2.0}, 

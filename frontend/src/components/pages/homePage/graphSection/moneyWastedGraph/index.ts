@@ -1,0 +1,1 @@
+export { MoneyWastedGraph } from './MoneyWastedGraph';
