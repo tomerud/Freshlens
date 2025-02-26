@@ -49,5 +49,5 @@ send_to_db(socket,camera_ip,port, detections)
 # detections = [(-1, -1, (-1, -1, -1, -1), -1)]
 # send_to_db(socket,camera_ip,port, detections)
 
-# image = Image.open("assets/shelf.jpg")
-# send_to_mongo(socket, camera_ip, port, image)
+image = Image.open("assets/shelf.jpg")
+send_to_mongo(socket, camera_ip, port, image)
