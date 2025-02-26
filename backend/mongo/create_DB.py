@@ -16,9 +16,9 @@ def store_image(file_path, camera_ip):
     return image_id
 
 image_paths = [
-    os.path.join("backend", "mongo", "demo-images", "one.jpg"),
-    os.path.join("backend", "mongo", "demo-images", "two.jpg"),
-    os.path.join("backend", "mongo", "demo-images", "three.jpg"),
+    os.path.join("mongo", "demo-images", "one.jpg"),
+    os.path.join("mongo", "demo-images", "two.jpg"),
+    os.path.join("mongo", "demo-images", "three.jpg"),
 ]
 
 camera_ips = [
