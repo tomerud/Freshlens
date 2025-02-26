@@ -1,4 +1,4 @@
-from backend.mysqlDB.db_utils import execute_query
+from mysqlDB.db_utils import execute_query
 
 def is_user_already_known_in_db(user_id):
     query = "SELECT count(*) as cnt FROM users WHERE user_id = %s"

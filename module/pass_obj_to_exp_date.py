@@ -66,12 +66,16 @@ def find_exp_date(
 
     # Set the model to evaluation mode and move it to the selected device
     model_freshness_detect.to(device).eval()
-    
     for i in range(1, len(detections)):  # Skip first detection (fridge frame)
         # for now, cheese is the only closed product we have in dataset
         if  detections[i][1] == 5:  
+            print("--------------------")
+            print("cheese")
+            print("--------------------")
             product_img=detections[i][3]
             exp_date = products_exp_dates(model_date_detect, product_img)
+            print(f"Cheese expiration date: {exp_date}")
+            print("--------------------")
         else:
             class_id = detections[i][1]
             identifier = class_list[class_id]

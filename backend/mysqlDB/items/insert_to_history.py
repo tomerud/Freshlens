@@ -1,5 +1,5 @@
 from datetime import date
-from backend.mysqlDB.db_utils import execute_query  # Adjusted relative import
+from mysqlDB.db_utils import execute_query
 
 def insert_to_history(item_id):
     """

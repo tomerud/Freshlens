@@ -135,7 +135,7 @@ def process_video(
         # Initialize a list to store objects for the current frame
         last_frame_objects = []
         last_frame = frame.copy()
-        results = model.track(frame, persist=True)
+        results = model.track(frame, persist=True,)
 
         detections = []
         if results[0].boxes.data is not None and len(results[0].boxes) > 0:
