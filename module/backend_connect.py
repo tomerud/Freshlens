@@ -13,8 +13,8 @@ from PIL import Image
 
 
 lock = threading.Lock()
-MAX_RETRIES = 10  # Max attempts before giving up
-RETRY_DELAY = 1   # Time (in seconds) to wait between retries
+MAX_RETRIES = 10
+RETRY_DELAY = 1
 
 
 def send_data(socket, event: str, data: dict) -> None:
