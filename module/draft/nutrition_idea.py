@@ -3,7 +3,7 @@ from datetime import datetime
 from langchain.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.runnables import RunnableSequence
-from backend.mysqlDB.user.user_queries import get_user_nutrition_consumption
+from mysqlDB.user.user_queries import get_user_nutrition_consumption
 from dotenv import load_dotenv
 
 load_dotenv()
