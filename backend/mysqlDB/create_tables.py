@@ -316,6 +316,7 @@ def insert_demo_data_to_all_tables():
     insert_demo_data_to_camera_table()
     insert_demo_data_to_item_table()
     load_canadian_prices_from_kaggle()
+    load_storage_tips()
     insert_demo_data_to_user_product_history_table()
 
 
