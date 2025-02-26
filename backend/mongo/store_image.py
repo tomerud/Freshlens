@@ -29,8 +29,7 @@ def decode_and_store_image(image_base64, camera_ip, timestamp=None):
             "time": timestamp
         })
 
-    print(f" Image stored with ID: {image_id}, Filename: {filename},Camera IP: {camera_ip}, Time: {timestamp}")
-
+    print(f"Image stored with ID: {image_id}, Filename: {filename}, Camera IP: {camera_ip}, Time: {timestamp}")
 
 
 

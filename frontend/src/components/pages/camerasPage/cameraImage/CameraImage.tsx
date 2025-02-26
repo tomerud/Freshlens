@@ -9,7 +9,7 @@ export const CameraImage = ({ fridge_name, images }: FridgeImages) => {
       <div className="camera-images">
         {images.map((image, index) => (
           <div key={index} className="image-card">
-            <img src={`data:image/jpeg;base64,${image.image_base64}`}
+            <img src={image.image_base64}
                  alt={image.camera_ip}
                  className="fetched-image"
             />
