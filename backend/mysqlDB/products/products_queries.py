@@ -262,12 +262,122 @@ def get_top_three_thrown_products():
         LIMIT 3
     """, (), fetch_all=True)
 
-if __name__ == '__main__':
+
+def get_user_products_and_quantities(user_id):
+    """
+    Retrieves all products associated with a user's fridges along with the quantity for each product.
+    
+    It joins the 'item', 'camera', 'fridges', and 'product_global_info' tables to fetch product names and counts.
+    
+    Args:
+        user_id (str): The unique identifier of the user.
+    
+    Returns:
+        list of dict: Each dictionary contains:
+            - product_name: The name of the product.
+            - quantity: The number of times the product appears (i.e. its count).
+    """
+    query = """
+        SELECT pgi.product_name, COUNT(*) AS quantity
+          FROM item i
+          JOIN camera c ON i.camera_ip = c.camera_ip
+          JOIN fridges f ON c.fridge_id = f.fridge_id
+          JOIN product_global_info pgi ON i.product_id = pgi.product_id
+         WHERE f.user_id = %s
+         GROUP BY pgi.product_name
+    """
+    results = execute_query(query, (user_id,))
+    return results
+
+
+def get_avg_weekly_history_per_product():
+    """
+    Calculates the average weekly count of history entries for each product.
+    
+    For each product in the user_product_history table, the function:
+      1. Determines the total number of history entries.
+      2. Finds the earliest and latest date_entered.
+      3. Computes the number of days between these dates (using 1 if there is only one entry).
+      4. Calculates the average weekly count by dividing the total entries by the number of days and multiplying by 7.
+    
+    Returns:
+        list of dict: Each dictionary contains:
+            - product_name: The product's name.
+            - total_entries: Total count of history records for that product.
+            - num_days: The number of days between the earliest and latest entry (minimum 1).
+            - avg_weekly: The computed average number per week.
+    """
+    query = """
+        SELECT 
+            pgi.product_name,
+            COUNT(*) AS total_entries,
+            CASE
+                WHEN DATEDIFF(MAX(uph.date_entered), MIN(uph.date_entered)) = 0 THEN 1
+                ELSE DATEDIFF(MAX(uph.date_entered), MIN(uph.date_entered))
+            END AS num_days,
+            (COUNT(*) / CASE
+                WHEN DATEDIFF(MAX(uph.date_entered), MIN(uph.date_entered)) = 0 THEN 1
+                ELSE DATEDIFF(MAX(uph.date_entered), MIN(uph.date_entered))
+            END) * 7 AS avg_weekly
+          FROM user_product_history uph
+          JOIN product_global_info pgi ON uph.product_id = pgi.product_id
+         GROUP BY pgi.product_name;
+    """
+    results = execute_query(query)
+    return results
+
+def get_recommendations_for_each_item(user_id):
+    """
+    For each product that a user currently has in their fridge, this function computes
+    the difference between the current quantity (as returned by get_user_products_and_quantities)
+    and the weekly average count from history (as returned by get_avg_weekly_history_per_product).
+
+    Returns:
+        list of dict: Each dictionary contains:
+            - product_name: The name of the product.
+            - current_quantity: The current count of the product in the fridge.
+            - weekly_avg: The average weekly count of the product from history.
+            - difference: (current_quantity - weekly_avg)
+    """
+    # Retrieve the current quantities per product for the user.
+    current_quantities = get_user_products_and_quantities(user_id)
+    
+    # Retrieve the average weekly history count per product.
+    weekly_avgs = get_avg_weekly_history_per_product()
+    
+    # Convert weekly averages to a dictionary keyed by product name.
+    weekly_dict = {row['product_name']: float(row['avg_weekly']) for row in weekly_avgs}
+    
+    recommendations = []
+    for row in current_quantities:
+        product_name = row['product_name']
+        current_qty = int(row['quantity'])
+        weekly_avg = weekly_dict.get(product_name, 0.0)
+        difference = current_qty - weekly_avg
+        
+        recommendations.append({
+            'product_name': product_name,
+            'current_quantity': current_qty,
+            'weekly_avg': weekly_avg,
+            'difference': difference
+        })
+        
+    return recommendations
+
+# Example usage:
+if __name__ == "__main__":
+    test_user = "0NNRFLhbXJRFk3ER2_iTr8VulFm4"
+    products_quantities = get_user_products_and_quantities(test_user)
+    print("User products and quantities:")
+    for row in products_quantities:
+        print(f"Product: {row['product_name']}, Quantity: {row['quantity']}")
+
+
+
+
     
     # Test top thrown products function
-    top_thrown = get_top_three_thrown_products()
-    print("Top Thrown Products:")
-    print(top_thrown)
+
 
 #for testing
 # if __name__ == '__main__':
