@@ -5,9 +5,9 @@ import eventlet
 import gridfs
 import ssl
 from datetime import datetime, timedelta
-from backend.mysqlDB.items.insert_new_item_to_db import insert_item_to_db
-from backend.mysqlDB.items.handle_item_update import handle_camera_update
-from backend.mongo.store_image import decode_and_store_image
+from mysqlDB.items.insert_new_item_to_db import insert_item_to_db
+from mysqlDB.items.handle_item_update import handle_camera_update
+from mongo.store_image import decode_and_store_image
 import os
 
 app = Flask(__name__)

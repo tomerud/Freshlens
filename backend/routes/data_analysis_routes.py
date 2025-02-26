@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from datetime import date
-from DS.predict_shopping_waste import pipeline
+from mysqlDB.DS.predict_shopping_waste import pipeline
 from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db, get_top_three_thrown_products
 from mysqlDB.products.products_queries import get_waste_summary_by_week
 
