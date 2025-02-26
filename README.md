@@ -32,6 +32,7 @@ The system detects and tracks products in the fridge, monitors their freshness (
 - **Purchase Recommendations**: Suggests grocery purchases based on inventory levels and user preferences - in progress.
 - **Data Visualization**: Displays fridge statistics and consumption - in progress.
 - **Recipe Suggestions**: Recommends recipes using the available ingredients in the fridge.
+- 
 ***SOFIA: PLEASE ADD MORE ABOUT THE APP, FOR EXAMPLE:***
 - **Highly Responsive App**: something something from front end README
 - **User Authentication**: Secure login by using Google account.
@@ -48,7 +49,7 @@ The system detects and tracks products in the fridge, monitors their freshness (
 - **Database:** MySQL, MongoDB.
 - **Deep learning:** Pytourch, YOLO, DeepSORT.
 - **OCR:** EasyOCR.
-- **LLM:** LangChain, gemini, OpenAI.
+- **LLM:** OpenAI.
 - **Streaming Protocol:** RTSP (Real-Time Streaming Protocol).
 - **WebSocket:** For real-time data communication between module and backend.
 
