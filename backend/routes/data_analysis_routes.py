@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from datetime import date
-from mysqlDB.DS.predict_shopping_waste import pipeline
+from DS.predict_shopping_waste import pipeline
 from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db, get_top_three_thrown_products
 from mysqlDB.products.products_queries import get_waste_summary_by_week
 
@@ -80,6 +80,7 @@ def get_shopping_cart_recommendations():
 
     try:
         res=pipeline(user_id)
+        print("start")
         if res is None:
             return jsonify({"error": "No predictions available for the user."}), 404
         result = [
@@ -92,6 +93,7 @@ def get_shopping_cart_recommendations():
         }
         for _, row in res.iterrows()
         ]
+        print("here")
         return jsonify(result)
     except Exception as e:
         print("Error fetching user prediciton:", str(e))
