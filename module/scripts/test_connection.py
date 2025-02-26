@@ -41,10 +41,10 @@ port = 8554
 tomer camera Ip, port and a list
     [(product_id,class_id,exp date)]
 """
-detections = [(-1,-1,1),(1,2, "2025-02-01"),(4,5, "2025-03-30"),(8,5, "2025-03-11")]
+detections = [(-1,-1,1),(1,2,(3,4,5,6), "2025-02-01"),(4,5,(3,4,5,6),  "2025-03-30"),(8,5,(3,4,5,6),  "2025-03-11")]
 send_to_db(socket,camera_ip,port, detections)
-detections = [(-1, -1, (-1, -1, -1, -1), -1)]
-send_to_db(socket,camera_ip,port, detections)
+# detections = [(-1, -1, (-1, -1, -1, -1), -1)]
+# send_to_db(socket,camera_ip,port, detections)
 # time.sleep(1)
 # detections = [(-1, -1, (-1, -1, -1, -1), -1)]
 # send_to_db(socket,camera_ip,port, detections)

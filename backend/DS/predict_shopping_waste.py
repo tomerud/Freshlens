@@ -45,7 +45,7 @@ def get_user_history(user_id:int) -> pd.DataFrame:
     for now implemented Naivly instead for speed of implementation
     """
     query = "SELECT * FROM user_product_history"
-    result = db_utils.execute_query(query, fetch_all=True)
+    result = execute_query(query, fetch_all=True)
 
     if result is None:
         return None
