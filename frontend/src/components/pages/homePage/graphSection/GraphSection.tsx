@@ -1,4 +1,4 @@
-import { MoneySaveGraph } from './moneySaveGraph';
+import { MoneyWastedGraph } from './moneyWastedGraph';
 import { ShoppingCartLink } from './shoppingCartLink';
 import { FridgeFreshness } from './fridgeFrehsness';
 
@@ -12,7 +12,7 @@ export const GraphSection = () => {
         <ShoppingCartLink/>
         <FridgeFreshness/>
       </div>
-      <MoneySaveGraph />
+      <MoneyWastedGraph />
     </>
   );
 };

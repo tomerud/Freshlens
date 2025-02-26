@@ -1,8 +1,7 @@
 from flask import Blueprint, request, jsonify
 from datetime import date
 from DS.predict_shopping_waste import pipeline
-from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db, get_top_three_thrown_products
-from mysqlDB.products.products_queries import get_waste_summary_by_week
+from mysqlDB.products.products_queries import about_to_expire_products,get_product_id_from_db, get_top_three_thrown_products, get_waste_summary_by_month
 
 analysis_bp = Blueprint('analysis_bp', __name__)
 
@@ -67,9 +66,6 @@ def get_fridge_name():
         print("Error fetching notifications:", str(e))
         return jsonify({"error": "Failed to fetch notifications"}), 500
     
-    
-
-
 
 @analysis_bp.route('/get_shopping_cart_recommendations', methods=['GET'])
 def get_shopping_cart_recommendations():
@@ -105,11 +101,12 @@ def get_waste_summary():
         return jsonify({"error": "user_id query parameter is required."}), 400
 
     try:
-        summary = get_waste_summary_by_week(user_id)
+        summary = get_waste_summary_by_month(user_id)
         return jsonify(summary)
     except Exception as e:
         print("Error fetching waste summary:", str(e))
         return jsonify({"error": "Failed to fetch waste summary"}), 500
+
 
 @analysis_bp.route('/get_top_thrown_products', methods=['GET'])
 def get_top_thrown_products():
