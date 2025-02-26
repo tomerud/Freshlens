@@ -64,7 +64,7 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
   - `category_id` (INT, NOT NULL) – Foreign key from `categories`.
   - Other columns (nullable): `serving_size`, `energy_kcal`, `protein_g`, `fat_g`, `saturated_fat_g`, `carbs_g`, `sugars_g`, `fiber_g`, `sodium_mg`.
 
-  - **Product Nutritional Values & USDA API Integration:**
+- **Product Nutritional Values & USDA API Integration:**
   When we add a new product, we query the USDA API using the product's name to grab its nutritional info.
   It then extracts key nutrients—like energy, protein, fats, carbs, sugars, fiber, and sodium—and adjusts the values to a per-100g basis using the provided serving size.   
   If the API doesnt returns an error we store the standardized nutritional data in product_global_info table.
