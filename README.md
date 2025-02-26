@@ -92,9 +92,9 @@ KAGGLE_FILE_PATH=atlantic_superstore.csv
 
 
 ## Usage
-Set up backend server (for communicating between front and back):
+Set up backend server (for communicating between front and back),from backend:
 ```
-Tomer
+python server.py
 ```
 
 Set up websocket server between module and backend, From the Backend folder:
