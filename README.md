@@ -17,7 +17,6 @@ The system detects and tracks products in the fridge, monitors their freshness (
 ## Table of Contents
 
 - [Main Features](#main-Features)
-- [Demo](#demo)
 - [Technologies Used](#technologies-used)
 - [Project Status](#project-status)
 - [Installation](#installation)
@@ -30,17 +29,12 @@ The system detects and tracks products in the fridge, monitors their freshness (
 - **Freshness Monitoring**: Utilizes OCR to read expiration dates and YOLO to estimate the freshness level.
 - **Real-Time Notifications**: Alerts for items nearing expiration.
 - **Purchase Recommendations**: Suggests grocery purchases based on inventory levels and user preferences - in progress.
-- **Data Visualization**: Displays fridge statistics and consumption - in progress.
+- **Data Visualization and Analytics**: Displays fridge statistics and consumption.
 - **Recipe Suggestions**: Recommends recipes using the available ingredients in the fridge.
-- 
-***SOFIA: PLEASE ADD MORE ABOUT THE APP, FOR EXAMPLE:***
-- **Highly Responsive App**: something something from front end README
-- **User Authentication**: Secure login by using Google account.
+- **Highly Responsive App**: Receive real-time alerts about your products and fridge
 
 
-## Demo
-
-```![Project Demo](link-to-demo-gif-or-video)```  
+<img src="https://github.com/user-attachments/assets/d0cd3a48-56eb-4912-8b85-32657afcac47" alt="App Screenshot" width="300" />
 
 
 ## Core Technologies Used
@@ -53,14 +47,16 @@ The system detects and tracks products in the fridge, monitors their freshness (
 - **Streaming Protocol:** RTSP (Real-Time Streaming Protocol).
 - **WebSocket:** For real-time data communication between module and backend.
 
-for a more detailed documentation, we have a more comprehensive readme in each of the folders
-[FrontEnd documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/frontend/README.md),
-[BackEnd documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/backend/README.md) and
-[Module Documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/module/README.md)
-
 
 ![image](https://github.com/user-attachments/assets/a3949139-635d-4753-bc09-0d897cea7904)
 
+
+for a more detailed documentation about the feature and implementation, we have a more comprehensive readme in the folders for each of the app components
+
+
+[FrontEnd documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/frontend/README.md), 
+[BackEnd documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/backend/README.md) and
+[Module Documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/module/README.md)
 
 
 ## Project Status
@@ -111,9 +107,9 @@ For providing the platform and guidance for this project.
 **Sofia Panchenko:** FullStack Developer - Built the responsive user interface using React.js, TypeScript, and Vite, and played a key role in integrating backend functionalities with the Flask REST API,
 developed the app's authentication system, integrating secure Google login for user access.
 
-**Tomer Rudnitzky:**  Backend Developer and DBA – Designed and managed the database architecture using MySQL for relational data and MongoDB for image storage, ensuring efficient fridge inventory management. implemented REST API endpoints, and set up secure real-time updates with Flask-SocketIO.
+**Tomer Rudnitzky:**  DBA – Designed and managed the database architecture using MySQL for relational data and MongoDB for image storage, ensuring efficient fridge inventory management. implemented REST API endpoints.
 
 **Elya Avital:** Deep learning Engineer - Worked on building the largest possible database for deep learning models within the given time constraints. Trained the neural network for freshness classification, validated OCR results, and integrated the OpenAI API for recipe generation.
 
-**Elad Shaba:** Deep learning and Computer vision Engineer  - Responsible for the development of object detection and tracking algorithms using YOLO and DeepSORT. Tasks include integrating deep learning models, designing the module logic and functions to achieve detection, tracking, and expiry date estimation (using neural networks and OCR), and setting up the WebSocket connection.
+**Elad Shaba:** Deep learning and Computer vision Engineer  - Responsible for the development of object detection and tracking algorithms using YOLO and DeepSORT. Tasks include integrating deep learning models, designing the module logic and functions to achieve detection, tracking, and expiry date estimation (using neural networks and OCR), and setting up the WebSocket connection for secure and fast communication between the module and backend.
 For a detailed overview of the responsibilities and functionality of the module, please read the README file located in the module folder.
