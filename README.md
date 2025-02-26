@@ -51,9 +51,9 @@ The system detects and tracks products in the fridge, monitors their freshness (
 for a more detailed documentation about the feature and implementation, we have a more comprehensive readme in the folders for each of the app components
 
 
-[Frontend documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/frontend/README.md), 
-[Backend documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/backend/README.md) and
-[Module Documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/module/README.md)
+[Frontend documentation](https://github.com/tomerud/Freshlens/blob/main/frontend/README.md), 
+[Backend documentation](https://github.com/tomerud/Freshlens/blob/main/backend/README.md) and
+[Module Documentation](https://github.com/tomerud/Freshlens/blob/main/module/README.md)
 
 
 ## Project Status
