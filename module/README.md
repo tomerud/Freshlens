@@ -33,8 +33,9 @@ this video was presented as part of the pitch in the workshop competition
 Here we can see cheese, that was analysed with this module, first we detected the dates on the produt cover,
 then we have cleaned the image of the date using cv techniques and used OCR to extract the text
 
-red - date bounding boxes
-black - the output of the ocr
+Red - date bounding boxes
+
+Black - the output of the ocr
 
 ![Picture of cheese, that using detection and ocr we got the exp date](assets/cheese_ocr.png)
 
