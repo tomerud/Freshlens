@@ -9,8 +9,8 @@ import plotly.graph_objects as go
 import pandas as pd
 from typing import Tuple
 from prophet import Prophet
-from mysqlDB import db_utils 
-from mysqlDB.products import products_queries
+from ..mysqlDB import db_utils 
+from ..mysqlDB.products import products_queries
 
 # TODO:
 # change logic after demo - make it integrated to all the other db parts
@@ -45,7 +45,7 @@ def get_user_history(user_id:int) -> pd.DataFrame:
     for now implemented Naivly instead for speed of implementation
     """
     query = "SELECT * FROM user_product_history"
-    result = db_utils.execute_query(query, fetch_all=True)
+    result = execute_query(query, fetch_all=True)
 
     if result is None:
         return None

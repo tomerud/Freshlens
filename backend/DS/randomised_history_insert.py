@@ -1,6 +1,6 @@
 import random
 from datetime import date, timedelta
-from mysqlDB import db_utils
+from ..mysqlDB import db_utils
 from typing import List, Optional
 
 def insert_shopping_cycle_user_history(user_id: int, 
@@ -15,6 +15,7 @@ def insert_shopping_cycle_user_history(user_id: int,
     then splits them into thrown and consumed events. Each unit is inserted as a separate row in the new table:
     (user_id, product_id, is_thrown, date_entered).
     """
+    print("hey")
     if product_ids is None:
         product_ids = list(range(36))
     today = date.today()
@@ -65,8 +66,9 @@ def insert_shopping_cycle_user_history(user_id: int,
         VALUES (%s, %s, %s, %s)
     """
     
-    db_utils.execute_query(query, params=rows, commit=True)
+    execute_query(query, params=rows, commit=True)
 
 
 if __name__ == "__main__":
+    print("dd")
     insert_shopping_cycle_user_history(101, 260, [1, 4, 6, 9, 10])
