@@ -254,13 +254,13 @@ def get_user_products_and_quantities(user_id):
             - quantity: The number of times the product appears (i.e. its count).
     """
     query = """
-        SELECT pgi.product_name, COUNT(*) AS quantity
+        SELECT pgi.product_id, pgi.product_name, COUNT(*) AS quantity
           FROM item i
           JOIN camera c ON i.camera_ip = c.camera_ip
           JOIN fridges f ON c.fridge_id = f.fridge_id
           JOIN product_global_info pgi ON i.product_id = pgi.product_id
          WHERE f.user_id = %s
-         GROUP BY pgi.product_name
+         GROUP BY pgi.product_name, pgi.product_id
     """
     results = execute_query(query, (user_id,))
     return results
@@ -315,29 +315,29 @@ def get_recommendations_for_each_item(user_id):
             - weekly_avg: The average weekly count of the product from history.
             - difference: (current_quantity - weekly_avg)
     """
-    # Retrieve the current quantities per product for the user.
     current_quantities = get_user_products_and_quantities(user_id)
     
-    # Retrieve the average weekly history count per product.
     weekly_avgs = get_avg_weekly_history_per_product()
-    
-    # Convert weekly averages to a dictionary keyed by product name.
     weekly_dict = {row['product_name']: float(row['avg_weekly']) for row in weekly_avgs}
     
     recommendations = []
     for row in current_quantities:
+        id = row['product_id']
         product_name = row['product_name']
         current_qty = int(row['quantity'])
         weekly_avg = weekly_dict.get(product_name, 0.0)
-        difference = current_qty - weekly_avg
+        recommendations_amount = max(round(weekly_avg - current_qty), 0)
         
-        recommendations.append({
-            'product_name': product_name,
-            'current_quantity': current_qty,
-            'weekly_avg': weekly_avg,
-            'difference': difference
-        })
-        
+        if recommendations_amount > 0:
+            recommendations.append({
+                'id': id,
+                'product_name': product_name,
+                'current_quantity': current_qty,
+                'weekly_avg': weekly_avg,
+                'recommendations_amount': recommendations_amount,
+                'checked': False,
+            })
+            
     return recommendations
 
 # Example usage:

@@ -1,59 +1,47 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+
 import { FridgeHeader } from "../../allFridgesPage/fridgeHeader";
+import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../../../loader";
 
 import "./shoppingCart.scss";
 
-interface ShoppingRecommendation {
-  product_id: number;
-  product: string;
-  amount_buy: number;
-  amount_will_throw: number;
-  recommendation: number;
-}
-
-interface ShoppingRecommendationItem extends ShoppingRecommendation {
+interface ShoppingItem {
+  id: number;
+  product_name: string,
+  current_quantity: number,
+  weekly_avg: number,
+  recommendations_amount: number;
   checked: boolean;
 }
 
-const fetchShoppingCartRecommendations = async (userId: string): Promise<ShoppingRecommendation[]> => {
+const fetchShoppingCartRecommendations = async (userId: string): Promise<ShoppingItem[]> => {
   const response = await fetch(`/api/get_shopping_cart_recommendations?user_id=${userId}`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch shopping cart recommendations");
-  }
+  if (!response.ok) throw new Error("Failed to fetch shopping cart recommendations");
   return response.json();
 };
 
 export const ShoppingCart = () => {
-  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4"; // Replace with your actual user ID or context-based user ID
+  const userId = "0NNRFLhbXJRFk3ER2_iTr8VulFm4";
 
-  const [shoppingCart, setShoppingCart] = useState<ShoppingRecommendationItem[]>([]);
-
-  const { data, isLoading, error } = useQuery<ShoppingRecommendation[], Error>({
+  const { data, isLoading, error } = useQuery<ShoppingItem[], Error>({
     queryKey: userId ? ["ShoppingCart", userId] : ["ShoppingCart"],
     queryFn: () => fetchShoppingCartRecommendations(userId),
     enabled: !!userId,
   });
 
-  console.log(data)
+  const [shoppingCart, setShoppingCart] = useState<ShoppingItem[]>([]);
 
   useEffect(() => {
     if (data) {
-      const itemsWithCheck = data.map((item) => ({
-        ...item,
-        checked: false,
-      }));
-      setShoppingCart(itemsWithCheck);
+      setShoppingCart(data);
     }
   }, [data]);
 
-  const toggleChecked = (product_id: number) => {
+  const toggleChecked = (id: number) => {
     setShoppingCart((prevCart) =>
       prevCart.map((item) =>
-        item.product_id === product_id
-          ? { ...item, checked: !item.checked }
-          : item
+        item.id === id ? { ...item, checked: !item.checked } : item
       )
     );
   };
@@ -67,35 +55,23 @@ export const ShoppingCart = () => {
 
   return (
     <>
-      <FridgeHeader title="Shopping Cart" subtitle="Your smart custom shopping list!" />
+      <FridgeHeader title="Shopping Cart" subtitle="Your smart custom shopping list!"/>
       <div className="shopping-container">
         <ul className="shopping-list">
           {shoppingCart.map((item) => (
-            <li
-              key={item.product_id}
-              className={`shopping-item ${item.checked ? "checked" : ""}`}
-              onClick={() => toggleChecked(item.product_id)}
-            >
+            <li key={item.id} className={`shopping-item ${item.checked ? "checked" : ""}`} onClick={() => toggleChecked(item.id)}>
               <input
                 type="checkbox"
                 checked={item.checked}
                 readOnly
                 className="shopping-checkbox"
               />
-              <div className="shopping-details">
-                <span className="shopping-name">
-                  {item.product} (Buy {item.recommendation})
-                </span>
-                <small className="shopping-reason">
-                  We estimate you'll buy {item.amount_buy} but throw out{" "}
-                  {item.amount_will_throw}, so we recommend {item.recommendation}.
-                </small>
-              </div>
+              <span className="shopping-name">{item.product_name} ({item.recommendations_amount})</span>
               {item.checked && <span className="checkmark">✔</span>}
             </li>
           ))}
         </ul>
-        {shoppingCart.some((item) => item.checked) && (
+        {shoppingCart.some(item => item.checked) && (
           <button className="submit-button" onClick={handleSubmit}>
             Purchased!
           </button>
