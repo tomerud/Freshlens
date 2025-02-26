@@ -236,9 +236,6 @@ def get_top_three_thrown_products():
         GROUP BY p.product_name
         ORDER BY thrown_count DESC
         LIMIT 3
-<<<<<<< HEAD
-    """, (), fetch_all=True)
-=======
     """, (), fetch_all=True)
 
 
@@ -363,4 +360,3 @@ if __name__ == "__main__":
 #     user_id = "0NNRFLhbXJRFk3ER2_iTr8VulFm4"
 #     summary = get_waste_summary_by_week(user_id)
 #     print(summary)
->>>>>>> main
