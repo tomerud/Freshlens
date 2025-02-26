@@ -80,6 +80,7 @@ def get_shopping_cart_recommendations():
 
     try:
         res=pipeline(user_id)
+        print("aaa")
         if res is None:
             return jsonify({"error": "No predictions available for the user."}), 404
         result = [
