@@ -70,7 +70,7 @@ def fresh_rotten(identifier_type:str, label: str, conf: float
     estimate_expiration, but now it is just a wrapper.
     that is because of last minute changes in the classificaiton model.
     """
-    
+
     expiration_date = estimate_expiration(identifier_type, label, conf)
     return expiration_date
 

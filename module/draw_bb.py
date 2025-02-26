@@ -46,5 +46,5 @@ def draw_on_image(
 
         cv2.rectangle(
             image, (x_min, y_min), (x_max, y_max), color, 2
-        )    
+        )
     return Image.fromarray(image)

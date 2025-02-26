@@ -93,7 +93,6 @@ Also, we should configurate the cameras to manually stream for a couple of secon
 we "hard-coded" the camera IP and port to listen to - based on the fake RTSP server, so we only listen to this specific combination. 
 We will need to switch with call to server to get the list of IP and ports that is respobsible to listen to.
 
-
 ### `detect_and_track.py`
 This script uses YOLOv8 and DeepSORT to detect the objects in the stream and track them as they are moved.
 
@@ -108,10 +107,8 @@ this occurence, limited our time to finetune the DeepSORT, since preparing the d
 we dont have enough time to train deepsort / Siamese neural network on our custom dataset,
 so the tracking capabilities can be imporved 
 
-
 ### `pass_obj_to_exp_date.py`
 This script get the detected objects (from detect_and_track), and by its category (fruits and veg or closed products), will call upon each object the right function to estimate the expiration date.
-
 
 ### `products_ocr.py`
 This script gets a photo of a closed product, and will try to find and read the expiration date,
@@ -133,7 +130,6 @@ they are considerably limited and small in comparison to reccomendations we saw 
 - ideally, the object detecion and expiration date detection will be implemented in the same NN by adding heads.
 - filtering based on conf level (detail=1) is problematic because of the printing format of digits on exp dates.
 
-
 ### `fruit_veg_freshness.py`
 Script for freshness detection using classification.
 
@@ -144,11 +140,9 @@ Script for freshness detection using classification.
 - There is no available dataset for actual expiry date detection for fruit/veg,
 while there are some similar dataset (mainly categorical), they are intended for the growing the fruit/veg phase, and not for the storing in the consumer fridge. - more on that in the future work
 
-
 ### `draw_bb.py`
 This script take the image of the shelf (last frame from the camera stream), and draw bounding boxes on it, each product according to its expiration date (red, orange, green), this image will be passed to the app, this way we are able to display to the user its fridge content visually.
 if no expiration date detected, will be drawing in black
-
 
 ### `backend_connect.py`
 This script define the functions that send data to the backend using the websocket
@@ -167,13 +161,7 @@ since that is the design we have chosen,we use a single shared socket for all ca
 - Potential throughput bottleneck, since we have one socket and multiple cameras can wait to acquire the lock,
 there is a need to research more about this type of problems
 
-
-### `code_formatting.py`
-Due disclosure - This file was generated with the help of ChatGPT,
-this code was only run in effort to improve the formating of the code in the diffrenet files.
-I have used its output (the pylint and flake8 notes) in order to practice better code writing practices,
-the changes to the code in the file themself was done manually.
-I aimed in general to get score of around at least 7 with pylint
+I have used pylint and flake8 in order to fit pep8 standarts.
 
 ## Future work:
 - Expand the dataSet to support more items.
@@ -186,7 +174,6 @@ I aimed in general to get score of around at least 7 with pylint
 - While there is no publicly available dataset for fruit/vegetable expiration dates, there are several proposed methods to approximate the expiration date using traditional CV techniques. Unfortunately, most of the papers focus on the commercial stage (before the produce arrives at the store), but it should be possible to create similar tests to learn techniques and data that can be adapted for our usage case.
 - We want to expand the TLS connection into mTLS or nginx (reverse proxy etc...).
 - Learn more about Asyncio and multiprocessing as a possible alternative to threading.
-
 
 ## Configuration
 To run the code there are two possible ways:
