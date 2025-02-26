@@ -147,6 +147,7 @@ while there are some similar dataset (mainly categorical), they are intended for
 
 ### `draw_bb.py`
 This script take the image of the shelf (last frame from the camera stream), and draw bounding boxes on it, each product according to its expiration date (red, orange, green), this image will be passed to the app, this way we are able to display to the user its fridge content visually.
+if no expiration date detected, will be drawing in black
 
 
 ### `backend_connect.py`
