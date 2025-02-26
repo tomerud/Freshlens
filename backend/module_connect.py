@@ -83,16 +83,12 @@ def handle_send_to_db(data):
 @socketio.on("send_to_mongo")
 def handle_send_to_mongo(data):
     image_base64 = data.get('image')
-    #user_id = data.get('user_id')
-    user_id="101"
     camera_ip = data.get('camera_ip')
     timestamp = data.get('timestamp')
     
     missing_fields = []
     if not image_base64:
         missing_fields.append("image_base64")
-    # if not user_id:
-    #     missing_fields.append("user_id")
     if not camera_ip:
         missing_fields.append("camera_ip")
 
@@ -102,7 +98,7 @@ def handle_send_to_mongo(data):
 
 
     # Make sure to import decode_and_store_image if needed.
-    decode_and_store_image(image_base64, user_id, camera_ip, timestamp)
+    decode_and_store_image(image_base64, camera_ip, timestamp)
 
 @socketio.on("error_in_module")
 def stream_error(data):

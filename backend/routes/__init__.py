@@ -5,7 +5,6 @@ from routes.camera_routes import camera_bp
 from routes.images_routes import image_bp
 from routes.data_analysis_routes import analysis_bp
 from routes.recipe_routes import recipe_bp
-from mysqlDB import db_utils
 
 # List of all blueprints in the routes package.
 blueprints = [
