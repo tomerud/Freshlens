@@ -35,9 +35,9 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
   - `date_subscribed` (DATE) – Date of subscription.
   - `subscription_id` (INT) – Foreign key linking to `subscription`.
 
-important notes:
-# Global User Context & Firebase Integration:
-We have implemented Firebase authentication using Google as our identity provider. Upon successfully connecting to Firebase, we verify whether the user already exists in our system. If the user is new, we add them to our users table—this process is handled in our "firebas.ts" file. Once authenticated, the user's information is stored in a global context, making it accessible throughout the entire application.
+  **important notes:**
+  ***Global User Context & Firebase Integration:***
+  We have implemented Firebase authentication using Google as our identity provider. Upon successfully connecting to Firebase, we verify whether the user already exists in   our system. If the user is new, we add them to our users table—this process is handled in our "firebas.ts" file. Once authenticated, the user's information is stored in     a global context, making it accessible throughout the entire application.
 ---
 
 ### **fridges**
