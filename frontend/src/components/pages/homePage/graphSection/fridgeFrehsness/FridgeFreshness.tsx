@@ -24,29 +24,29 @@ export const FridgeFreshness = () => {
   // const {user} = useAuth()
   // const userId =user?.uid;
 
-  const [fridgeFreshness, setPridgeFreshness] = useState(0);
+  // const [fridgeFreshness, setPridgeFreshness] = useState(0);
 
-  const { data, isLoading, error } = useQuery<FrifgeFreshness, Error>({
-    queryKey: userId ? ["FreshnessScore", userId] : ["FreshnessScore"],
-    queryFn: () => fetchFrifgeFreshness(userId as string),
-    enabled: !!userId,
-  });
+  // const { data, isLoading, error } = useQuery<FrifgeFreshness, Error>({
+  //   queryKey: userId ? ["FreshnessScore", userId] : ["FreshnessScore"],
+  //   queryFn: () => fetchFrifgeFreshness(userId as string),
+  //   enabled: !!userId,
+  // });
 
-  if (isLoading) return <Loader />;
-  if (error) return <div>Error: {error.message}</div>;
+  // if (isLoading) return <Loader />;
+  // if (error) return <div>Error: {error.message}</div>;
 
-  useEffect(() => {
-    if (!data) return;
-    const fridgeFreshnessTimeout = setTimeout(() => setPridgeFreshness(data.avg_freshness_score), 300); // Animate CircularProgressbar
+  // useEffect(() => {
+  //   if (!data) return;
+  //   const fridgeFreshnessTimeout = setTimeout(() => setPridgeFreshness(data.avg_freshness_score), 300); // Animate CircularProgressbar
 
-    return () => {
-      clearTimeout(fridgeFreshnessTimeout);
-    };
-  }, []);
+  //   return () => {
+  //     clearTimeout(fridgeFreshnessTimeout);
+  //   };
+  // }, []);
 
   return (
     <div>
-      <p className="card-label">Fridge Freshness</p>
+      {/* <p className="card-label">Fridge Freshness</p>
       <div className="card">
         <CircularProgressbar 
           value={fridgeFreshness} 
@@ -58,7 +58,7 @@ export const FridgeFreshness = () => {
             trailColor: '#eee',
           })}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

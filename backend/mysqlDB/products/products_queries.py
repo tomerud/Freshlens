@@ -1,5 +1,5 @@
 import datetime
-from backend.mysqlDB.db_utils import execute_query
+from mysqlDB.db_utils import execute_query
 
 
 def get_all_categories_from_db(fridge_id):

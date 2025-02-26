@@ -1,6 +1,6 @@
 from datetime import date
 from time import strftime
-from backend.mysqlDB.db_utils import execute_query
+from mysqlDB.db_utils import execute_query
 
 def insert_new_user(user_id, user_name, email, subscription_type):
     subscription_result = execute_query(
