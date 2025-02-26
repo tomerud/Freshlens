@@ -77,6 +77,20 @@ cd ../frontend
 npm run dev
 ```
 
+in freshlens/backend/mysqlDB
+put a .env file in this format:
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=  # fill your password
+DB_NAME=freshlens
+USDA_API_KEY=  # fill USDA API key
+KAGGLE_DATASET=joelmills2/canadian-grocery-store-prices
+KAGGLE_FILE_PATH=atlantic_superstore.csv
+
+
+[you can get a USDA_API_KEY here](https://www.ers.usda.gov/developer/data-apis)
+
+
 ## Usage
 Set up backend server (for communicating between front and back):
 ```
