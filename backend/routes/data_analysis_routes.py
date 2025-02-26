@@ -80,7 +80,6 @@ def get_shopping_cart_recommendations():
 
     try:
         res=pipeline(user_id)
-        print("start")
         if res is None:
             return jsonify({"error": "No predictions available for the user."}), 404
         result = [
@@ -93,7 +92,6 @@ def get_shopping_cart_recommendations():
         }
         for _, row in res.iterrows()
         ]
-        print("here")
         return jsonify(result)
     except Exception as e:
         print("Error fetching user prediciton:", str(e))
