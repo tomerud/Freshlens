@@ -127,7 +127,7 @@ def drop_all_tables():
             "food_storage_tips" : "DROP TABLE IF EXISTS food_storage_tips",
             "item_usage": """DROP TABLE IF EXISTS item_usage""",
             "user_purchases": """DROP TABLE IF EXISTS user_purchases""",
-
+            
             "user_product_history": """DROP TABLE IF EXISTS user_product_history"""
         }
 
