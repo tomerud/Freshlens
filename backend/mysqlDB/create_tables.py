@@ -229,7 +229,7 @@ def insert_demo_data_to_product_table():
         {"product_name": "Pineapple", "category_name": "Fruits"},
         {"product_name": "Mango", "category_name": "Fruits"},
         {"product_name": "Watermelon", "category_name": "Fruits"},
-        {"product_name": "Peach", "category_name": "Fruits"},
+        {"product_name": "Banana", "category_name": "Fruits"},
         
         # Meat
         {"product_name": "Chicken Breast", "category_name": "Meat"},
