@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 import random
 
-from DS.randomised_history_insert import insert_shopping_cycle_user_history
+from mysqlDB.items.randomised_history_insert import insert_shopping_cycle_user_history
 from mysqlDB.camera.insert_camera_to_db import insert_camera_to_db
 from mysqlDB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
 from mysqlDB.items.insert_new_item_to_db import get_all_products_from_db, insert_item_to_db
