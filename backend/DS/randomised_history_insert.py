@@ -42,8 +42,6 @@ def insert_shopping_cycle_user_history(user_id: str,
             quantity_purchased = max(1, quantity_purchased + noise)
             quantity_thrown_out = int(round(quantity_purchased * thrown_fraction))
             quantity_consumed = quantity_purchased - quantity_thrown_out    
-          
-<<<<<<< HEAD
             rows.append((
                 user_id,
                 product_id,
@@ -52,24 +50,7 @@ def insert_shopping_cycle_user_history(user_id: str,
                 quantity_consumed,
                 quantity_thrown_out
             ))
-=======
-            # For each unit, insert a row indicating whether it was thrown or not.
-            for _ in range(quantity_thrown_out):
-                rows.append((
-                    user_id,   # user_id as string per new schema
-                    product_id,
-                    True,           # is_thrown
-                    purchase_date.strftime('%Y-%m-%d')
-                ))
-            for _ in range(quantity_consumed):
-                rows.append((
-                    user_id,
-                    product_id,
-                    False,          # not thrown means it was consumed
-                    purchase_date.strftime('%Y-%m-%d')
-                ))
     
->>>>>>> origin/main
     query = """
         INSERT INTO user_product_history 
         (user_id, product_id, is_thrown, date_entered)
@@ -77,12 +58,6 @@ def insert_shopping_cycle_user_history(user_id: str,
     """
     
     execute_query(query, params=rows, commit=True)
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> origin/main
 
 
 if __name__ == "__main__":
