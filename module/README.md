@@ -26,7 +26,7 @@ Websocket - to send data to the backend (encrypted)
 ## Example
 Here we can see a video of the object detection and tracker in action,
 this video was presented as part of the pitch in the workshop competition
-![video of YOLO+DeepSort](module/assets/tracked_vid.mp4)
+![video of YOLO+DeepSort](module/assets/tracked_vid.MP4)
 
 Here we can see cheese, that was analysed with this module, first we detected the dates on the produt cover,
 then we have cleaned the image of the date using cv techniques and used OCR to extract the text
