@@ -7,14 +7,11 @@ and extract the date using EasyOCR.
 """
 
 import math
-
-
 import numpy as np
 import easyocr
 from PIL import Image
 from ultralytics import YOLO
 from typing import List, Tuple
-
 from module.proccess_img_and_date import (
     resize_with_letterbox,
     adjust_boxes,
@@ -22,11 +19,6 @@ from module.proccess_img_and_date import (
     select_best_expiration_date,
     preprocess_image,
 )
-
-
-#TODO:
-# 1. **process_image**:
-#    - Consider other operations to improve OCR results.
 
 
 def extract_text_from_boxes(image: Image, boxes: List[Tuple[float, float, float, float]]) -> str:

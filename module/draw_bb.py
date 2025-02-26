@@ -48,3 +48,4 @@ def draw_on_image(
             image, (x_min, y_min), (x_max, y_max), color, 2
         )
     return Image.fromarray(image)
+

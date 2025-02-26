@@ -151,6 +151,7 @@ We have three main functions:
 - send_to_mongo: this function send the image (from draw_bb) to the backend, to be saved at Mongo DB.
 - alert_server: this function alert the server in case of errors.
 
+
 #### Considerations:
 - we considerd if each camera should have its own websocket, but we have decided it makes more sense, that each scheduler have 1 web sockets that all the cameras its responsible for will share,
 since that is the design we have chosen,we use a single shared socket for all cameras (threads), guarded by a lock to enforce sequential access, and avoid concurrency issues.
@@ -160,6 +161,7 @@ since that is the design we have chosen,we use a single shared socket for all ca
 #### Assumptions/limitations:
 - Potential throughput bottleneck, since we have one socket and multiple cameras can wait to acquire the lock,
 there is a need to research more about this type of problems
+- The connection between the backend and module is using a self signed certificate, since we have run the app only in local:host, if we implement the app with actual domain, there will be a need to use actual SSL
 
 I have used pylint and flake8 in order to fit pep8 standarts.
 
