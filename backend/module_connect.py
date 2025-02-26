@@ -26,7 +26,7 @@ def insert_items(camera_ip, item_list):
         if missing_fields:
             print(f"Warning: Missing required fields {missing_fields} in item: {item}. Skipping insertion.")
             continue
-        
+
         insert_item_to_db(
             item_id=item['item_id'],
             is_inserted_by_user=item['is_inserted_by_user'],
@@ -48,22 +48,16 @@ def handle_send_to_db(data):
     camera_ip = data.get('camera_ip')
     products_data = data.get('products_data')
     print(f"Received data from camera {camera_ip}")
-    
+
     item_list = []
     for product in products_data:
-        track_id, class_id,_, exp_date = product
+        track_id, class_id, _, exp_date = product
         current_date = datetime.today().date()
+        is_rotten = 0
 
-        # Determine anticipated expiry date and compute is_rotten
-        if isinstance(exp_date, int):
-            expiry_datetime = datetime.today() + timedelta(days=exp_date)
-            anticipated_expiry_date = expiry_datetime.strftime("%Y-%m-%d")
-        else:
-            anticipated_expiry_date = exp_date
+        if exp_date is not None:
             expiry_datetime = datetime.strptime(exp_date, "%Y-%m-%d")
-        
-        # Set is_rotten to 1 if current date is greater than anticipated expiry date
-        is_rotten = 1 if current_date > expiry_datetime.date() else 0
+            is_rotten = 1 if current_date > expiry_datetime.date() else 0
 
         item = {
             "item_id": track_id,
@@ -71,8 +65,8 @@ def handle_send_to_db(data):
             "product_id": class_id,
             "camera_ip": camera_ip,
             "date_entered": datetime.today().strftime("%Y-%m-%d"),
-            "anticipated_expiry_date": anticipated_expiry_date,
-            "remove_from_fridge_date": anticipated_expiry_date,
+            "anticipated_expiry_date": exp_date,
+            "remove_from_fridge_date": exp_date,
             "is_rotten": is_rotten
         }
         item_list.append(item)
@@ -85,7 +79,7 @@ def handle_send_to_mongo(data):
     image_base64 = data.get('image')
     camera_ip = data.get('camera_ip')
     timestamp = data.get('timestamp')
-    
+
     missing_fields = []
     if not image_base64:
         missing_fields.append("image_base64")
@@ -96,8 +90,6 @@ def handle_send_to_mongo(data):
         print(f"Error: Missing required fields: {', '.join(missing_fields)}")
         return
 
-
-    # Make sure to import decode_and_store_image if needed.
     decode_and_store_image(image_base64, camera_ip, timestamp)
 
 @socketio.on("error_in_module")
@@ -112,7 +104,6 @@ def stream_error(data):
 if __name__ == "__main__":
     print("Starting Flask-SocketIO server on port 5000 with SSL...")
 
-    # Construct absolute paths to the certificate files
     current_dir = os.path.dirname(os.path.abspath(__file__))
     cert_path = os.path.join(current_dir, "server.cert")
     key_path = os.path.join(current_dir, "server.key")
@@ -126,5 +117,4 @@ if __name__ == "__main__":
         server_side=True
     )
 
-    # Start the server using the wrapped SSL socket.
     eventlet.wsgi.server(secure_socket, app)

@@ -34,7 +34,7 @@ def handle_camera_update(camera_ip, item_list):
     current_items = get_items_by_camera_ip(camera_ip)
     existing_map = {item['item_id']: item for item in current_items if 'item_id' in item}
     new_item_ids = {item['item_id'] for item in item_list if 'item_id' in item}
-
+    is_rotten = 0
     # Step 2: Process current items in DB.
     for current_item in current_items:
         current_id = current_item.get('item_id')
@@ -81,9 +81,9 @@ def handle_camera_update(camera_ip, item_list):
                 continue
         else:
             anticipated_date_obj = anticipated_date
-
+        if anticipated_date_obj:
         # Determine if the item is rotten based on the current date.
-        is_rotten = 1 if now > anticipated_date_obj else 0
+            is_rotten = 1 if now > anticipated_date_obj else 0
 
         insert_item_to_db(
             item_id=item['item_id'],

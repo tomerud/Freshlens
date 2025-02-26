@@ -36,8 +36,6 @@ export const ShoppingCart = () => {
     enabled: !!userId,
   });
 
-  console.log(data)
-
   useEffect(() => {
     if (data) {
       const itemsWithCheck = data.map((item) => ({

@@ -10,7 +10,6 @@ db = client["image_database"]
 fs = gridfs.GridFS(db)
 
 def decode_and_store_image(image_base64, camera_ip, timestamp=None):
-  
     # Decode base64 to binary image data
     image_data = base64.b64decode(image_base64)
     image = Image.open(BytesIO(image_data))
@@ -29,8 +28,4 @@ def decode_and_store_image(image_base64, camera_ip, timestamp=None):
             "time": timestamp
         })
 
-    print(f" Image stored with ID: {image_id}, Filename: {filename},Camera IP: {camera_ip}, Time: {timestamp}")
-
-
-
-
+    print(f"Image stored with ID: {image_id}, Filename: {filename}, Camera IP: {camera_ip}, Time: {timestamp}")

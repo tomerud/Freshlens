@@ -41,7 +41,7 @@ port = 8554
 tomer camera Ip, port and a list
     [(product_id,class_id,exp date)]
 """
-detections = [(-1,-1,1),(1,2,(3,4,5,6), "2025-02-01"),(4,5,(3,4,5,6),  "2025-03-30"),(8,5,(3,4,5,6),  "2025-03-11")]
+detections = [(-1,-1,1),(111,2,(3,4,5,6), None),(4,5,(3,4,5,6),  "2025-03-30"),(8,5,(3,4,5,6),  "2025-03-11")]
 send_to_db(socket,camera_ip,port, detections)
 # detections = [(-1, -1, (-1, -1, -1, -1), -1)]
 # send_to_db(socket,camera_ip,port, detections)
@@ -49,5 +49,5 @@ send_to_db(socket,camera_ip,port, detections)
 # detections = [(-1, -1, (-1, -1, -1, -1), -1)]
 # send_to_db(socket,camera_ip,port, detections)
 
-image = Image.open("assets/shelf.jpg")
+image = Image.open("module/assets/cheese.jpg")
 send_to_mongo(socket, camera_ip, port, image)

@@ -19,7 +19,7 @@ def get_latest_image_by_camera_ip(camera_ip):
     image_base64 = base64.b64encode(image_data).decode('utf-8')
 
     return {
-        "camera_ip": camera_ip,
-        "image_base64": image_base64,
-        "timestamp": latest_image.upload_date
+    "camera_ip": camera_ip,
+    "image_base64": image_base64,  # no prefix
+    "timestamp": latest_image.upload_date.isoformat()
     }
