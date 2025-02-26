@@ -22,10 +22,9 @@ from PIL import Image
 from deep_sort_realtime.deepsort_tracker import DeepSort
 from ultralytics import YOLO
 
-# TODO: DeepSort
-# - Implement loading and saving of the DeepSort initialization
-#   to restore the last detection tracking ID from the camera.
-# - Ensure all XYXY and XYWH formats are correct and passed as needed.
+# TODO:
+# - Need to Implement REID model for DeepSORT to track objects
+
 
 def open_video_stream(rtsp_path: str) -> cv2.VideoCapture:
     """
@@ -41,6 +40,7 @@ def open_video_stream(rtsp_path: str) -> cv2.VideoCapture:
         time.sleep(i + 1)
     print("Error - unable to open video stream after several retries.")
     return None
+
 
 def initialize_video_writer(cap: cv2.VideoCapture) -> cv2.VideoWriter:
     """
@@ -101,8 +101,6 @@ def update_tracker(
             })
 
 
-
-
 def process_video(
     rtsp_path: str,
     model: YOLO,
@@ -139,9 +137,9 @@ def process_video(
 
         detections = []
         if results[0].boxes.data is not None and len(results[0].boxes) > 0:
-            boxes = results[0].boxes.xyxy.cpu().numpy()  # Bounding boxes
-            confidences = results[0].boxes.conf.cpu().numpy()  # Confidence scores
-            class_indices = results[0].boxes.cls.int().cpu().numpy()  # Class indices
+            boxes = results[0].boxes.xyxy.cpu().numpy()
+            confidences = results[0].boxes.conf.cpu().numpy()
+            class_indices = results[0].boxes.cls.int().cpu().numpy()
 
             for box, confidence, class_idx in zip(boxes, confidences, class_indices):
                 min_x, min_y, max_x, max_y = box
@@ -177,7 +175,7 @@ def process_video(
     if last_frame_objects:
         for obj in last_frame_objects:
             min_x, min_y, max_x, max_y = obj['bbox']
-            cropped_product = last_frame[min_y:max_y, min_x:max_x]  # only a single product
+            cropped_product = last_frame[min_y:max_y, min_x:max_x]
             if cropped_product.size == 0:
                 print("Warning: cropped_product is empty for object with bbox:", obj['bbox'])
                 continue
@@ -193,7 +191,7 @@ def process_video(
 
     # Release resources
     if record:
-        out.release()  # Release the VideoWriter
+        out.release()
     cap.release()
     cv2.destroyAllWindows()
     return detected_products

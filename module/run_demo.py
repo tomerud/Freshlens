@@ -4,7 +4,6 @@ and see results
 """
 
 import socketio
-
 from ultralytics import YOLO
 from module.detect_and_track import process_video
 from module.backend_connect import send_to_db, send_to_mongo, alert_server

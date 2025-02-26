@@ -133,6 +133,7 @@ def best_candidate_date(date_boxes: List[Boxes], due_boxes: List[Boxes]) -> List
 
     return best_matches
 
+
 def preprocess_image(cropped_img: Image) -> Image:
     """Convert cropped image to grayscale and apply morphological operations."""
     cropped_img_gray = np.array(cropped_img.convert('L'))

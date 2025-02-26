@@ -11,12 +11,10 @@ import threading
 from typing import List, Tuple
 from PIL import Image
 
-# TODO:
-# 1. Create Readme file
 
 lock = threading.Lock()
-MAX_RETRIES = 10  # Max attempts before giving up
-RETRY_DELAY = 1   # Time (in seconds) to wait between retries
+MAX_RETRIES = 10
+RETRY_DELAY = 1
 
 
 def send_data(socket, event: str, data: dict) -> None:

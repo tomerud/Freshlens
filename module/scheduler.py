@@ -11,23 +11,10 @@ import signal
 import threading
 from ultralytics import YOLO
 import socketio
-
 from module.detect_and_track import process_video
 from module.backend_connect import send_to_db, send_to_mongo, alert_server
 from module.pass_obj_to_exp_date import find_exp_date
 from module.draw_bb import draw_on_image
-
-#TODO:
-# 1. **Threading** - think about where / if Thread - GIL , Multiproccess
-# 2. **Demo** - change demo configuration
-# 3. **connection to db and threading** Should the for loop be switched with while?
-#    - Update the Ip list from DB?
-# 4. **Secure conneciton** - future work
-#    - replace the RTSP with Secure RTSP / vpn etc
-# 5. ** YOLO resizing**:
-#    - think if resizing training or scaling!!!!
-# 6. ** Add SSL/TLS / mTLS**
-# 7. ALERT SERVERS!!
 
 # Setup SocketIO client
 socket_client = socketio.Client(
@@ -114,6 +101,7 @@ def handle_light_detected(cam_ip: str, cam_port: int, video_stream: str, model, 
         print(f"Runtime error: {err}")
         alert_server(client, cam_ip, cam_port, "Runtime error encountered.")
 
+
 def get_event_from_camera(_cam_ip: str, _cam_port: int, demo: bool) -> str:
     """
     Simulate getting an event from a camera.
@@ -140,7 +128,7 @@ for ip, port, stream in camera_info:
 try:
     # Keep the main thread alive, but allow SIGINT to stop it
     while not stop_event.is_set():
-        pass  # Do nothing, just wait for SIGINT
+        pass
 except KeyboardInterrupt:
     print("KeyboardInterrupt received - CTRL+C pressed. Stopping all threads.")
     stop_event.set()

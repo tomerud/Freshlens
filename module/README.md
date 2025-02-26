@@ -109,6 +109,7 @@ so the tracking capabilities can be imporved
 
 ### `pass_obj_to_exp_date.py`
 This script get the detected objects (from detect_and_track), and by its category (fruits and veg or closed products), will call upon each object the right function to estimate the expiration date.
+will be passed to products_ocr or fruit_veg_freshness.py.
 
 ### `products_ocr.py`
 This script gets a photo of a closed product, and will try to find and read the expiration date,
@@ -139,6 +140,7 @@ Script for freshness detection using classification.
 #### Assumptions/limitations:
 - There is no available dataset for actual expiry date detection for fruit/veg,
 while there are some similar dataset (mainly categorical), they are intended for the growing the fruit/veg phase, and not for the storing in the consumer fridge. - more on that in the future work
+- So we have classified the fruit/veg as fresh/rotten using resNet, and then using the basic shelf life from USDA and the confidance of the neural network in the fact that the object is fresh/rotten, we calculate an estimation of the expiry date, in future we will want to either build a fitting database, or mix it with feature extraction and classical cv techniques for getting better estimation.
 
 ### `draw_bb.py`
 This script take the image of the shelf (last frame from the camera stream), and draw bounding boxes on it, each product according to its expiration date (red, orange, green), this image will be passed to the app, this way we are able to display to the user its fridge content visually.
@@ -151,6 +153,7 @@ We have three main functions:
 - send_to_mongo: this function send the image (from draw_bb) to the backend, to be saved at Mongo DB.
 - alert_server: this function alert the server in case of errors.
 
+
 #### Considerations:
 - we considerd if each camera should have its own websocket, but we have decided it makes more sense, that each scheduler have 1 web sockets that all the cameras its responsible for will share,
 since that is the design we have chosen,we use a single shared socket for all cameras (threads), guarded by a lock to enforce sequential access, and avoid concurrency issues.
@@ -160,6 +163,7 @@ since that is the design we have chosen,we use a single shared socket for all ca
 #### Assumptions/limitations:
 - Potential throughput bottleneck, since we have one socket and multiple cameras can wait to acquire the lock,
 there is a need to research more about this type of problems
+- The connection between the backend and module is using a self signed certificate, since we have run the app only in local:host, if we implement the app with actual domain, there will be a need to use actual SSL
 
 I have used pylint and flake8 in order to fit pep8 standarts.
 
@@ -181,8 +185,22 @@ To run the code there are two possible ways:
 - use run_demo file -> upload the video you want to scan, change the ip:port so it will fit an existing user in the DB (if not, it will not know to connect the data), change the PATH to your video, choose to either connect to the backend before hand (so you will see results in the db updated - if yes, please look at the FreshLens Readme.md)
 or # the connection lines and run without backend.
 
-- [download RTSP server on the computer][https://github.com/insight-platform/Fake-RTSP-Stream],upload the files to stream using RTSP from the server,  and change the ip:port so it will fit an existing user in the DB then connect to the backend as instructed in FreshLens\README.md,
+``` bash
+cd freshlens
+python -m module.run_demo
+```
+it will save the output video (tracking and detections in freshlens/output)
+
+
+- [download RTSP server on the computer](https://github.com/insight-platform/Fake-RTSP-Stream),upload the files to stream using RTSP from the server,  and change the ip:port so it will fit an existing user in the DB then connect to the backend as instructed in FreshLens\README.md,
 please notice you will need to "break" the listening loop by using crtl+c
+
+```bash
+python -m module.scheduler
+```
+the video (with the settings right now) wont be saved (this can be modified)
+
+
 
 To run the one of those codes, please install the requirements from the root folder (FRESHLENS),
 then from freshlens folder run the following code:

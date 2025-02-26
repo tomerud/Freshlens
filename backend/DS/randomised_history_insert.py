@@ -58,8 +58,3 @@ def insert_shopping_cycle_user_history(user_id: str,
     """
     
     execute_query(query, params=rows, commit=True)
-
-
-if __name__ == "__main__":
-
-    insert_shopping_cycle_user_history("0NNRFLhbXJRFk3ER2_iTr8VulFm4", 260, [1, 4, 6, 9, 10])

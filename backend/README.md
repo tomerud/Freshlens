@@ -4,10 +4,14 @@
 - [Backend Overview](#backend-overview)
 - [MySQL Database ER Scheme](#mysql-database-er-scheme)
 - [MySQL Database explanation](#mysql-database-explanation)
-- [Main Files](#main-files)
+- [API endpoints](#api-endpoints)
 
 ## Backend Overview   
-The backend uses a MySQL database to accurately record updates from cameras—keeping track of item entries and changes in real time. At the same time, it stores fridge images in MongoDB, providing visual records of the fridge contents. The backend also performs waste analysis to identify patterns in discarded items, which helps in generating practical recommendations for better customer habits. Additionally, by integrating ChatGPT, it offers recipe suggestions based on foods that are nearing expiration, with the goal of minimizing waste.
+The backend uses a MySQL database to accurately record updates from cameras—keeping track of item entries and changes in real time. 
+
+At the same time, it stores fridge images in MongoDB, providing visual records of the fridge contents. The backend also performs waste analysis to identify patterns in discarded items, which helps in generating practical recommendations for better customer habits. 
+
+Additionally, by integrating ChatGPT, it offers recipe suggestions based on foods that are nearing expiration, with the goal of minimizing waste.
 
 
 
@@ -23,7 +27,7 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
   - `subscription_id` (INT, AUTO_INCREMENT, PRIMARY KEY) – Unique identifier for each subscription.
   - `subscription_name` (VARCHAR(255)) – Name (e.g., free, plus, premium).
   - `monthly_cost` (DECIMAL(10,2)) – Monthly price.
-
+- we will implement different features based on the type of the user subscription - future work
 ---
 
 ### **users**
@@ -35,6 +39,8 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
   - `date_subscribed` (DATE) – Date of subscription.
   - `subscription_id` (INT) – Foreign key linking to `subscription`.
 
+- **Global User Context & Firebase Integration:**
+  We have implemented Firebase authentication using Google as our identity provider. Upon successfully connecting to Firebase, we verify whether the user already exists in   our system. If the user is new, we add them to our users table—this process is handled in our "firebas.ts" file. Once authenticated, the user's information is stored in     a global context, making it accessible throughout the entire application.
 ---
 
 ### **fridges**
@@ -56,11 +62,19 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
 
 ### **product_global_info**
 - **Purpose:** Stores detailed product information.
+  
+  In our system, a "product" (like an apple) represents a generic food product, while an "item" is a specific instance of that product - such as the particular apple in your fridge. This is the reason we keep nutritional values on this table.
+  
 - **Key Columns:**
   - `product_id` (INT, AUTO_INCREMENT, PRIMARY KEY) – Unique product ID.
   - `product_name` (VARCHAR(255), NOT NULL) – Product name.
   - `category_id` (INT, NOT NULL) – Foreign key from `categories`.
   - Other columns (nullable): `serving_size`, `energy_kcal`, `protein_g`, `fat_g`, `saturated_fat_g`, `carbs_g`, `sugars_g`, `fiber_g`, `sodium_mg`.
+
+- **Product Nutritional Values & USDA API Integration:**
+  When we add a new product, we query the USDA API using the product's name to grab its nutritional info.
+  It then extracts key nutrients (like energy, protein, fats, carbs, sugars, fiber, and sodium) and adjusts the values to a per-100g basis using the provided serving size.   
+  If the API doesnt returns an error we store the standardized nutritional data in product_global_info table.
 
 ---
 
@@ -93,6 +107,11 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
   - `name` (VARCHAR(255), NOT NULL) – Product name.
   - `price` (DECIMAL(10,2), NOT NULL) – Price.
 
+- **Product Prices & Kaggle Integration:**
+We load data from the Canadian Grocery Store Prices dataset on Kaggle.
+We tried hard to find an Israeli dataset, but they were either not free or required Hebrew translation which turned out to be a hassle ("Belpeper" translation weren’t great..).
+So, we ended up using this dataset: https://www.kaggle.com/datasets/joelmills2/canadian-grocery-store-prices?select=atlantic_superstore.csv
+
 ---
 
 ### **food_storage_tips**
@@ -104,6 +123,12 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
   - `freeze_tips` (TEXT) – Tips for freezing.
   - `is_specific_product_tip` (BOOLEAN) – Indicates if tip is specific.
 
+- **Spesific Food Storage Tips & Foodkeeper Integration:**
+We offer two types of food storage tips.
+
+1. The general tips: manually curated for our HomePage (can be improved over time..)
+
+2. Product specific tips (for example, "don't freeze cucumber") are extracted from a JSON file sourced from the Foodkeeper dataset: https://catalog.data.gov/dataset/fsis-foodkeeper-data/resource/2128aebe-b3dd-4b4d-8315-e88d106bd741?inner_span=True.
 ---
 
 ### **user_product_history**
@@ -116,16 +141,14 @@ The backend uses a MySQL database to accurately record updates from cameras—ke
   - `date_entered` (DATE, NOT NULL) – Date when the record was created.
  
 
-## Main Files
+## API endpoints
 
 ### `module_connect.py`
-Listens for camera updates and applies changes to the database—adding new items, removing items, or updating item properties (like refined expiry dates) as needed.
-
-### `handle_item_update.py`
-This script is invoked by `module_connect.py` to process camera updates. It implements the logic for inserting, updating, or archiving items based on the camera’s new data by comparing current database items with the incoming update.
+This file establish the websocket connection with the CV module, and applies changes to the database accordingly - adding items, removing or updating (the expiration date) as necessary based on the information from the cameras.
 
 ### `chat.py`
 Uses OpenAI’s API to generate two recipes based on the given inventory, emphasizing ingredients nearing expiration. It loads the API key from environment variables using dotenv, constructs a detailed prompt (including the current date and inventory data), and calls the GPT‑3.5‑turbo model to generate and return the recipes.
+Since we have used OpenAI api, you will need to replace it with your own api key.
 
 ### `camera_routes.py`
 Provides an endpoint (`/add_camera`) to add a new camera record. It validates the input and inserts the camera data into the database.
@@ -133,7 +156,6 @@ Provides an endpoint (`/add_camera`) to add a new camera record. It validates th
 ### `data_analysis_routes.py`
 Offers several endpoints for data analysis:
 - **/get_notifications** – Generates expiry notifications for items nearing expiration.
-- **/get_nutritional_advice** – Retrieves nutritional data for a user.
 - **/get_shopping_cart_recommendations** – Returns product recommendations based on predicted waste.
 - **/get_waste_summary** and **/get_top_thrown_products** – Provide waste analysis data grouped by week and the top three most discarded products, respectively.
 

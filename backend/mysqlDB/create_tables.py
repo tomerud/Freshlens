@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 import random
 
+from DS.randomised_history_insert import insert_shopping_cycle_user_history
 from mysqlDB.camera.insert_camera_to_db import insert_camera_to_db
 from mysqlDB.fridge.insert_fridge_to_db import insert_new_fridge_to_db
 from mysqlDB.items.insert_new_item_to_db import get_all_products_from_db, insert_item_to_db
@@ -303,6 +304,9 @@ def insert_demo_data_to_users_table():
     for user in users:
         insert_new_user(user["user_id"], user["user_name"], user["email"], user["subscription_type"]) 
 
+def insert_demo_data_to_user_product_history_table():
+    insert_shopping_cycle_user_history("0NNRFLhbXJRFk3ER2_iTr8VulFm4", 260, [1, 4, 6, 9, 10])
+
 def insert_demo_data_to_all_tables():
     insert_demo_data_to_categories_table()
     insert_demo_data_to_product_table()
@@ -313,6 +317,7 @@ def insert_demo_data_to_all_tables():
     insert_demo_data_to_item_table()
     load_canadian_prices_from_kaggle()
     load_storage_tips()
+    insert_demo_data_to_user_product_history_table()
 
 
 if __name__ == "__main__":

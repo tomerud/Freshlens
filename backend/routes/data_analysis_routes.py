@@ -69,33 +69,6 @@ def get_fridge_name():
         return jsonify({"error": "Failed to fetch notifications"}), 500
     
 
-@analysis_bp.route('/get_shopping_cart_recommendations', methods=['GET'])
-def get_shopping_cart_recommendations():
-    #for now only inserted history for user_id = 101, can change it by using randomised_history_insert.py
-    user_id = request.args.get("user_id")
-    if not user_id:
-        return jsonify({"error": "user_id query parameter is required."}), 400
-
-    try:
-        res=pipeline(user_id)
-        print("aaa")
-        if res is None:
-            return jsonify({"error": "No predictions available for the user."}), 404
-        result = [
-        {
-        "product_id": get_product_id_from_db(row["product"]),
-        "product": row["product"],
-        "amount_buy": row["quantity_estimated"],
-        "amount_will_throw": row["amount_thrown_out_estimated"],
-        "recommendation": max(row["quantity_estimated"] - row["amount_thrown_out_estimated"], 0),
-        }
-        for _, row in res.iterrows()
-        ]
-        return jsonify(result)
-    except Exception as e:
-        print("Error fetching user prediciton:", str(e))
-        return jsonify({"error": "Failed to fetch user prediciton"}), 500
-    
 @analysis_bp.route('/get_waste_summary', methods=['GET'])
 def get_waste_summary():
     user_id = request.args.get("user_id")
@@ -120,18 +93,14 @@ def get_top_thrown_products():
         return jsonify({"error": "Failed to fetch top thrown products"}), 500
     
 
-def get_reccomandations():
-    # Extract user_id from query parameters.
-    user_id = request.args.get("user_id")
-    if not user_id:
-        raise Exception("User ID not provided")
-    # Get recommendations based on current fridge products vs. historical weekly averages.
-    return get_recommendations_for_each_item(user_id)
-
-@analysis_bp.route('/get_shoping_reccomendations', methods=['GET'])
-def get_shoping_reccomendations():
+@analysis_bp.route('/get_shopping_cart_recommendations', methods=['GET'])
+def get_shopping_cart_recommendations():
     try:
-        reccomendations = get_reccomandations()
+        user_id = request.args.get("user_id")
+        if not user_id:
+            raise Exception("User ID not provided")
+    
+        reccomendations = get_recommendations_for_each_item(user_id)
         return jsonify(reccomendations)
     except Exception as e:
         print("Error fetching reccomendations:", str(e))
