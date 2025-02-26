@@ -3,38 +3,114 @@
 ## Table of Contents
 - [Backend Overview](#backend-overview)
 - [MySQL Database ER Scheme](#mysql-database-er-scheme)
-- [Main Files Explanation](#main-files-explanation)
-
-  
+- [MySQL Database explanation](#mysql-database-explanation)
 
 ## Backend Overview   
 The backend uses a MySQL database to accurately record updates from cameras—keeping track of item entries and changes in real time. At the same time, it stores fridge images in MongoDB, providing visual records of the fridge contents. The backend also performs waste analysis to identify patterns in discarded items, which helps in generating practical recommendations for better customer habits. Additionally, by integrating ChatGPT, it offers recipe suggestions based on foods that are nearing expiration, with the goal of minimizing waste.
 
-
-
 ## MySQL Database ER Scheme
-```
-![ER Diagram](ER diagram.png)
 
-```
+![ER Diagram](ER-diagram.png)
 
-## Main files explanation:
+## MySQL Database explanation
 
-### `create_tables.py`
-Purpose:
-Sets up the MySQL database by creating (or dropping) tables and inserting demo data.
-tables:
-    subscription: Subscription plans and costs.
-    users: User details and subscription linkage.
-    fridges: User-associated fridge information.
-    categories: Product category names.
-    product_global_info: Detailed product data and nutrition info.
-    camera: Camera details linked to fridges.
-    item: Records of items detected in fridges.
-    canadian_products_prices: Product pricing information.
-    food_storage_tips: Storage advice for products.
-    user_product_history: History of discarded items by users.
+### **subscription**
+- **Purpose:** Stores the available subscription plans.
+- **Key Columns:**
+  - `subscription_id` (INT, AUTO_INCREMENT, PRIMARY KEY) – Unique identifier for each subscription.
+  - `subscription_name` (VARCHAR(255)) – Name (e.g., free, plus, premium).
+  - `monthly_cost` (DECIMAL(10,2)) – Monthly price.
 
+---
+
+### **users**
+- **Purpose:** Contains registered user data.
+- **Key Columns:**
+  - `user_id` (VARCHAR(28), UNIQUE, PRIMARY KEY) – Unique user ID.
+  - `user_name` (VARCHAR(255)) – Full name.
+  - `user_email` (VARCHAR(255)) – Email address.
+  - `date_subscribed` (DATE) – Date of subscription.
+  - `subscription_id` (INT) – Foreign key linking to `subscription`.
+
+---
+
+### **fridges**
+- **Purpose:** Represents a user's fridge.
+- **Key Columns:**
+  - `fridge_id` (INT, AUTO_INCREMENT, PRIMARY KEY) – Unique fridge ID.
+  - `user_id` (VARCHAR(28)) – Foreign key from `users`.
+  - `fridge_name` (VARCHAR(255)) – Fridge name (e.g., "my home fridge").
+
+---
+
+### **categories**
+- **Purpose:** Lists product categories.
+- **Key Columns:**
+  - `category_id` (INT, AUTO_INCREMENT, PRIMARY KEY) – Unique category ID.
+  - `category_name` (VARCHAR(255)) – Category name (e.g., Dairy, Fruits).
+
+---
+
+### **product_global_info**
+- **Purpose:** Stores detailed product information.
+- **Key Columns:**
+  - `product_id` (INT, AUTO_INCREMENT, PRIMARY KEY) – Unique product ID.
+  - `product_name` (VARCHAR(255), NOT NULL) – Product name.
+  - `category_id` (INT, NOT NULL) – Foreign key from `categories`.
+  - Other columns (nullable): `serving_size`, `energy_kcal`, `protein_g`, `fat_g`, `saturated_fat_g`, `carbs_g`, `sugars_g`, `fiber_g`, `sodium_mg`.
+
+---
+
+### **camera**
+- **Purpose:** Maps a camera to a fridge.
+- **Key Columns:**
+  - `camera_ip` (VARCHAR(255), PRIMARY KEY) – Camera IP address.
+  - `fridge_id` (INT) – Foreign key from `fridges`.
+
+---
+
+### **item**
+- **Purpose:** Records items detected in a fridge.
+- **Key Columns:**
+  - `item_id` (INT, NOT NULL, UNIQUE, PRIMARY KEY) – Unique item ID.
+  - `is_inserted_by_user` (BOOLEAN, NOT NULL) – Indicates if manually inserted.
+  - `product_id` (INT) – Foreign key from `product_global_info`.
+  - `camera_ip` (VARCHAR(255)) – Foreign key from `camera`.
+  - `date_entered` (DATE) – Date of entry.
+  - `anticipated_expiry_date` (DATE) – Expected expiry date.
+  - `remove_from_fridge_date` (DATE) – Reccomended Removal date (for now same as expiry date but in future models a more accurate estimation will be possible).
+  - `is_rotten` (BOOLEAN) – Indicates if the item is considered rotten.
+
+---
+
+### **canadian_products_prices**
+- **Purpose:** Stores Canadian pricing data.
+- **Key Columns:**
+  - `id` (INT, AUTO_INCREMENT, PRIMARY KEY) – Unique record ID.
+  - `name` (VARCHAR(255), NOT NULL) – Product name.
+  - `price` (DECIMAL(10,2), NOT NULL) – Price.
+
+---
+
+### **food_storage_tips**
+- **Purpose:** Provides food storage tips.
+- **Key Columns:**
+  - `id` (INT, AUTO_INCREMENT, PRIMARY KEY) – Unique tip ID.
+  - `product_name` (VARCHAR(255), NOT NULL) – Name of product.
+  - `refrigerate_tips` (TEXT) – Tips for refrigeration.
+  - `freeze_tips` (TEXT) – Tips for freezing.
+  - `is_specific_product_tip` (BOOLEAN) – Indicates if tip is specific.
+
+---
+
+### **user_product_history**
+- **Purpose:** Tracks user history for products (e.g., if an item was thrown away).
+- **Key Columns:**
+  - `id` (INT, AUTO_INCREMENT, PRIMARY KEY) – Unique history record.
+  - `user_id` (VARCHAR(28), NOT NULL) – Foreign key from `users`.
+  - `product_id` (INT, NOT NULL) – Foreign key from `product_global_info`.
+  - `is_thrown` (BOOLEAN, NOT NULL) – Indicates if the item was thrown.
+  - `date_entered` (DATE, NOT NULL) – Date when the record was created.
 ### `module_connect.py`
 Listens for camera updates and applies changes to the database—adding new items, removing items, or updating item properties (like refined expiry dates) as needed.
 
