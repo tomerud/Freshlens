@@ -66,6 +66,9 @@ def fresh_rotten(identifier_type:str, label: str, conf: float
     """
     Detect whether a produce item is fresh or rotten.
     Return:The estimated expiration date or -1 if detection fails.
+    origanliy this function had more functionlites beyon just calling
+    estimate_expiration, but now it is just a wrapper.
+    that is because of last minute changes in the classificaiton model.
     """
     
     expiration_date = estimate_expiration(identifier_type, label, conf)

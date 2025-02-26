@@ -9,8 +9,8 @@ import plotly.graph_objects as go
 import pandas as pd
 from typing import Tuple
 from prophet import Prophet
-from ..mysqlDB import db_utils 
-from ..mysqlDB.products import products_queries
+from mysqlDB import db_utils 
+from mysqlDB.products import products_queries
 
 # TODO:
 # change logic after demo - make it integrated to all the other db parts
@@ -133,6 +133,7 @@ def pipeline(user_id: str):
     return pd.concat(results, ignore_index=True) if results else None
 
 if __name__ == "__main__":
+    print("work")
     res = pipeline('101')
     print(res)
     

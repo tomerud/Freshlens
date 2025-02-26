@@ -1,6 +1,6 @@
 import random
 from datetime import date, timedelta
-from ..mysqlDB import db_utils
+from mysqlDB.db_utils import execute_query
 from typing import List, Optional
 
 def insert_shopping_cycle_user_history(user_id: str, 
@@ -43,6 +43,16 @@ def insert_shopping_cycle_user_history(user_id: str,
             quantity_thrown_out = int(round(quantity_purchased * thrown_fraction))
             quantity_consumed = quantity_purchased - quantity_thrown_out    
           
+<<<<<<< HEAD
+            rows.append((
+                user_id,
+                product_id,
+                purchase_date.strftime('%Y-%m-%d'),
+                quantity_purchased,
+                quantity_consumed,
+                quantity_thrown_out
+            ))
+=======
             # For each unit, insert a row indicating whether it was thrown or not.
             for _ in range(quantity_thrown_out):
                 rows.append((
@@ -59,6 +69,7 @@ def insert_shopping_cycle_user_history(user_id: str,
                     purchase_date.strftime('%Y-%m-%d')
                 ))
     
+>>>>>>> origin/main
     query = """
         INSERT INTO user_product_history 
         (user_id, product_id, is_thrown, date_entered)
@@ -66,6 +77,12 @@ def insert_shopping_cycle_user_history(user_id: str,
     """
     
     execute_query(query, params=rows, commit=True)
+<<<<<<< HEAD
+
+
+
+=======
+>>>>>>> origin/main
 
 
 if __name__ == "__main__":

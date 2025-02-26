@@ -1,5 +1,5 @@
-from mysqlDB.camera.get_items import get_items_by_camera_ip
-from mysqlDB.items.insert_to_history import insert_to_history  # Correct relative import
+from ..camera.get_items import get_items_by_camera_ip
+from ..items.insert_to_history import insert_to_history  # Correct relative import
 
 def insert_all_items_to_history_by_camera(camera_ip):
     """
