@@ -349,12 +349,6 @@ if __name__ == "__main__":
         print(f"Product: {row['product_name']}, Quantity: {row['quantity']}")
 
 
-
-
-    
-    # Test top thrown products function
-
-
 #for testing
 # if __name__ == '__main__':
 #     user_id = "0NNRFLhbXJRFk3ER2_iTr8VulFm4"

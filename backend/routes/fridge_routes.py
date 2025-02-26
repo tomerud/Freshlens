@@ -217,6 +217,5 @@ def get_freshness_score():
         return jsonify({"error": "user_id query parameter is required."}), 400
 
     freshness_score = get_freshness_score_from_db(user_id)
-    # print(freshness_score['avg_freshness_score'])
     
     return jsonify(freshness_score), 200
