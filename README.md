@@ -4,11 +4,8 @@
 
 ## About
 
-FreshLens is a innovative project developed during our university E-commerce workshop.
+FreshLens is a innovative project developed during our university E-commerce workshop (0368-3557).
 in the workshop we have worked with MBA and design students, in order to develop our own project.
-
-IMAGE FROM PRESENTATION
-IMAGE FROM PRESENTATION
 
 FreshLens aims to transforms any standard refrigerator into a smart fridge by combining affordable cameras and machine learning tech.  
 The system detects and tracks products in the fridge, monitors their freshness (by leveraging DL module), provides alerts, purchase recommendations, and recipe suggestions to reduce food waste and improve consumer habits.
@@ -37,7 +34,7 @@ The system detects and tracks products in the fridge, monitors their freshness (
 <img src="https://github.com/user-attachments/assets/d0cd3a48-56eb-4912-8b85-32657afcac47" alt="App Screenshot" width="300" />
 
 
-## Core Technologies Used
+## Technologies Used
 - **Frontend:** React.js , TypeScript, Vite.
 - **Backend:** Rest API using Flask (Python), prophet (for data science).
 - **Database:** MySQL, MongoDB.
@@ -54,9 +51,9 @@ The system detects and tracks products in the fridge, monitors their freshness (
 for a more detailed documentation about the feature and implementation, we have a more comprehensive readme in the folders for each of the app components
 
 
-[FrontEnd documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/frontend/README.md), 
-[BackEnd documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/backend/README.md) and
-[Module Documentation](https://github.com/tomerud/Freshlens/blob/3d6d1015b6b6b527dc0a2cb5d9e1031f7224fd86/module/README.md)
+[Frontend documentation](https://github.com/tomerud/Freshlens/blob/main/frontend/README.md), 
+[Backend documentation](https://github.com/tomerud/Freshlens/blob/main/backend/README.md) and
+[Module Documentation](https://github.com/tomerud/Freshlens/blob/main/module/README.md)
 
 
 ## Project Status
@@ -75,14 +72,76 @@ While we have developt quite a bit, there are still things to expand this projec
 git clone https://github.com/tomerud/Freshlens.git
 cd Freshlens
 pip install requirements.txt
-pip install -e .
 
 cd ../frontend
-npm install
+npm run dev
 ```
 
+in freshlens/backend/mysqlDB, put a .env file in this format:
+```bash
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=  # fill your password
+DB_NAME=freshlens
+USDA_API_KEY=  # fill USDA API key
+KAGGLE_DATASET=joelmills2/canadian-grocery-store-prices
+KAGGLE_FILE_PATH=atlantic_superstore.csv
+```
+
+[you can get a USDA_API_KEY here](https://www.ers.usda.gov/developer/data-apis)
+we have used OpenAI api key for generating recipes, to have that option working, you will need to replace it with your own.
+
 ## Usage
-***add Usage instructions***
+If its your first time, make sure you Go to freshlens-> backend and run the create table script:
+```bash
+cd backend
+python -m mysqlDB.create_tables
+```
+
+and then also create the mongodb:
+```bash
+cd backend
+python -m mongo.create_db
+```
+
+Set up backend server (for communicating between front and back):
+```bash
+cd backend
+python server.py
+```
+
+Set up websocket server between module and backend:
+```bash
+cd backend
+python -m module_connect
+```
+
+Start the app
+```bash
+cd frontend
+npm run dev
+```
+
+To run a video file:
+- First change the settings in the run_demo: Ip, Port and path to the video you want to run
+(for now there is a "defult" setting that do work if you want to run as is)
+then
+from freshlens folder run the following code:
+
+``` bash
+cd freshlens
+python -m module.run_demo
+```
+
+
+- Another option, [set up RTSP server on the computer](https://github.com/insight-platform/Fake-RTSP-Stream), change the settings in scheduler file and run
+from freshlens folder
+
+``` bash
+python -m module.scheduler
+```
+
+for the updates from the module to be shown at the app, the Ip camera that is inserted must be connected to the user_id is on the app.
 
 ## Acknowledgements
 

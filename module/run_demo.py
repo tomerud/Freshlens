@@ -4,7 +4,6 @@ and see results
 """
 
 import socketio
-
 from ultralytics import YOLO
 from module.detect_and_track import process_video
 from module.backend_connect import send_to_db, send_to_mongo, alert_server
@@ -50,7 +49,7 @@ class_list = [class_name for _, class_name in sorted(detection_model.names.items
 #can change to any video path
 #PATH="assets/freshlens3.MP4"
 
-PATH="module/assets/IMG_0758.MP4"
+PATH="module/assets/vid_example.MP4"
 
 #dont change - this is the pipeline
 #if want to see the tracking video, change the False to True
