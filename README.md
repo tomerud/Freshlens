@@ -38,7 +38,7 @@ The system detects and tracks products in the fridge, monitors their freshness (
 - **Frontend:** React.js , TypeScript, Vite.
 - **Backend:** Rest API using Flask (Python).
 - **Database:** MySQL, MongoDB.
-- **Deep learning:** Pytourch, YOLO, DeepSORT.
+- **Deep learning:** Pytorch, YOLO, DeepSORT.
 - **OCR:** EasyOCR.
 - **LLM:** OpenAI.
 - **Streaming Protocol:** RTSP (Real-Time Streaming Protocol).
