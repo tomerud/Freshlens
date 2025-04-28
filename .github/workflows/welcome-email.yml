@@ -1,1 +1,49 @@
+name: Send welcome email to new collaborators
 
+on:
+  member:
+    types: [added]
+
+jobs:
+  send_welcome_email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Resolve new user's email
+        id: get_email
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const entries = fs.readFileSync('.github/contributor-emails.yml', 'utf8')
+              .split('\n')
+              .filter(Boolean)
+              .map(line => line.trim().split(':').map(s => s.trim()));
+            const map = Object.fromEntries(entries);
+            const login = context.payload.member.login;
+            const email = map[login];
+            if (!email) core.setFailed(`No email found for user '${login}'`);
+            return email;
+          result-encoding: string
+
+      - name: Send welcome email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port:    ${{ secrets.SMTP_PORT }}
+          username:       ${{ secrets.SMTP_USERNAME }}
+          password:       ${{ secrets.SMTP_PASSWORD }}
+          to:             ${{ steps.get_email.outputs.result }}
+          subject:        "Welcome to the project!"
+          body: |
+            Hi ${{ github.event.member.login }},
+
+            Welcome aboard! To get started, check out:
+            • README: https://github.com/${{ github.repository }}/blob/main/README.md  
+            • CONTRIBUTING: https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md
+
+            Cheers,  
+            The Maintainers
