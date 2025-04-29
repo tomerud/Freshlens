@@ -147,7 +147,7 @@ for the updates from the module to be shown at the app, the Ip camera that is in
 
 special thanks to all our friends and teammates, from Tel Aviv University MBA:
 - Abby Levi: Growth Marketing
-- Matt Kornowitz - Strategic Finance
+- Matt Kronowitz - Strategic Finance
 - Mitchell Glazer - Business Development
 
 and from Shenker design school:
